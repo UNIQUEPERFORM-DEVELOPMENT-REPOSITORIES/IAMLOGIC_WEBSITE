@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>On-premises vs cloud IAM: making the data-sovereignty decision honestly | IamLogic</title>
+  <meta name="description" content="How Indian enterprises should choose between on-premises, cloud and hybrid IAM deployment: regulatory drivers, CERT-In log residency, and the questions that decide it.">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <article class="container article" style="padding-block:3.5rem">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/blog/">Blog</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Strategy</span></li></ol></nav>
+      <h1 class="mt-6">On-premises vs cloud IAM: making the data-sovereignty decision honestly</h1>
+      <p class="article__meta">5 May 2026 · 6 min read · IamLogic team</p>
+      <div class="article__body">
+          <section><div class="stack"><p>Global identity vendors will tell you the future is SaaS-only. Indian regulators, procurement rules and CERT-In directions tell a more nuanced story. The right question isn't 'cloud or not' — it's 'which of our identity workloads can leave our perimeter, and under whose jurisdiction?'</p></div></section>
+          <section><h2>The forcing factors</h2><div class="stack"><p>Three requirements push identity infrastructure on-premises or into Indian sovereign environments. First, log residency: CERT-In directions require 180-day ICT log retention within India, and authentication logs are squarely in scope. Second, sector rules: RBI, SEBI and IRDAI expectations around data location and auditability make many BFSI institutions keep identity data in their own data centres as a matter of policy. Third, procurement: government and PSU tenders frequently require indigenous software and in-country deployment outright.</p><p>Against that, cloud deployment wins on speed to value and operational overhead. For unregulated mid-market companies, a cloud IAM deployment is usually the right default.</p></div></section>
+          <section><h2>The honest decision framework</h2><div class="stack"><p>Ask four questions. Where must authentication and access logs physically live? Which regulator can audit you, and what have they flagged at peers? What latency does your core application estate tolerate for authentication round-trips? And who patches the platform at 2 a.m. — your team or your vendor's?</p><p>The answers usually land in one of three patterns: fully on-premises (government, banks, insurers with strict interpretations), hybrid (regulated core on-prem, workforce SaaS apps via cloud), or fully cloud (growth-stage companies without sectoral mandates). The platform decision that keeps all three open is choosing software that runs identically in every topology — so a regulatory change is a redeployment, not a re-procurement.</p></div></section>
+      </div>
+      <div class="callout mt-12" style="padding:1.75rem">
+        <p style="color:var(--indigo-950);font-weight:600;font-size:1.125rem">IamLogic deploys on-premises, cloud or hybrid — same product, your choice.</p>
+        <div class="mt-4"><a class="btn btn--primary" href="/security/">Security &amp; deployment <i data-icon="arrow-right"></i></a></div>
+      </div>
+    </article>
+    <section class="band-dark">
+      <div class="container" style="padding-block:4rem">
+        <div class="cta-band__grid">
+          <div class="cta-band__text">
+            <h2>See IamLogic on your own applications</h2>
+            <p>A 30-minute walkthrough of Access Manager and IamLogic IGA, mapped to your environment, your applications and your compliance obligations.</p>
+          </div>
+          <div class="cta-band__actions">
+            <a class="btn btn--on-dark btn--lg" href="/demo/">Request a demo <i data-icon="arrow-right"></i></a>
+            <a class="btn btn--ghost-dark btn--lg" href="/contact/">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="site-footer"></footer>
+</body>
+</html>

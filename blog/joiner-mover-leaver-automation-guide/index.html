@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joiner–Mover–Leaver automation: closing identity's most exploited gaps | IamLogic</title>
+  <meta name="description" content="Orphan accounts and accumulated access come from manual JML processes. A practical guide to automating onboarding, transfers and offboarding with identity governance.">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <article class="container article" style="padding-block:3.5rem">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/blog/">Blog</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Identity Governance</span></li></ol></nav>
+      <h1 class="mt-6">Joiner–Mover–Leaver automation: closing identity's most exploited gaps</h1>
+      <p class="article__meta">10 June 2026 · 6 min read · IamLogic team</p>
+      <div class="article__body">
+          <section><div class="stack"><p>Audit findings about access rarely start with technology. They start with a moment: an employee transferred departments and kept the old access; a contractor's engagement ended but their account didn't; a new hire waited two weeks for system access and the team 'solved' it with a shared login.</p><p>These are lifecycle failures — joiner, mover, leaver — and they're endemic wherever the process is email-and-memory. The fix isn't discipline. It's removing the human relay from the loop.</p></div></section>
+          <section><h2>What good looks like</h2><div class="stack"><p>In a mature JML setup, your HR system is the single source of truth. A new hire record triggers account creation, role-based access assignment and a welcome notification before day one. A transfer triggers simultaneous grant-and-revoke — the new role's access arrives as the old role's access leaves, which is the only reliable way to prevent privilege accumulation. A separation triggers immediate deprovisioning across every connected system, including the ones without APIs, where a ticketing-workflow integration ensures a human completes and documents the removal.</p><p>Approval workflows handle the exceptions — access outside the standard role model — so the fast path stays fast and the unusual path stays governed.</p></div></section>
+          <section><h2>Where to start</h2><div class="stack"><p>Start with leavers: it's the highest-risk transition and the easiest to automate because the trigger (HR separation) is unambiguous. Then movers, which quietly generate most SoD violations. Joiners last — they're a productivity win more than a risk win.</p><p>Measure three numbers before and after: time-to-productive-access for joiners, residual-access count for movers (entitlements from previous roles), and time-to-full-deprovisioning for leavers. Those three metrics tell the whole story to any board or auditor.</p></div></section>
+      </div>
+      <div class="callout mt-12" style="padding:1.75rem">
+        <p style="color:var(--indigo-950);font-weight:600;font-size:1.125rem">See lifecycle automation in IamLogic IGA.</p>
+        <div class="mt-4"><a class="btn btn--primary" href="/solutions/joiner-mover-leaver-automation/">JML automation <i data-icon="arrow-right"></i></a></div>
+      </div>
+    </article>
+    <section class="band-dark">
+      <div class="container" style="padding-block:4rem">
+        <div class="cta-band__grid">
+          <div class="cta-band__text">
+            <h2>See IamLogic on your own applications</h2>
+            <p>A 30-minute walkthrough of Access Manager and IamLogic IGA, mapped to your environment, your applications and your compliance obligations.</p>
+          </div>
+          <div class="cta-band__actions">
+            <a class="btn btn--on-dark btn--lg" href="/demo/">Request a demo <i data-icon="arrow-right"></i></a>
+            <a class="btn btn--ghost-dark btn--lg" href="/contact/">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="site-footer"></footer>
+</body>
+</html>
