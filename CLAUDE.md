@@ -30,7 +30,10 @@ index.html                        Home page
                                    solutions/<slug>/, compliance/<slug>/,
                                    blog/<slug>/, resources/<sub>/, …)
 sitemap.xml, robots.txt           SEO
-favicon.ico, .nojekyll            (.nojekyll keeps GitHub Pages from processing)
+favicon.svg                       Brand logomark favicon (modern browsers)
+favicon.ico                       Raster fallback favicon
+apple-touch-icon.png              180×180 iOS home-screen icon
+.nojekyll                         (keeps GitHub Pages from processing the site)
 
 assets/
   styles.css        ALL styling. Hand-written, sectioned (see header comment),
@@ -99,7 +102,10 @@ for a depth-2 page — use `./` at root, `../` one deep):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>… — IamLogic</title>
   <meta name="description" content="…">
-  <link rel="icon" href="../../favicon.ico" sizes="any">
+  <link rel="icon" href="../../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#3a2a85">
   <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/styles.css">
   <script src="../../assets/main.js" defer></script>

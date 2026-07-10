@@ -53,7 +53,9 @@ blog/<slug>/index.html
 …
 404.html                   Not-found page
 sitemap.xml, robots.txt
-favicon.ico
+favicon.svg                Brand favicon (modern browsers); favicon.ico is the
+favicon.ico                raster fallback; apple-touch-icon.png is the iOS icon
+apple-touch-icon.png       (all three generated from the logomark)
 
 assets/
   styles.css               ALL styling — hand-written, organised by section,
