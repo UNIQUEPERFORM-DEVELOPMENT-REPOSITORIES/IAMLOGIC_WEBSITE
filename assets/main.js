@@ -4,12 +4,16 @@
    This one file is the SINGLE SOURCE for the header and footer. Edit the
    NAV / FOOTER_COLUMNS / SITE data below and every page updates at once.
 
-   Each page only needs:
+   Each page only needs (use a page-RELATIVE path to assets — "../" per folder
+   depth — so the site works at any mount point: domain root, subpath, etc.):
      <header id="site-header"></header>   (right after <body>)
      <footer id="site-footer"></footer>   (just before </body>)
-     <script src="/IAMLOGIC_WEBSITE/assets/main.js" defer></script>
+     <script src="../assets/main.js" defer></script>   (depth 1; "./" at root)
 
-   It also powers the lead form: add data-lead-form to a <form> (see /demo/).
+   All internal links are resolved through url()/ROOT below, which derives the
+   site root from this script's own relative src — so nothing hard-codes a base.
+
+   It also powers the lead form: add data-lead-form to a <form> (see demo/).
    ========================================================================== */
 (function () {
   "use strict";
@@ -34,10 +38,10 @@
         {
           heading: "Products",
           links: [
-            { label: "Access Manager", href: "/IAMLOGIC_WEBSITE/products/access-manager/", description: "SSO, adaptive MFA, passwordless and legacy app access" },
-            { label: "IamLogic IGA", href: "/IAMLOGIC_WEBSITE/products/identity-governance/", description: "Lifecycle automation, access reviews, SoD and role management" },
-            { label: "Platform — Better Together", href: "/IAMLOGIC_WEBSITE/platform/", description: "How Access Manager and IGA work as one identity fabric" },
-            { label: "Integrations", href: "/IAMLOGIC_WEBSITE/integrations/", description: "Directories, business apps, infrastructure and ticketing" }
+            { label: "Access Manager", href: "products/access-manager/", description: "SSO, adaptive MFA, passwordless and legacy app access" },
+            { label: "IamLogic IGA", href: "products/identity-governance/", description: "Lifecycle automation, access reviews, SoD and role management" },
+            { label: "Platform — Better Together", href: "platform/", description: "How Access Manager and IGA work as one identity fabric" },
+            { label: "Integrations", href: "integrations/", description: "Directories, business apps, infrastructure and ticketing" }
           ]
         }
       ]
@@ -48,34 +52,34 @@
         {
           heading: "By industry",
           links: [
-            { label: "Banking & Financial Services", href: "/IAMLOGIC_WEBSITE/solutions/banking-financial-services/" },
-            { label: "Government & PSU", href: "/IAMLOGIC_WEBSITE/solutions/government-psu/" },
-            { label: "NBFC & Fintech", href: "/IAMLOGIC_WEBSITE/solutions/nbfc-fintech/" },
-            { label: "Insurance", href: "/IAMLOGIC_WEBSITE/solutions/insurance/" },
-            { label: "Healthcare & Pharma", href: "/IAMLOGIC_WEBSITE/solutions/healthcare-pharma/" },
-            { label: "IT & ITeS", href: "/IAMLOGIC_WEBSITE/solutions/it-ites/" },
-            { label: "Manufacturing", href: "/IAMLOGIC_WEBSITE/solutions/manufacturing/" }
+            { label: "Banking & Financial Services", href: "solutions/banking-financial-services/" },
+            { label: "Government & PSU", href: "solutions/government-psu/" },
+            { label: "NBFC & Fintech", href: "solutions/nbfc-fintech/" },
+            { label: "Insurance", href: "solutions/insurance/" },
+            { label: "Healthcare & Pharma", href: "solutions/healthcare-pharma/" },
+            { label: "IT & ITeS", href: "solutions/it-ites/" },
+            { label: "Manufacturing", href: "solutions/manufacturing/" }
           ]
         },
         {
           heading: "By use case",
           links: [
-            { label: "Zero Trust access", href: "/IAMLOGIC_WEBSITE/solutions/zero-trust-access/" },
-            { label: "Joiner–Mover–Leaver automation", href: "/IAMLOGIC_WEBSITE/solutions/joiner-mover-leaver-automation/" },
-            { label: "Access reviews & audit readiness", href: "/IAMLOGIC_WEBSITE/solutions/access-reviews-audit/" },
-            { label: "Passwordless authentication", href: "/IAMLOGIC_WEBSITE/solutions/passwordless-authentication/" },
-            { label: "Legacy application SSO", href: "/IAMLOGIC_WEBSITE/solutions/legacy-application-sso/" },
-            { label: "Hybrid & remote workforce", href: "/IAMLOGIC_WEBSITE/solutions/hybrid-workforce/" }
+            { label: "Zero Trust access", href: "solutions/zero-trust-access/" },
+            { label: "Joiner–Mover–Leaver automation", href: "solutions/joiner-mover-leaver-automation/" },
+            { label: "Access reviews & audit readiness", href: "solutions/access-reviews-audit/" },
+            { label: "Passwordless authentication", href: "solutions/passwordless-authentication/" },
+            { label: "Legacy application SSO", href: "solutions/legacy-application-sso/" },
+            { label: "Hybrid & remote workforce", href: "solutions/hybrid-workforce/" }
           ]
         },
         {
           heading: "By compliance",
           links: [
-            { label: "DPDP Act 2023", href: "/IAMLOGIC_WEBSITE/compliance/dpdp-act/" },
-            { label: "RBI Cybersecurity Framework", href: "/IAMLOGIC_WEBSITE/compliance/rbi-cybersecurity-framework/" },
-            { label: "SEBI CSCRF", href: "/IAMLOGIC_WEBSITE/compliance/sebi-cscrf/" },
-            { label: "IRDAI Guidelines", href: "/IAMLOGIC_WEBSITE/compliance/irdai-guidelines/" },
-            { label: "ISO 27001", href: "/IAMLOGIC_WEBSITE/compliance/iso-27001/" }
+            { label: "DPDP Act 2023", href: "compliance/dpdp-act/" },
+            { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
+            { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
+            { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
+            { label: "ISO 27001", href: "compliance/iso-27001/" }
           ]
         }
       ]
@@ -86,10 +90,10 @@
         {
           heading: "Resources",
           links: [
-            { label: "Blog", href: "/IAMLOGIC_WEBSITE/blog/", description: "Identity security and Indian compliance, explained" },
-            { label: "Case studies", href: "/IAMLOGIC_WEBSITE/resources/case-studies/", description: "Deployment stories by industry" },
-            { label: "Datasheets", href: "/IAMLOGIC_WEBSITE/resources/datasheets/", description: "Product capability summaries" },
-            { label: "All resources", href: "/IAMLOGIC_WEBSITE/resources/", description: "Everything in one place" }
+            { label: "Blog", href: "blog/", description: "Identity security and Indian compliance, explained" },
+            { label: "Case studies", href: "resources/case-studies/", description: "Deployment stories by industry" },
+            { label: "Datasheets", href: "resources/datasheets/", description: "Product capability summaries" },
+            { label: "All resources", href: "resources/", description: "Everything in one place" }
           ]
         }
       ]
@@ -100,53 +104,53 @@
         {
           heading: "Company",
           links: [
-            { label: "About IamLogic", href: "/IAMLOGIC_WEBSITE/about/", description: "Who we are and why we build in India" },
-            { label: "Security & Trust", href: "/IAMLOGIC_WEBSITE/security/", description: "ISO 27001, architecture and data residency" },
-            { label: "IAM Services", href: "/IAMLOGIC_WEBSITE/services/", description: "Consulting, connectors and managed services" },
-            { label: "Partners", href: "/IAMLOGIC_WEBSITE/partners/", description: "Resell, implement or integrate with IamLogic" },
-            { label: "Careers", href: "/IAMLOGIC_WEBSITE/careers/", description: "Build identity security from Bengaluru" },
-            { label: "Contact", href: "/IAMLOGIC_WEBSITE/contact/", description: "Talk to our team" }
+            { label: "About IamLogic", href: "about/", description: "Who we are and why we build in India" },
+            { label: "Security & Trust", href: "security/", description: "ISO 27001, architecture and data residency" },
+            { label: "IAM Services", href: "services/", description: "Consulting, connectors and managed services" },
+            { label: "Partners", href: "partners/", description: "Resell, implement or integrate with IamLogic" },
+            { label: "Careers", href: "careers/", description: "Build identity security from Bengaluru" },
+            { label: "Contact", href: "contact/", description: "Talk to our team" }
           ]
         }
       ]
     },
-    { label: "Pricing", href: "/IAMLOGIC_WEBSITE/pricing/" }
+    { label: "Pricing", href: "pricing/" }
   ];
 
   var FOOTER_COLUMNS = [
     { heading: "Products", links: [
-      { label: "Access Manager", href: "/IAMLOGIC_WEBSITE/products/access-manager/" },
-      { label: "IamLogic IGA", href: "/IAMLOGIC_WEBSITE/products/identity-governance/" },
-      { label: "Platform", href: "/IAMLOGIC_WEBSITE/platform/" },
-      { label: "Integrations", href: "/IAMLOGIC_WEBSITE/integrations/" },
-      { label: "Pricing", href: "/IAMLOGIC_WEBSITE/pricing/" }
+      { label: "Access Manager", href: "products/access-manager/" },
+      { label: "IamLogic IGA", href: "products/identity-governance/" },
+      { label: "Platform", href: "platform/" },
+      { label: "Integrations", href: "integrations/" },
+      { label: "Pricing", href: "pricing/" }
     ]},
     { heading: "Solutions", links: [
-      { label: "Banking & Financial Services", href: "/IAMLOGIC_WEBSITE/solutions/banking-financial-services/" },
-      { label: "Government & PSU", href: "/IAMLOGIC_WEBSITE/solutions/government-psu/" },
-      { label: "Zero Trust access", href: "/IAMLOGIC_WEBSITE/solutions/zero-trust-access/" },
-      { label: "JML automation", href: "/IAMLOGIC_WEBSITE/solutions/joiner-mover-leaver-automation/" },
-      { label: "All solutions", href: "/IAMLOGIC_WEBSITE/solutions/" }
+      { label: "Banking & Financial Services", href: "solutions/banking-financial-services/" },
+      { label: "Government & PSU", href: "solutions/government-psu/" },
+      { label: "Zero Trust access", href: "solutions/zero-trust-access/" },
+      { label: "JML automation", href: "solutions/joiner-mover-leaver-automation/" },
+      { label: "All solutions", href: "solutions/" }
     ]},
     { heading: "Compliance", links: [
-      { label: "DPDP Act 2023", href: "/IAMLOGIC_WEBSITE/compliance/dpdp-act/" },
-      { label: "RBI Cybersecurity Framework", href: "/IAMLOGIC_WEBSITE/compliance/rbi-cybersecurity-framework/" },
-      { label: "SEBI CSCRF", href: "/IAMLOGIC_WEBSITE/compliance/sebi-cscrf/" },
-      { label: "IRDAI Guidelines", href: "/IAMLOGIC_WEBSITE/compliance/irdai-guidelines/" },
-      { label: "ISO 27001", href: "/IAMLOGIC_WEBSITE/compliance/iso-27001/" }
+      { label: "DPDP Act 2023", href: "compliance/dpdp-act/" },
+      { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
+      { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
+      { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
+      { label: "ISO 27001", href: "compliance/iso-27001/" }
     ]},
     { heading: "Resources", links: [
-      { label: "Blog", href: "/IAMLOGIC_WEBSITE/blog/" },
-      { label: "Case studies", href: "/IAMLOGIC_WEBSITE/resources/case-studies/" },
-      { label: "Datasheets", href: "/IAMLOGIC_WEBSITE/resources/datasheets/" },
-      { label: "IAM Services", href: "/IAMLOGIC_WEBSITE/services/" }
+      { label: "Blog", href: "blog/" },
+      { label: "Case studies", href: "resources/case-studies/" },
+      { label: "Datasheets", href: "resources/datasheets/" },
+      { label: "IAM Services", href: "services/" }
     ]},
     { heading: "Company", links: [
-      { label: "About", href: "/IAMLOGIC_WEBSITE/about/" },
-      { label: "Security & Trust", href: "/IAMLOGIC_WEBSITE/security/" },
-      { label: "Partners", href: "/IAMLOGIC_WEBSITE/partners/" },
-      { label: "Careers", href: "/IAMLOGIC_WEBSITE/careers/" },
-      { label: "Contact", href: "/IAMLOGIC_WEBSITE/contact/" }
+      { label: "About", href: "about/" },
+      { label: "Security & Trust", href: "security/" },
+      { label: "Partners", href: "partners/" },
+      { label: "Careers", href: "careers/" },
+      { label: "Contact", href: "contact/" }
     ]}
   ];
 
@@ -207,6 +211,18 @@
   }
   var CURRENT = normPath(location.pathname);
 
+  // Site root RELATIVE to the current page, derived from this file's own
+  // <script src="…assets/main.js">. Because that src is itself page-relative,
+  // the whole site works at ANY mount point — a domain root, a project
+  // subpath like /IAMLOGIC_WEBSITE/, or anywhere else — with no config.
+  var ROOT = (function () {
+    var s = document.querySelector('script[src*="assets/main.js"]');
+    var src = s ? s.getAttribute("src") : "";
+    return src.replace(/assets\/main\.js.*$/, "") || "./";
+  })();
+  // Resolve a root-relative site path (e.g. "contact/") for the current page.
+  function url(p) { return ROOT + p; }
+
   var LOGO_SVG =
     '<svg viewBox="0 0 48 48" fill="none" role="img" aria-label="IamLogic logomark">' +
     '<circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="5"/>' +
@@ -215,7 +231,7 @@
     '<line x1="17" y1="30.5" x2="31" y2="30.5" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>' +
     '<line x1="18.5" y1="36" x2="29.5" y2="36" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg>';
   var LOGO =
-    '<a class="logo" href="/IAMLOGIC_WEBSITE/" aria-label="IamLogic home">' + LOGO_SVG +
+    '<a class="logo" href="' + url("") + '" aria-label="IamLogic home">' + LOGO_SVG +
     '<span class="logo__word">Iam<b>Logic</b></span></a>';
   var CHEVRON =
     '<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
@@ -224,13 +240,13 @@
   function renderHeader() {
     var desktop = NAV.map(function (item) {
       if (!item.groups) {
-        var active = normPath(item.href) === CURRENT ? " is-active" : "";
-        return '<div class="nav-item"><a class="nav-link' + active + '" href="' + item.href + '">' + esc(item.label) + "</a></div>";
+        var active = normPath(new URL(url(item.href), location.href).pathname) === CURRENT ? " is-active" : "";
+        return '<div class="nav-item"><a class="nav-link' + active + '" href="' + url(item.href) + '">' + esc(item.label) + "</a></div>";
       }
       var mega = item.groups.length > 1;
       var panel = item.groups.map(function (g) {
         var links = g.links.map(function (l) {
-          return '<li><a href="' + l.href + '"><span class="nav-group__label">' + esc(l.label) + "</span>" +
+          return '<li><a href="' + url(l.href) + '"><span class="nav-group__label">' + esc(l.label) + "</span>" +
             (l.description ? '<span class="nav-group__desc">' + esc(l.description) + "</span>" : "") + "</a></li>";
         }).join("");
         return '<div class="nav-group"><p class="nav-group__heading">' + esc(g.heading) + '</p><ul>' + links + "</ul></div>";
@@ -242,11 +258,11 @@
 
     var mobile = NAV.map(function (item) {
       if (!item.groups) {
-        return '<a href="' + item.href + '">' + esc(item.label) + "</a>";
+        return '<a href="' + url(item.href) + '">' + esc(item.label) + "</a>";
       }
       var groups = item.groups.map(function (g) {
         var links = g.links.map(function (l) {
-          return '<a class="nav-mobile__sublink" href="' + l.href + '">' + esc(l.label) + "</a>";
+          return '<a class="nav-mobile__sublink" href="' + url(l.href) + '">' + esc(l.label) + "</a>";
         }).join("");
         return '<p class="nav-mobile__group-heading">' + esc(g.heading) + "</p>" + links;
       }).join("");
@@ -255,15 +271,15 @@
 
     return '<div class="container header-inner">' + LOGO +
       '<nav class="nav-desktop" aria-label="Main">' + desktop + "</nav>" +
-      '<div class="header-actions"><a class="contact-link" href="/IAMLOGIC_WEBSITE/contact/">Contact</a>' +
-      '<a class="btn btn--primary" href="/IAMLOGIC_WEBSITE/demo/">Request a demo</a></div>' +
+      '<div class="header-actions"><a class="contact-link" href="' + url("contact/") + '">Contact</a>' +
+      '<a class="btn btn--primary" href="' + url("demo/") + '">Request a demo</a></div>' +
       '<button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">' +
       '<svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
       '<svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>' +
       "</button></div>" +
       '<nav class="nav-mobile" aria-label="Mobile"><div class="nav-mobile__inner">' + mobile +
-      '<a href="/IAMLOGIC_WEBSITE/contact/">Contact</a>' +
-      '<div class="mt-2"><a class="btn btn--primary btn--block" href="/IAMLOGIC_WEBSITE/demo/">Request a demo</a></div>' +
+      '<a href="' + url("contact/") + '">Contact</a>' +
+      '<div class="mt-2"><a class="btn btn--primary btn--block" href="' + url("demo/") + '">Request a demo</a></div>' +
       "</div></nav>";
   }
 
@@ -271,7 +287,7 @@
   function renderFooter() {
     var cols = FOOTER_COLUMNS.map(function (col) {
       var links = col.links.map(function (l) {
-        return '<li><a href="' + l.href + '">' + esc(l.label) + "</a></li>";
+        return '<li><a href="' + url(l.href) + '">' + esc(l.label) + "</a></li>";
       }).join("");
       return '<nav class="footer-col" aria-label="' + esc(col.heading) + '"><p class="footer-col__heading">' +
         esc(col.heading) + "</p><ul>" + links + "</ul></nav>";
@@ -279,14 +295,14 @@
 
     return '<div class="band-dark"><div class="container" style="padding-block:3.5rem">' +
       '<div class="footer-grid"><div class="footer-brand">' +
-      '<a class="logo" href="/IAMLOGIC_WEBSITE/" aria-label="IamLogic home">' + LOGO_SVG + '<span class="logo__word">Iam<b>Logic</b></span></a>' +
+      '<a class="logo" href="' + url("") + '" aria-label="IamLogic home">' + LOGO_SVG + '<span class="logo__word">Iam<b>Logic</b></span></a>' +
       '<p class="footer-brand__text">Enterprise-grade identity security — engineered in India, built for the world.</p>' +
       '<p class="footer-brand__contact">' + esc(SITE.address) + "<br>" +
       '<a href="mailto:' + SITE.email + '">' + SITE.email + "</a><br>" +
       '<a href="tel:' + SITE.phone + '">' + SITE.phone + "</a></p></div>" + cols + "</div>" +
       '<div class="footer-bottom"><p class="footer-bottom__copy">&copy; <span data-year></span> IamLogic. All rights reserved.</p>' +
       '<div class="footer-bottom__meta"><strong>ISO/IEC 27001:2022 certified</strong>' +
-      '<a href="/IAMLOGIC_WEBSITE/privacy/">Privacy</a><a href="/IAMLOGIC_WEBSITE/terms/">Terms</a></div></div>' +
+      '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a></div></div>' +
       "</div></div>";
   }
 
