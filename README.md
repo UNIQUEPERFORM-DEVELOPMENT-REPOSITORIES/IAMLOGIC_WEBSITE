@@ -5,8 +5,8 @@ files directly and refresh the browser; what you edit is what ships.
 
 ## Run it locally
 
-Because pages use root-relative links (`/about/`, `/assets/…`), serve the folder
-from its root rather than double-clicking a file:
+Serve the folder with any static server rather than double-clicking a file
+(links are relative, so `file://` won't resolve the shared header/footer):
 
 ```bash
 # any static server works — pick one
@@ -14,11 +14,32 @@ python3 -m http.server 4599        # then open http://localhost:4599
 npx serve .
 ```
 
+## Paths are relative — the site works at any base
+
+Every internal link is **page-relative** (`./assets/…`, `../assets/…`,
+`../../…` depending on how deep the page is), not root-absolute. That means the
+exact same files work unchanged whether the site is served from:
+
+- a **domain root** — `https://iamlogic.com/`
+- a **project subpath** — `https://…github.io/IAMLOGIC_WEBSITE/`
+- any other mount point.
+
+`assets/main.js` figures out where the site root is at runtime by reading its
+own `<script src="…assets/main.js">` (which is itself relative), so the injected
+header/footer links resolve correctly from any depth — no base config anywhere.
+
+> **One caveat — `404.html`.** A custom 404 can be served by the host at *any*
+> URL depth. Its assets resolve for top-level misses (`/typo`) but a deep miss
+> (`/a/b/c/`) will render the 404 unstyled. This is inherent to relative-path
+> static hosting; it does not affect real pages.
+
 ## Deploy
 
 Upload the whole folder to any static host (GitHub Pages, Netlify, Cloudflare
 Pages, S3, nginx…). There is nothing to build. `.nojekyll` is included for
-GitHub Pages.
+GitHub Pages. Because paths are relative, no per-host base configuration is
+needed. (`sitemap.xml` / `robots.txt` still contain absolute URLs — point those
+at the final production domain when it's decided.)
 
 ## How it's organised
 
@@ -61,6 +82,14 @@ once (the header/footer are injected from there into each page's
 Pages are built from a small set of reusable classes (`.section`, `.container`,
 `.card`, `.btn`, `.check-list`, `.faq`, `.section-heading`, `.band-dark`, …) all
 documented by section in `styles.css`.
+
+**Add a page** — create `your-route/index.html` (copy an existing page of the
+same depth as a starting point). Its `<head>` links to the assets with the right
+number of `../` for its depth — one folder deep uses `../assets/…`, two deep
+uses `../../assets/…`, the root uses `./assets/…`. To add it to the nav/footer,
+put its path in `NAV` / `FOOTER_COLUMNS` in `assets/main.js` as a **root-relative
+path without a leading slash** (e.g. `href: "your-route/"`); `main.js` prefixes
+it for the current page automatically. Also add the URL to `sitemap.xml`.
 
 **Add an icon** — icons are written as `<i data-icon="name"></i>` and drawn from
 the `ICONS` registry in `assets/main.js`. Add a new entry there (SVG inner paths)
