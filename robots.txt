@@ -1,4 +1,7 @@
-User-Agent: *
-Allow: /
-
-Sitemap: https://www.iamlogic.com/sitemap.xml
+# Pre-launch: search indexing is intentionally disabled.
+# Re-enable at production launch (Digital Ocean) by replacing the block below with:
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://<production-domain>/sitemap.xml
+User-agent: *
+Disallow: /
