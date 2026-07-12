@@ -25,6 +25,9 @@
     phone: "+91-9916421806",
     address:
       "No. 14 & 15, KR Colony, Domlur Layout, Bengaluru, Karnataka 560071, India",
+    // Social profiles — leave "" to hide that icon in the footer.
+    linkedin: "https://www.linkedin.com/company/iamlogic",
+    youtube: "https://www.youtube.com/@IamLogicIdentityManagement",
     // Point this at a webhook (Zoho Flow / Make / Formspree / Web3Forms …) that
     // accepts a JSON POST to make the lead forms submit. Leave "" to disable.
     leadEndpoint: "",
@@ -189,13 +192,22 @@
     "book-open": '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
     "file-text": '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
     "files": '<path d="M20 7h-3a2 2 0 0 1-2-2V2"/><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z"/><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8"/>',
-    "scale": '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>'
+    "scale": '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+    // Brand marks (filled) — stored as complete <svg> so injectIcons paints them
+    // with fill=currentColor instead of the line-icon stroke wrapper.
+    "linkedin": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+    "youtube": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'
   };
   function injectIcons(root) {
     var wrap = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>";
     Array.prototype.forEach.call((root || document).querySelectorAll("[data-icon]"), function (el) {
       var name = el.getAttribute("data-icon");
-      if (ICONS[name] && !el.firstChild) el.innerHTML = wrap + ICONS[name] + "</svg>";
+      if (ICONS[name] && !el.firstChild) {
+        var v = ICONS[name];
+        // Full <svg> entries (filled brand marks) are injected verbatim;
+        // inner-path entries (line icons) get the stroke wrapper.
+        el.innerHTML = v.slice(0, 4) === "<svg" ? v : wrap + v + "</svg>";
+      }
     });
   }
 
@@ -293,13 +305,23 @@
         esc(col.heading) + "</p><ul>" + links + "</ul></nav>";
     }).join("");
 
+    // Social icons — each rendered only if its URL is set; row omitted if none.
+    var socialLinks = [
+      { href: SITE.linkedin, icon: "linkedin", label: "IamLogic on LinkedIn" },
+      { href: SITE.youtube, icon: "youtube", label: "IamLogic on YouTube" }
+    ].filter(function (s) { return s.href; }).map(function (s) {
+      return '<a href="' + s.href + '" target="_blank" rel="noopener noreferrer" aria-label="' +
+        s.label + '"><i data-icon="' + s.icon + '"></i></a>';
+    }).join("");
+    var social = socialLinks ? '<div class="social-links footer-social">' + socialLinks + "</div>" : "";
+
     return '<div class="band-dark"><div class="container" style="padding-block:3.5rem">' +
       '<div class="footer-grid"><div class="footer-brand">' +
       '<a class="logo" href="' + url("") + '" aria-label="IamLogic home">' + LOGO_SVG + '<span class="logo__word">Iam<b>Logic</b></span></a>' +
       '<p class="footer-brand__text">Enterprise-grade identity security — engineered in India, built for the world.</p>' +
       '<p class="footer-brand__contact">' + esc(SITE.address) + "<br>" +
       '<a href="mailto:' + SITE.email + '">' + SITE.email + "</a><br>" +
-      '<a href="tel:' + SITE.phone + '">' + SITE.phone + "</a></p></div>" + cols + "</div>" +
+      '<a href="tel:' + SITE.phone + '">' + SITE.phone + "</a></p>" + social + "</div>" + cols + "</div>" +
       '<div class="footer-bottom"><p class="footer-bottom__copy">&copy; <span data-year></span> IamLogic. All rights reserved.</p>' +
       '<div class="footer-bottom__meta"><strong>ISO/IEC 27001:2022 certified</strong>' +
       '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a></div></div>' +
