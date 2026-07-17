@@ -81,6 +81,8 @@
                 <div class="field"><label for="lead-message">Anything we should prepare for? <span class="opt">(optional)</span></label>
                   <textarea class="input" id="lead-message" name="message" rows="3" placeholder="e.g. 4,000 users, on-premises requirement, RBI-regulated"></textarea>
                   <p class="form-hint">Mention user count, deployment preference or the regulation driving your project.</p></div>
+                <input type="text" name="hp" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <div class="ts-widget" data-turnstile></div>
                 <p class="form-error-banner" data-form-error hidden>Something went wrong on our side. Please retry, or write to us directly at <a href="mailto:info@iamlogic.com">info@iamlogic.com</a>.</p>
                 <button class="btn btn--primary" type="submit" style="padding:0.9rem 2rem">Send message</button>
                 <p class="form-note">We use these details only to respond to your request. No newsletters unless you ask.</p>
@@ -93,5 +95,6 @@
   </main>
 
   <footer id="site-footer"></footer>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=iamlogicTurnstileOnload&render=explicit" async defer></script>
 </body>
 </html>

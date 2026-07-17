@@ -1,0 +1,6 @@
+{
+  "name": "lead",
+  "version": "1.0.0",
+  "description": "IamLogic lead-form endpoint — Turnstile verify + Zoho CRM forward",
+  "main": "index.js"
+}

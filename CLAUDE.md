@@ -42,6 +42,9 @@ assets/
                     mobile-nav behaviour, lead-form logic, and the icon set.
   fonts/            Self-hosted Source Sans 3 (no external font requests).
   *.svg             Product / platform illustrations.
+
+functions/          Lead-form backend (DigitalOcean Functions) — deployed
+                    separately from the static site, see "Lead forms" below.
 ```
 
 ## The three files that control almost everything
@@ -139,11 +142,33 @@ Written as `<i data-icon="name"></i>` and drawn from the `ICONS` registry in
 ## Lead forms (demo / contact / pricing)
 
 Add `data-lead-form` to a `<form>` to wire up client-side validation (see
-`/demo/`). There is **no backend by default**. To receive submissions, set
-`SITE.leadEndpoint` in `assets/main.js` to a webhook URL (Zoho Flow, Make, n8n,
-Formspree, Web3Forms…) that accepts a JSON `POST` of
-`{ name, email, company, phone, interest, message, intent }`. Until then, a
-submission shows an error prompting the visitor to email directly.
+`/demo/`). Submissions POST JSON (`{ name, email, company, phone, interest,
+message, intent, hp, token }`) to `SITE.leadEndpoint` in `assets/main.js`.
+
+Two deliberate exceptions to this repo's "no backend, self-hosted only" rule
+power this, both scoped narrowly to the lead forms:
+
+- **`functions/`** — a small Node backend (DigitalOcean App Platform
+  Functions, `functions/packages/forms/lead/index.js`), deployed as its own
+  component alongside the static site. It verifies Cloudflare Turnstile
+  server-side, then forwards the lead to Zoho CRM's Web-to-Lead endpoint
+  (real org tokens already filled in — copied from the "Website lead capture"
+  form in Zoho CRM → Setup → Developer Space → Web Forms) so the Zoho form
+  tokens never reach the browser. It does **not** add a build step to the
+  site itself — the HTML/CSS/JS still ships unbuilt. `SITE.leadEndpoint`
+  assumes the functions component is routed at `/api`. If that Zoho web form
+  is ever regenerated (fields added/removed), its tokens change — re-copy
+  `xnQsjsdp`/`xmIwtLD` from the new generated HTML into `ZOHO.hidden`, and
+  re-check `INTEREST_MAP` against the "Product interest" picklist's values.
+- **Cloudflare Turnstile script** (`challenges.cloudflare.com/turnstile/v0/api.js`,
+  included on `demo/`, `contact/`, `pricing/`) — the one external CDN script
+  in the site. Unavoidable: no hosted captcha can be self-hosted. Replace the
+  placeholder `TURNSTILE_SITEKEY` in `assets/main.js` (currently Cloudflare's
+  public "always passes" test key) with your real site key, and set
+  `TURNSTILE_SECRET` as an encrypted env var on the functions component.
+
+If `SITE.leadEndpoint` is unset, or the backend is unreachable, a submission
+shows an error banner prompting the visitor to email directly instead.
 
 ## Deploy
 
@@ -151,15 +176,25 @@ Upload the whole folder to any static host (GitHub Pages, Netlify, Cloudflare
 Pages, S3, nginx). Nothing to build, and no per-host base config — paths are
 relative (see above). Currently deployed to GitHub Pages at
 `https://uniqueperform-development-repositories.github.io/IAMLOGIC_WEBSITE/`
-(temporary; production will move to a real domain at the root).
+(temporary; production will move to a real domain at the root, on DigitalOcean
+App Platform — see `robots.txt`).
+
+`functions/` deploys separately as a Functions component in the same
+DigitalOcean App Platform app, routed at `/api` (Create/Edit App → Add
+Component → Function, pointing at the `functions/` directory). It only needs
+to exist wherever the lead forms are actually used in production — it plays
+no part in serving the static pages.
 
 ## Conventions & guardrails for agents
 
-- **No dependencies, no build tooling.** Don't introduce npm packages, a
-  framework, a bundler, or a `package.json`. If a task seems to need one, stop
-  and ask first.
-- **Keep everything self-hosted.** No external CDN scripts, fonts, or stylesheets
-  — fonts are bundled in `assets/fonts/`.
+- **No dependencies, no build tooling for the site itself.** Don't introduce
+  npm packages, a framework, or a bundler into the static site. If a task
+  seems to need one, stop and ask first. (`functions/` is a narrow, documented
+  exception — see "Lead forms" above — not a precedent for adding more.)
+- **Keep everything self-hosted**, with one documented exception: the
+  Cloudflare Turnstile script used by the lead forms (see "Lead forms" above).
+  No other external CDN scripts, fonts, or stylesheets — fonts are bundled in
+  `assets/fonts/`.
 - **Use page-relative links, never root-absolute** (`../assets/…`, not
   `/assets/…`) — see "Paths are RELATIVE" above. This is what lets the site run
   at any base.

@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Pricing page temporarily blocked: redirect visitors to the homepage.
+       To re-enable, remove this <meta http-equiv="refresh"> tag and the
+       canonical override below, and un-comment the <main> content further down. -->
+  <meta http-equiv="refresh" content="0; url=../">
+  <link rel="canonical" href="../">
   <meta name="robots" content="noindex, nofollow">
   <title>Pricing — Per-user annual licensing with a quote matched to your environment | IamLogic</title>
   <meta name="description" content="IamLogic pricing: per-user annual licences (25-user minimum) for Access Manager and IamLogic IGA, identical on-premises or cloud, plus training, managed services and professional services. Request a quote.">
@@ -19,7 +24,13 @@
   <header id="site-header"></header>
 
   <main id="main">
-    <!-- PRICING -->
+    <p>Redirecting to <a href="../">iamlogic.com</a>&hellip;</p>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <!--
+  <main id="main">
     <section class="section">
       <div class="container">
         <div class="section-heading">
@@ -87,6 +98,8 @@
                 <div class="field"><label for="lead-message">Anything we should prepare for? <span class="opt">(optional)</span></label>
                   <textarea class="input" id="lead-message" name="message" rows="3" placeholder="e.g. 4,000 users, on-premises requirement, RBI-regulated"></textarea>
                   <p class="form-hint">Mention user count, deployment preference or the regulation driving your project.</p></div>
+                <input type="text" name="hp" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <div class="ts-widget" data-turnstile></div>
                 <p class="form-error-banner" data-form-error hidden>Something went wrong on our side. Please retry, or write to us directly at <a href="mailto:info@iamlogic.com">info@iamlogic.com</a>.</p>
                 <button class="btn btn--primary" type="submit" style="padding:0.9rem 2rem">Request a quote</button>
                 <p class="form-note">We use these details only to respond to your request. No newsletters unless you ask.</p>
@@ -97,7 +110,6 @@
       </div>
     </section>
 
-    <!-- FAQ -->
     <section class="section section--muted">
       <div class="container">
         <div class="section-heading">
@@ -127,7 +139,6 @@
       </div>
     </section>
   </main>
-
-  <footer id="site-footer"></footer>
+  -->
 </body>
 </html>

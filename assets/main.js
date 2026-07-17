@@ -28,10 +28,39 @@
     // Social profiles — leave "" to hide that icon in the footer.
     linkedin: "https://www.linkedin.com/company/iamlogic",
     youtube: "https://www.youtube.com/@IamLogicIdentityManagement",
-    // Point this at a webhook (Zoho Flow / Make / Formspree / Web3Forms …) that
-    // accepts a JSON POST to make the lead forms submit. Leave "" to disable.
-    leadEndpoint: "",
+    // Serverless backend (see functions/packages/forms/lead) that verifies
+    // Turnstile and forwards leads to Zoho CRM. Leave "" to disable lead forms.
+    leadEndpoint: "/api/forms/lead",
   };
+
+  // Cloudflare Turnstile (bot-check widget on lead forms). The site key is
+  // public by design. This default is Cloudflare's own documented dummy
+  // "always passes" test key (works on any hostname, no Cloudflare account
+  // needed) — replace with your real site key from the Cloudflare dashboard
+  // (Turnstile → Add site) before going live. Pair it with the matching
+  // dummy secret 1x0000000000000000000000000000000AA as TURNSTILE_SECRET
+  // until then (see functions/packages/forms/lead/index.js).
+  var TURNSTILE_SITEKEY = "1x00000000000000000000AA";
+  var turnstileReady = false;
+  var turnstileQueue = [];
+  window.iamlogicTurnstileOnload = function () {
+    turnstileReady = true;
+    turnstileQueue.forEach(function (fn) { fn(); });
+    turnstileQueue = [];
+  };
+  function turnstileWhenReady(fn) {
+    if (turnstileReady && window.turnstile) fn();
+    else turnstileQueue.push(fn);
+  }
+  function turnstileRender(el) {
+    return window.turnstile.render(el, { sitekey: TURNSTILE_SITEKEY });
+  }
+  function turnstileResponse(id) {
+    try { return window.turnstile.getResponse(id); } catch (e) { return ""; }
+  }
+  function turnstileReset(id) {
+    try { window.turnstile.reset(id); } catch (e) {}
+  }
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
   var NAV = [
@@ -116,8 +145,7 @@
           ]
         }
       ]
-    },
-    { label: "Pricing", href: "pricing/" }
+    }
   ];
 
   var FOOTER_COLUMNS = [
@@ -125,8 +153,7 @@
       { label: "Access Manager", href: "products/access-manager/" },
       { label: "IamLogic IGA", href: "products/identity-governance/" },
       { label: "Platform", href: "platform/" },
-      { label: "Integrations", href: "integrations/" },
-      { label: "Pricing", href: "pricing/" }
+      { label: "Integrations", href: "integrations/" }
     ]},
     { heading: "Solutions", links: [
       { label: "Banking & Financial Services", href: "solutions/banking-financial-services/" },
@@ -429,6 +456,10 @@
       if (input) input.addEventListener("blur", function () { fieldError(form, n, validate(n, input.value)); });
     });
 
+    var tsId = null;
+    var tsEl = form.querySelector("[data-turnstile]");
+    if (tsEl) turnstileWhenReady(function () { tsId = turnstileRender(tsEl); });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var data = {};
@@ -448,8 +479,8 @@
       var banner = form.querySelector("[data-form-error]");
       data.intent = form.getAttribute("data-intent") || "demo";
 
-      function showError() {
-        if (banner) banner.hidden = false;
+      function showError(msg) {
+        if (banner) { banner.hidden = false; if (msg) banner.textContent = msg; }
         if (submitBtn) submitBtn.disabled = false;
       }
       function showSuccess() {
@@ -465,6 +496,12 @@
       }
 
       if (!SITE.leadEndpoint) { showError(); return; }
+
+      if (tsEl) {
+        data.token = turnstileResponse(tsId);
+        if (!data.token) { showError("Please complete the verification check, then submit again."); return; }
+      }
+
       if (banner) banner.hidden = true;
       if (submitBtn) { submitBtn.disabled = true; }
       fetch(SITE.leadEndpoint, {
@@ -472,9 +509,16 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       }).then(function (r) {
-        if (!r.ok) throw new Error("bad status");
-        showSuccess();
-      }).catch(showError);
+        return r.json().catch(function () { return {}; }).then(function (res) {
+          if (!r.ok || !res.ok) throw new Error(res.error || "bad status");
+          showSuccess();
+        });
+      }).catch(function (err) {
+        if (tsId !== null) turnstileReset(tsId);
+        showError(err && err.message === "captcha_failed"
+          ? "Verification failed — please try again."
+          : undefined);
+      });
     });
   }
 
