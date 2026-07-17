@@ -40,7 +40,7 @@
   // (Turnstile → Add site) before going live. Pair it with the matching
   // dummy secret 1x0000000000000000000000000000000AA as TURNSTILE_SECRET
   // until then (see functions/packages/forms/lead/index.js).
-  var TURNSTILE_SITEKEY = "1x00000000000000000000AA";
+  var TURNSTILE_SITEKEY = "0x4AAAAAAD34xC_Ju3lWEQIG"; 
   var turnstileReady = false;
   var turnstileQueue = [];
   window.iamlogicTurnstileOnload = function () {
