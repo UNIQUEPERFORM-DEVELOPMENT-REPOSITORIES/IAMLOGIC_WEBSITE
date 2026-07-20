@@ -17,8 +17,8 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const ZOHO = {
   url: "https://crm.zoho.in/crm/WebToLeadForm",
   hidden: {
-    xnQsjsdp: "b66ddbf0e548fdd4cab258981e9914753cc885a3114b3b93eb708ef0fcfdf2c6",
-    xmIwtLD: "24eb77ccfd66d4bf5b3845337ed73a3290a289409878911db21fbaa0a75d4c27c96e763b696e88ef532c5f5266515ace",
+    xnQsjsdp: "97945bc46c5b97e552c8823394f87ad7013cc1d667950336bd5733388e36a27a",
+    xmIwtLD: "1564e3edc6354472de1c39687b1b19dac679e21051b83bea9686edf3c4b26bac520a4363db27259d2d15ff65b358404a",
     actionType: "TGVhZHM=",
     returnURL: "null",
     zc_gad: "",
