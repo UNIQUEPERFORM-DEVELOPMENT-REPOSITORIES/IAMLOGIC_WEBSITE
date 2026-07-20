@@ -35,6 +35,10 @@
     // Serverless backend (see functions/packages/forms/lead) that verifies
     // Turnstile and forwards leads to Zoho CRM. Leave "" to disable lead forms.
     leadEndpoint: "/api/forms/lead",
+    // Gated case-study download (see functions/packages/forms/download) —
+    // verifies Turnstile, forwards the lead, and returns a signed URL to the
+    // requested PDF in private Spaces storage. Leave "" to disable.
+    downloadEndpoint: "/api/forms/download",
   };
 
   // Cloudflare Turnstile (bot-check widget on lead forms). The site key is
@@ -65,6 +69,9 @@
   function turnstileReset(id) {
     try { window.turnstile.reset(id); } catch (e) {}
   }
+  function turnstileRemove(id) {
+    try { window.turnstile.remove(id); } catch (e) {}
+  }
 
   // Microsoft Clarity + Google Analytics 4 (see "Analytics & cookie consent"
   // below). Placeholders — replace before going live: Clarity project ID from
@@ -72,6 +79,12 @@
   // Analytics → Admin → Data Streams → your stream (format "G-XXXXXXXXXX").
   var CLARITY_PROJECT_ID = "xp9b7u1bvr";
   var GA_MEASUREMENT_ID = "G-F7KE1QKQWE";
+  // Shipped defaults above, compared by exact match below (not "contains
+  // x/X" — a real Clarity project ID is a random lowercase-alphanumeric
+  // string and can easily contain an "x" itself, which silently blocked
+  // loading even after a real ID was set).
+  var CLARITY_PLACEHOLDER = "xxxxxxxxxx";
+  var GA_PLACEHOLDER = "G-XXXXXXXXXX";
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
   var NAV = [
@@ -272,6 +285,23 @@
   })();
   // Resolve a root-relative site path (e.g. "contact/") for the current page.
   function url(p) { return ROOT + p; }
+
+  // Small bridge so other self-contained page scripts (see booking-modal.js,
+  // case-study-modal.js) can reuse the site root, the lead endpoint and the
+  // shared Turnstile helpers instead of duplicating them.
+  window.IAMLOGIC = {
+    url: url,
+    email: SITE.email,
+    leadEndpoint: SITE.leadEndpoint,
+    downloadEndpoint: SITE.downloadEndpoint,
+    turnstile: {
+      whenReady: turnstileWhenReady,
+      render: turnstileRender,
+      response: turnstileResponse,
+      reset: turnstileReset,
+      remove: turnstileRemove
+    }
+  };
 
   var LOGO_SVG =
     '<svg viewBox="0 0 48 48" fill="none" role="img" aria-label="IamLogic logomark">' +
@@ -542,7 +572,7 @@
      loading while the IDs above are still the shipped placeholders. */
   var clarityLoaded = false, gaLoaded = false;
   function loadClarity() {
-    if (clarityLoaded || CLARITY_PROJECT_ID.indexOf("x") !== -1) return;
+    if (clarityLoaded || !CLARITY_PROJECT_ID || CLARITY_PROJECT_ID === CLARITY_PLACEHOLDER) return;
     clarityLoaded = true;
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
@@ -551,7 +581,7 @@
     })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
   }
   function loadGA() {
-    if (gaLoaded || GA_MEASUREMENT_ID.indexOf("X") !== -1) return;
+    if (gaLoaded || !GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === GA_PLACEHOLDER) return;
     gaLoaded = true;
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };

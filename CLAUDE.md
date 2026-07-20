@@ -176,6 +176,30 @@ power this, both scoped narrowly to the lead forms:
 If `SITE.leadEndpoint` is unset, or the backend is unreachable, a submission
 shows an error banner prompting the visitor to email directly instead.
 
+## Gated case-study downloads
+
+`resources/case-studies/` follows the same "no backend, self-hosted only"
+exception as the lead forms, extended one step further: `assets/case-study-modal.js`
+opens an accessible modal for any `[data-cs="<id>"]` trigger (see the
+"Download PDF" buttons on the case-study listing cards and the "Download as
+PDF" callouts on each individual case-study page), captures name/work
+email/company + Turnstile, and POSTs to `functions/packages/forms/download`
+— a second Functions action alongside `forms/lead`. That function verifies
+Turnstile, forwards the lead to its own dedicated Zoho Web-to-Lead form
+("Website casestudy PDF download lead capture" — separate from the lead
+forms' "Website lead capture" form, so downloads are distinguishable in
+Zoho), then presigns a short-lived (2-minute) URL to the requested PDF in a
+**private DigitalOcean Spaces bucket** (`ASSETS` in that file maps each
+`id` to a Spaces object key and a display title — add a new PDF by adding an
+entry there and uploading the file to Spaces under that exact key; nothing
+else references the file). Requires four more encrypted env vars on the
+functions component beyond `TURNSTILE_SECRET`: `SPACES_KEY`, `SPACES_SECRET`,
+`SPACES_BUCKET`, `SPACES_REGION` (see `functions/project.yml`'s header
+comment). The site itself still ships unbuilt — only the functions component
+gained a dependency (`@aws-sdk/client-s3`, `@aws-sdk/s3-request-presigner`).
+Until Spaces is configured and the real PDFs are uploaded, submitting the
+form still captures the lead but the presigned link will 404.
+
 ## Analytics, consent & booking
 
 Three more deliberate exceptions to the "self-hosted only" rule.
@@ -187,9 +211,12 @@ Three more deliberate exceptions to the "self-hosted only" rule.
   persisted in `localStorage`, reopenable from the footer's "Cookie settings"
   link). Rejecting sets GA's official `ga-disable-<id>` kill switch and
   best-effort clears Clarity/GA cookies. `CLARITY_PROJECT_ID` and
-  `GA_MEASUREMENT_ID` near the top of `main.js` ship as obvious placeholders
-  (containing `x`/`X`) — the loaders no-op until you replace them with your
-  real IDs (Clarity: clarity.microsoft.com → Settings → Setup; GA4: Google
+  `GA_MEASUREMENT_ID` near the top of `main.js` ship as the literal
+  placeholders `xxxxxxxxxx` / `G-XXXXXXXXXX` (`CLARITY_PLACEHOLDER` /
+  `GA_PLACEHOLDER`, compared by exact match, not "contains x/X" — a real
+  Clarity ID is random lowercase-alphanumeric and can legitimately contain an
+  "x") — the loaders no-op only while the value is still exactly that
+  default. Set your real IDs (Clarity: clarity.microsoft.com → Settings → Setup; GA4: Google
   Analytics → Admin → Data Streams → Measurement ID).
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so

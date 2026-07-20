@@ -1,10 +1,14 @@
-# DigitalOcean App Platform Functions — IamLogic lead-form backend.
+# DigitalOcean App Platform Functions — IamLogic forms backend.
 # Deployed as a separate Functions component alongside the static site (the
 # site itself stays build-free — this is the one intentional exception, see
 # CLAUDE.md "Lead forms" section).
 #
-# Verifies Cloudflare Turnstile, then forwards the lead server-side to Zoho
-# CRM's Web-to-Lead endpoint (so the Zoho form tokens never reach the browser).
+# `lead` verifies Cloudflare Turnstile, then forwards the lead server-side to
+# Zoho CRM's Web-to-Lead endpoint (so the Zoho form tokens never reach the
+# browser). `download` does the same, then presigns a short-lived Spaces URL
+# for the requested case-study PDF (private bucket — see ASSETS in
+# functions/packages/forms/download/index.js for the assetId → object-key
+# whitelist; upload each real PDF there under the exact key listed).
 #
 # Required env (App Platform → this component → Settings → App-Level
 # Environment Variables, scope RUN_TIME, type SECRET):
@@ -15,17 +19,32 @@
 #                      secret: 1x0000000000000000000000000000000AA — pairs
 #                      with the dummy site key already in assets/main.js.
 #                      Replace both with your real keys before going live.
+#   SPACES_KEY, SPACES_SECRET                     DigitalOcean Spaces access key/secret
+#   SPACES_BUCKET, SPACES_REGION, SPACES_ENDPOINT e.g. iamlogic-gated / blr1 / https://blr1.digitaloceanspaces.com
 #
-# Endpoint (with the functions component routed at /api):
-#   POST /api/forms/lead
+# Endpoints (with the functions component routed at /api):
+#   POST /api/forms/lead       contact/demo/pricing-form leads
+#   POST /api/forms/download   gated case-study download → { ok, url }
 environment:
   TURNSTILE_SECRET: ${TURNSTILE_SECRET}
+  SPACES_BUCKET: ${SPACES_BUCKET}
+  SPACES_ENDPOINT: ${SPACES_ENDPOINT}
+  SPACES_KEY: ${SPACES_KEY}
+  SPACES_REGION: ${SPACES_REGION}
+  SPACES_SECRET: ${SPACES_SECRET}
 packages:
   - name: forms
     actions:
       - name: lead
         runtime: 'nodejs:18'
         web: true
+        limits:
+          timeout: 10000
+          memory: 256
+      - name: download
+        runtime: 'nodejs:18'
+        web: true
+        remoteBuild: true
         limits:
           timeout: 10000
           memory: 256

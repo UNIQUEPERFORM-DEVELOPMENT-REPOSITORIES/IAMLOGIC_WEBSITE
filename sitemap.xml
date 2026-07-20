@@ -9,6 +9,10 @@
   <url><loc>https://www.iamlogic.com/compliance</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.iamlogic.com/resources</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.iamlogic.com/resources/datasheets</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.iamlogic.com/resources/case-studies</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.iamlogic.com/resources/case-studies/sso-mfa-privileged-access-protection</loc><lastmod>2026-07-20</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.iamlogic.com/resources/case-studies/access-certification-automation-at-scale</loc><lastmod>2026-07-20</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.iamlogic.com/resources/case-studies/identity-lifecycle-automation-jml</loc><lastmod>2026-07-20</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.iamlogic.com/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.iamlogic.com/demo</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.iamlogic.com/contact</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

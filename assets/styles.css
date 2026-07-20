@@ -376,6 +376,8 @@ ul { padding: 0; list-style: none; }
   background-size: contain;
 }
 .check-list strong { color: var(--indigo-950); }
+.check-list--grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
+@media (max-width: 480px) { .check-list--grid { grid-template-columns: 1fr; } }
 
 /* Bulleted list (blog) */
 .dot-list { display: flex; flex-direction: column; gap: 0.625rem; }
@@ -413,6 +415,24 @@ a.chip:hover { border-color: var(--indigo-400); }
 }
 
 .chip-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* Case-study card category line (small label with a square accent bullet) */
+.cs-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--indigo-800);
+}
+.cs-cat::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--indigo-600);
+  flex: none;
+}
 
 /* FAQ (native details/summary) */
 .faq {
