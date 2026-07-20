@@ -266,6 +266,7 @@
     overlay.setAttribute("hidden", "");
     document.body.classList.remove("bk-lock");
     clearTurnstile();
+    bodyEl.innerHTML = ""; // drop any typed-but-unsubmitted name/email/company
     if (lastFocused && lastFocused.focus) lastFocused.focus();
   }
 
