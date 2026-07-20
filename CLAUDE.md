@@ -39,7 +39,11 @@ assets/
   styles.css        ALL styling. Hand-written, sectioned (see header comment),
                     driven by CSS variables in the :root { … } block.
   main.js           SINGLE SOURCE for the header + footer, nav data, dropdown /
-                    mobile-nav behaviour, lead-form logic, and the icon set.
+                    mobile-nav behaviour, lead-form logic, the icon set, and
+                    consent-gated analytics (Clarity + GA4).
+  booking-modal.js  The Microsoft Bookings appointment modal — self-contained,
+                    included only on pages that trigger it (see "Analytics,
+                    consent & booking" below).
   fonts/            Self-hosted Source Sans 3 (no external font requests).
   *.svg             Product / platform illustrations.
 
@@ -56,6 +60,8 @@ functions/          Lead-form backend (DigitalOcean Functions) — deployed
      `href` entry is a plain link.
    - `FOOTER_COLUMNS` — footer link columns.
    - `ICONS` — the icon registry (SVG inner paths).
+   - `CLARITY_PROJECT_ID`, `GA_MEASUREMENT_ID` — analytics IDs (see
+     "Analytics, consent & booking" below).
    Edit these and **every page updates at once**, because the header/footer are
    injected into each page's `<header id="site-header">` / `<footer id="site-footer">`.
 
@@ -170,6 +176,42 @@ power this, both scoped narrowly to the lead forms:
 If `SITE.leadEndpoint` is unset, or the backend is unreachable, a submission
 shows an error banner prompting the visitor to email directly instead.
 
+## Analytics, consent & booking
+
+Three more deliberate exceptions to the "self-hosted only" rule.
+
+- **Microsoft Clarity + Google Analytics 4** — wired up in `assets/main.js`,
+  no per-page script tags needed since `main.js` already loads on every page.
+  Consent-gated (opt-out): both load on first visit unless the visitor
+  rejects via the cookie bar, which appears once per visitor (choice
+  persisted in `localStorage`, reopenable from the footer's "Cookie settings"
+  link). Rejecting sets GA's official `ga-disable-<id>` kill switch and
+  best-effort clears Clarity/GA cookies. `CLARITY_PROJECT_ID` and
+  `GA_MEASUREMENT_ID` near the top of `main.js` ship as obvious placeholders
+  (containing `x`/`X`) — the loaders no-op until you replace them with your
+  real IDs (Clarity: clarity.microsoft.com → Settings → Setup; GA4: Google
+  Analytics → Admin → Data Streams → Measurement ID).
+- **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
+  self-contained file (unlike everything else, which lives in `main.js`) so
+  it can be dropped onto only the pages that need it, the same way the
+  Turnstile script is scoped to specific pages. It embeds your published
+  Bookings URL (the `BOOKINGS` array's `url`, at the top of the file) in an
+  iframe inside a modal dialog, and opens for any `data-book` element or a
+  link to `#book-a-call`. Currently included via
+  `<script src="../assets/booking-modal.js" defer></script>` on `/demo/` and
+  `/contact/` — add the same tag to any other page that gets a `data-book`
+  trigger, or the click silently does nothing.
+  `BOOKINGS` holds one entry today; the chooser step and "back" button are
+  dead code until a second entry is added (they re-appear automatically). A
+  `url` containing the literal string `PLACEHOLDER` shows a friendly
+  "coming soon" card instead of a broken iframe.
+- If the Bookings page is ever republished, update the `url` in
+  `assets/booking-modal.js`; nothing else references it.
+
+`privacy/index.html` documents the Clarity/GA cookies — keep it in sync if
+the analytics setup changes materially (still marked "draft for legal review"
+pending counsel sign-off).
+
 ## Deploy
 
 Upload the whole folder to any static host (GitHub Pages, Netlify, Cloudflare
@@ -191,10 +233,11 @@ no part in serving the static pages.
   npm packages, a framework, or a bundler into the static site. If a task
   seems to need one, stop and ask first. (`functions/` is a narrow, documented
   exception — see "Lead forms" above — not a precedent for adding more.)
-- **Keep everything self-hosted**, with one documented exception: the
-  Cloudflare Turnstile script used by the lead forms (see "Lead forms" above).
-  No other external CDN scripts, fonts, or stylesheets — fonts are bundled in
-  `assets/fonts/`.
+- **Keep everything self-hosted**, with documented exceptions: the Cloudflare
+  Turnstile script used by the lead forms (see "Lead forms" above), Microsoft
+  Clarity + Google Analytics 4, and the Microsoft Bookings iframe (see
+  "Analytics, consent & booking" below). No other external CDN scripts,
+  fonts, or stylesheets — fonts are bundled in `assets/fonts/`.
 - **Use page-relative links, never root-absolute** (`../assets/…`, not
   `/assets/…`) — see "Paths are RELATIVE" above. This is what lets the site run
   at any base.

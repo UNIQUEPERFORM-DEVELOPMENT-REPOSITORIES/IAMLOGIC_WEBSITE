@@ -13,7 +13,11 @@
    All internal links are resolved through url()/ROOT below, which derives the
    site root from this script's own relative src — so nothing hard-codes a base.
 
-   It also powers the lead form: add data-lead-form to a <form> (see demo/).
+   It also powers the lead form (add data-lead-form to a <form>, see demo/)
+   and consent-gated analytics (Microsoft Clarity + Google Analytics 4 — see
+   CLARITY_PROJECT_ID / GA_MEASUREMENT_ID below). The Microsoft Bookings
+   appointment modal lives separately in assets/booking-modal.js (loaded on
+   pages that trigger it with data-book or a link to "#book-a-call").
    ========================================================================== */
 (function () {
   "use strict";
@@ -61,6 +65,13 @@
   function turnstileReset(id) {
     try { window.turnstile.reset(id); } catch (e) {}
   }
+
+  // Microsoft Clarity + Google Analytics 4 (see "Analytics & cookie consent"
+  // below). Placeholders — replace before going live: Clarity project ID from
+  // clarity.microsoft.com → Settings → Setup; GA4 Measurement ID from Google
+  // Analytics → Admin → Data Streams → your stream (format "G-XXXXXXXXXX").
+  var CLARITY_PROJECT_ID = "xp9b7u1bvr";
+  var GA_MEASUREMENT_ID = "G-F7KE1QKQWE";
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
   var NAV = [
@@ -351,7 +362,8 @@
       '<a href="tel:' + SITE.phone + '">' + SITE.phone + "</a></p>" + social + "</div>" + cols + "</div>" +
       '<div class="footer-bottom"><p class="footer-bottom__copy">&copy; <span data-year></span> IamLogic. All rights reserved.</p>' +
       '<div class="footer-bottom__meta"><strong>ISO/IEC 27001:2022 certified</strong>' +
-      '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a></div></div>' +
+      '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a>' +
+      '<a href="#" data-consent="manage">Cookie settings</a></div></div>' +
       "</div></div>";
   }
 
@@ -522,6 +534,121 @@
     });
   }
 
+  /* ----- Analytics & cookie consent ---------------------------------------
+     Microsoft Clarity + Google Analytics 4, opt-out: both load on first visit
+     unless the visitor rejects via the banner below, and stop immediately on
+     reject (GA's official kill switch, plus best-effort cookie cleanup — the
+     head loader then skips them entirely on the next navigation). Skips
+     loading while the IDs above are still the shipped placeholders. */
+  var clarityLoaded = false, gaLoaded = false;
+  function loadClarity() {
+    if (clarityLoaded || CLARITY_PROJECT_ID.indexOf("x") !== -1) return;
+    clarityLoaded = true;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
+  }
+  function loadGA() {
+    if (gaLoaded || GA_MEASUREMENT_ID.indexOf("X") !== -1) return;
+    gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+    document.head.appendChild(s);
+    window.gtag("js", new Date());
+    window.gtag("config", GA_MEASUREMENT_ID);
+  }
+
+  var CONSENT_KEY = "iamlogic_consent";
+  // Cookies Clarity and GA4 set, cleared on reject.
+  var ANALYTICS_COOKIES = [
+    "_clck", "_clsk", "CLID", "ANONCHK", "MUID", "SM",
+    "_ga", "_gid", "_gat", "_ga_" + GA_MEASUREMENT_ID.replace(/^G-/, "")
+  ];
+  function readConsent() {
+    try { return JSON.parse(localStorage.getItem(CONSENT_KEY) || "null"); } catch (e) { return null; }
+  }
+  function writeConsent(status) {
+    try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ status: status, ts: new Date().toISOString() })); } catch (e) {}
+  }
+  function clearAnalyticsCookies() {
+    var host = location.hostname;
+    var domains = ["", host, "." + host];
+    var parts = host.split(".");
+    if (parts.length > 2) domains.push("." + parts.slice(-2).join("."));
+    ANALYTICS_COOKIES.forEach(function (name) {
+      domains.forEach(function (d) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + (d ? "; domain=" + d : "");
+      });
+    });
+  }
+
+  function initConsent() {
+    var bar = null;
+    function build() {
+      if (bar) return;
+      bar = document.createElement("div");
+      bar.className = "cookie-bar";
+      bar.setAttribute("hidden", "");
+      bar.setAttribute("role", "dialog");
+      bar.setAttribute("aria-label", "Cookie consent");
+      bar.innerHTML =
+        '<p class="cookie-bar__text">We use analytics cookies (Microsoft Clarity and Google Analytics) to understand how visitors use this site. ' +
+        'You can reject them or change your choice anytime. See our <a href="' + url("privacy/") + '">Privacy Policy</a>.</p>' +
+        '<div class="cookie-bar__actions">' +
+          '<button type="button" class="btn btn--secondary" data-consent-action="reject">Reject</button>' +
+          '<button type="button" class="btn btn--primary" data-consent-action="accept">Accept</button>' +
+        "</div>";
+      document.body.appendChild(bar);
+      bar.addEventListener("click", function (e) {
+        var b = e.target.closest ? e.target.closest("[data-consent-action]") : null;
+        if (!b) return;
+        if (b.getAttribute("data-consent-action") === "accept") accept(); else reject();
+      });
+    }
+    function open() {
+      build();
+      bar.removeAttribute("hidden");
+      void bar.offsetWidth; // reflow so the transition runs
+      bar.classList.add("is-open");
+    }
+    function close() {
+      if (!bar) return;
+      bar.classList.remove("is-open");
+      bar.setAttribute("hidden", "");
+    }
+    function accept() {
+      writeConsent("granted");
+      window["ga-disable-" + GA_MEASUREMENT_ID] = false;
+      loadClarity();
+      loadGA();
+      close();
+    }
+    function reject() {
+      writeConsent("denied");
+      window["ga-disable-" + GA_MEASUREMENT_ID] = true; // GA's kill switch — stops hits even if already loaded
+      clearAnalyticsCookies();
+      close();
+    }
+
+    var consent = readConsent();
+    if (!consent) open(); // first-time visitor — ask
+    else if (consent.status !== "denied") { loadClarity(); loadGA(); }
+    else window["ga-disable-" + GA_MEASUREMENT_ID] = true;
+
+    // Footer "Cookie settings" (or any [data-consent="manage"]) reopens it.
+    document.addEventListener("click", function (e) {
+      var link = e.target.closest ? e.target.closest('[data-consent="manage"]') : null;
+      if (!link) return;
+      e.preventDefault();
+      open();
+    });
+  }
+
   /* ----- Boot ------------------------------------------------------------ */
   function init() {
     var header = document.getElementById("site-header");
@@ -543,6 +670,8 @@
     Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), wireLeadForm);
     // Icons
     injectIcons(document);
+    // Analytics consent
+    initConsent();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
