@@ -19,7 +19,6 @@
     { id: "access-certification", title: "Automating access certification at enterprise scale" },
     { id: "jml-automation", title: "End-to-end identity lifecycle automation (Joiner–Mover–Leaver)" }
   ];
-  var LEAD_KEY = "iamlogic_cs_lead"; // last submitter — pre-fills the form next time
 
   var overlay, dialog, titleEl, bodyEl, eyebrowEl, lastFocused, built = false;
   var tsId = null;
@@ -45,14 +44,6 @@
     if (t) { if (t.remove) t.remove(tsId); else t.reset(tsId); }
     tsId = null;
   }
-  function lastLead() {
-    try { return JSON.parse(localStorage.getItem(LEAD_KEY) || "null"); } catch (e) { return null; }
-  }
-  function rememberLead(data) {
-    try { localStorage.setItem(LEAD_KEY, JSON.stringify({ name: data.name, email: data.email, company: data.company })); }
-    catch (e) { /* storage unavailable — non-fatal */ }
-  }
-
   /* Mirrors assets/main.js's lead-form validation so the messages match. */
   function emailBad(v) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Please enter a valid work email address.";
@@ -139,13 +130,6 @@
       "</div>";
 
     var form = bodyEl.querySelector("form");
-    var prev = lastLead();
-    if (prev) {
-      ["name", "email", "company"].forEach(function (n) {
-        var input = form.querySelector('[name="' + n + '"]');
-        if (input && prev[n]) input.value = prev[n];
-      });
-    }
     ["name", "email", "company"].forEach(function (n) {
       var input = form.querySelector('[name="' + n + '"]');
       if (input) input.addEventListener("blur", function () { fieldError(form, n, validate(n, input.value)); });
@@ -204,7 +188,6 @@
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (res) {
         if (!r.ok || !res.ok || !res.url) throw new Error(res.error || "bad status");
-        rememberLead(data);
         showSuccess(s, data.name, res.url);
       });
     }).catch(function (err) {

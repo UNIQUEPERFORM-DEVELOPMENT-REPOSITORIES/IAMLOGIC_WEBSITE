@@ -206,10 +206,11 @@ Three more deliberate exceptions to the "self-hosted only" rule.
 
 - **Microsoft Clarity + Google Analytics 4** — wired up in `assets/main.js`,
   no per-page script tags needed since `main.js` already loads on every page.
-  Consent-gated (opt-out): both load on first visit unless the visitor
-  rejects via the cookie bar, which appears once per visitor (choice
+  Consent-gated (opt-in): neither loads for a first-time visitor until they
+  click "Accept" on the cookie bar, which appears once per visitor (choice
   persisted in `localStorage`, reopenable from the footer's "Cookie settings"
-  link). Rejecting sets GA's official `ga-disable-<id>` kill switch and
+  link) — a returning visitor whose stored choice isn't "denied" loads both
+  immediately, no re-prompt. Rejecting sets GA's official `ga-disable-<id>` kill switch and
   best-effort clears Clarity/GA cookies. `CLARITY_PROJECT_ID` and
   `GA_MEASUREMENT_ID` near the top of `main.js` ship as the literal
   placeholders `xxxxxxxxxx` / `G-XXXXXXXXXX` (`CLARITY_PLACEHOLDER` /

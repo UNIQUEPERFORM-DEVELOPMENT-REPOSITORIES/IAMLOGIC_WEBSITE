@@ -565,11 +565,13 @@
   }
 
   /* ----- Analytics & cookie consent ---------------------------------------
-     Microsoft Clarity + Google Analytics 4, opt-out: both load on first visit
-     unless the visitor rejects via the banner below, and stop immediately on
-     reject (GA's official kill switch, plus best-effort cookie cleanup — the
-     head loader then skips them entirely on the next navigation). Skips
-     loading while the IDs above are still the shipped placeholders. */
+     Microsoft Clarity + Google Analytics 4, opt-in: neither loads for a
+     first-time visitor until they click "Accept" on the banner below (a
+     returning visitor whose stored choice isn't "denied" loads both
+     immediately, no re-prompt). Rejecting stops them immediately (GA's
+     official kill switch, plus best-effort cookie cleanup) and the head
+     loader skips them entirely on the next navigation. Skips loading while
+     the IDs above are still the shipped placeholders. */
   var clarityLoaded = false, gaLoaded = false;
   function loadClarity() {
     if (clarityLoaded || !CLARITY_PROJECT_ID || CLARITY_PROJECT_ID === CLARITY_PLACEHOLDER) return;

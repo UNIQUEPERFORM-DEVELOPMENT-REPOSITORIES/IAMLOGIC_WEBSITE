@@ -880,7 +880,25 @@ textarea.input { resize: vertical; min-height: 5rem; }
 .cap-dark h3 { font-weight: 700; }
 .cap-dark p { margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.6; color: rgba(224, 220, 245, 0.75); }
 
-/* CTA band */
+/* CTA band — inset as its own rounded card (not full-bleed) so it reads as
+   distinct from the near-black footer band directly below it, instead of
+   the two fusing into one dark block. Scoped via :has() to the .band-dark
+   section that actually wraps a .cta-band__grid, so the footer's own
+   .band-dark (and any page hero bands) are untouched. */
+.band-dark:has(> .container > .cta-band__grid) {
+  margin: 3rem 1rem;
+  border-radius: 1.25rem;
+  background-color: var(--indigo-700);
+  box-shadow: 0 24px 48px -24px rgba(29, 20, 67, 0.5);
+}
+@media (min-width: 640px) {
+  .band-dark:has(> .container > .cta-band__grid) {
+    margin: 4rem auto;
+    max-width: var(--max-w);
+    border-radius: 1.5rem;
+  }
+}
+
 .cta-band__grid { display: flex; flex-direction: column; gap: 2rem; }
 @media (min-width: 1024px) { .cta-band__grid { flex-direction: row; align-items: center; gap: 4rem; } }
 .cta-band__text { flex: 1; }
