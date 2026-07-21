@@ -211,14 +211,14 @@ Three more deliberate exceptions to the "self-hosted only" rule.
   persisted in `localStorage`, reopenable from the footer's "Cookie settings"
   link) — a returning visitor whose stored choice isn't "denied" loads both
   immediately, no re-prompt. Rejecting sets GA's official `ga-disable-<id>` kill switch and
-  best-effort clears Clarity/GA cookies. `CLARITY_PROJECT_ID` and
-  `GA_MEASUREMENT_ID` near the top of `main.js` ship as the literal
-  placeholders `xxxxxxxxxx` / `G-XXXXXXXXXX` (`CLARITY_PLACEHOLDER` /
-  `GA_PLACEHOLDER`, compared by exact match, not "contains x/X" — a real
-  Clarity ID is random lowercase-alphanumeric and can legitimately contain an
-  "x") — the loaders no-op only while the value is still exactly that
-  default. Set your real IDs (Clarity: clarity.microsoft.com → Settings → Setup; GA4: Google
-  Analytics → Admin → Data Streams → Measurement ID).
+  best-effort clears Clarity/GA cookies. `CLARITY_PROJECT_ID` near the top of
+  `main.js` is the real Clarity project ID (Clarity: clarity.microsoft.com →
+  Settings → Setup) and always loads on accept — there's no placeholder
+  check for it. `GA_MEASUREMENT_ID` still ships as the literal placeholder
+  `G-XXXXXXXXXX` (`GA_PLACEHOLDER`, compared by exact match, not "contains
+  X") until a real GA4 Measurement ID (Google Analytics → Admin → Data
+  Streams → Measurement ID) is set — the GA loader no-ops only while the
+  value is still exactly that default.
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so
   it can be dropped onto only the pages that need it, the same way the

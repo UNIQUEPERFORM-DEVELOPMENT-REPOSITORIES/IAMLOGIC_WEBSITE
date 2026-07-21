@@ -74,16 +74,14 @@
   }
 
   // Microsoft Clarity + Google Analytics 4 (see "Analytics & cookie consent"
-  // below). Placeholders — replace before going live: Clarity project ID from
-  // clarity.microsoft.com → Settings → Setup; GA4 Measurement ID from Google
-  // Analytics → Admin → Data Streams → your stream (format "G-XXXXXXXXXX").
+  // below). Clarity project ID from clarity.microsoft.com → Settings → Setup;
+  // GA4 Measurement ID from Google Analytics → Admin → Data Streams → your
+  // stream (format "G-XXXXXXXXXX").
   var CLARITY_PROJECT_ID = "xp9b7u1bvr";
   var GA_MEASUREMENT_ID = "G-F7KE1QKQWE";
-  // Shipped defaults above, compared by exact match below (not "contains
-  // x/X" — a real Clarity project ID is a random lowercase-alphanumeric
-  // string and can easily contain an "x" itself, which silently blocked
-  // loading even after a real ID was set).
-  var CLARITY_PLACEHOLDER = "xxxxxxxxxx";
+  // GA4 falls back to this shipped default until a real Measurement ID is
+  // set — compared by exact match (not "contains X") since a real ID could
+  // contain one.
   var GA_PLACEHOLDER = "G-XXXXXXXXXX";
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
@@ -570,17 +568,17 @@
      returning visitor whose stored choice isn't "denied" loads both
      immediately, no re-prompt). Rejecting stops them immediately (GA's
      official kill switch, plus best-effort cookie cleanup) and the head
-     loader skips them entirely on the next navigation. Skips loading while
-     the IDs above are still the shipped placeholders. */
+     loader skips them entirely on the next navigation. GA4 skips loading
+     while GA_MEASUREMENT_ID above is still the shipped placeholder. */
   var clarityLoaded = false, gaLoaded = false;
   function loadClarity() {
-    if (clarityLoaded || !CLARITY_PROJECT_ID || CLARITY_PROJECT_ID === CLARITY_PLACEHOLDER) return;
+    if (clarityLoaded) return;
     clarityLoaded = true;
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
       t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
+    })(window, document, "clarity", "script", "xp9b7u1bvr");
   }
   function loadGA() {
     if (gaLoaded || !GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === GA_PLACEHOLDER) return;
