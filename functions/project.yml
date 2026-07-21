@@ -8,7 +8,10 @@
 # browser). `download` does the same, then presigns a short-lived Spaces URL
 # for the requested case-study PDF (private bucket — see ASSETS in
 # functions/packages/forms/download/index.js for the assetId → object-key
-# whitelist; upload each real PDF there under the exact key listed).
+# whitelist; upload each real PDF there under the exact key listed). `asset`
+# is the ungated counterpart for plain marketing collateral (resources/
+# downloads/) — no Turnstile, no lead capture, just a redirect to a presigned
+# Spaces URL; see ASSETS in functions/packages/forms/asset/index.js.
 #
 # Required env (App Platform → this component → Settings → App-Level
 # Environment Variables, scope RUN_TIME, type SECRET):
@@ -25,6 +28,7 @@
 # Endpoints (with the functions component routed at /api):
 #   POST /api/forms/lead       contact/demo/pricing-form leads
 #   POST /api/forms/download   gated case-study download → { ok, url }
+#   GET  /api/forms/asset?id=  ungated collateral download → 302 redirect
 environment:
   TURNSTILE_SECRET: ${TURNSTILE_SECRET}
   SPACES_BUCKET: ${SPACES_BUCKET}
@@ -42,6 +46,13 @@ packages:
           timeout: 10000
           memory: 256
       - name: download
+        runtime: 'nodejs:18'
+        web: true
+        remoteBuild: true
+        limits:
+          timeout: 10000
+          memory: 256
+      - name: asset
         runtime: 'nodejs:18'
         web: true
         remoteBuild: true

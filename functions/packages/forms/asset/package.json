@@ -1,0 +1,10 @@
+{
+  "name": "asset",
+  "version": "1.0.0",
+  "description": "IamLogic ungated asset download — presign a Spaces URL and redirect",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0",
+    "@aws-sdk/s3-request-presigner": "^3.637.0"
+  }
+}

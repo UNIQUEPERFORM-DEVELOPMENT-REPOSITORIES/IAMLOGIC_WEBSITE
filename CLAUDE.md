@@ -145,11 +145,15 @@ When you add a page, also:
 Written as `<i data-icon="name"></i>` and drawn from the `ICONS` registry in
 `assets/main.js`. To add one, add an entry (its SVG inner paths) to `ICONS`.
 
-## Lead forms (demo / contact / pricing)
+## Lead forms (demo / contact / pricing / partner application)
 
 Add `data-lead-form` to a `<form>` to wire up client-side validation (see
-`/demo/`). Submissions POST JSON (`{ name, email, company, phone, interest,
-message, intent, hp, token }`) to `SITE.leadEndpoint` in `assets/main.js`.
+`/demo/`) — every field marked `required` on the form is enforced (not just
+name/email/company), with inline errors and focus-on-first-invalid-field.
+Submissions POST JSON (`{ name, email, company, phone, interest, message,
+intent, hp, token, website, itRevenuePercent }`) to `SITE.leadEndpoint` in
+`assets/main.js`; `intent` (`data-intent` on the `<form>`) picks which Zoho
+form the backend forwards to — see below.
 
 Two deliberate exceptions to this repo's "no backend, self-hosted only" rule
 power this, both scoped narrowly to the lead forms:
@@ -157,21 +161,30 @@ power this, both scoped narrowly to the lead forms:
 - **`functions/`** — a small Node backend (DigitalOcean App Platform
   Functions, `functions/packages/forms/lead/index.js`), deployed as its own
   component alongside the static site. It verifies Cloudflare Turnstile
-  server-side, then forwards the lead to Zoho CRM's Web-to-Lead endpoint
-  (real org tokens already filled in — copied from the "Website lead capture"
-  form in Zoho CRM → Setup → Developer Space → Web Forms) so the Zoho form
-  tokens never reach the browser. It does **not** add a build step to the
-  site itself — the HTML/CSS/JS still ships unbuilt. `SITE.leadEndpoint`
-  assumes the functions component is routed at `/api`. If that Zoho web form
-  is ever regenerated (fields added/removed), its tokens change — re-copy
-  `xnQsjsdp`/`xmIwtLD` from the new generated HTML into `ZOHO.hidden`, and
-  re-check `INTEREST_MAP` against the "Product interest" picklist's values.
+  server-side, then forwards the lead to Zoho CRM's Web-to-Lead endpoint so
+  the Zoho form tokens never reach the browser. It does **not** add a build
+  step to the site itself — the HTML/CSS/JS still ships unbuilt.
+  `SITE.leadEndpoint` assumes the functions component is routed at `/api`.
+  Two distinct generated Zoho forms post through this one function, chosen
+  by `intent`:
+  - default (demo/contact/pricing, `ZOHO` in that file) — the "Website lead
+    capture" form; `LEADCF1` (Product interest) via `INTEREST_MAP`.
+  - `intent === "partner"` (`/partners/apply/`, `ZOHO_PARTNER` in that
+    file) — the separate "Website Partner lead capture" form, with its own
+    tokens plus `Website`, `LEADCF2` (% of revenue from selling IT
+    solutions) and `LEADCF3` (partner track) fields — sent as-is, since the
+    `<select>` option text already matches those Zoho picklists verbatim.
+  If either Zoho web form is ever regenerated (fields added/removed), its
+  tokens change — re-copy `xnQsjsdp`/`xmIwtLD` from the newly generated HTML
+  into the matching `ZOHO`/`ZOHO_PARTNER` object, and re-check
+  `INTEREST_MAP`/the partner `<select>` options against their picklists.
 - **Cloudflare Turnstile script** (`challenges.cloudflare.com/turnstile/v0/api.js`,
-  included on `demo/`, `contact/`, `pricing/`) — the one external CDN script
-  in the site. Unavoidable: no hosted captcha can be self-hosted. Replace the
-  placeholder `TURNSTILE_SITEKEY` in `assets/main.js` (currently Cloudflare's
-  public "always passes" test key) with your real site key, and set
-  `TURNSTILE_SECRET` as an encrypted env var on the functions component.
+  included on `demo/`, `contact/`, `pricing/`, `partners/apply/`) — the one
+  external CDN script in the site. Unavoidable: no hosted captcha can be
+  self-hosted. Replace the placeholder `TURNSTILE_SITEKEY` in `assets/main.js`
+  (currently Cloudflare's public "always passes" test key) with your real
+  site key, and set `TURNSTILE_SECRET` as an encrypted env var on the
+  functions component.
 
 If `SITE.leadEndpoint` is unset, or the backend is unreachable, a submission
 shows an error banner prompting the visitor to email directly instead.
@@ -199,6 +212,18 @@ comment). The site itself still ships unbuilt — only the functions component
 gained a dependency (`@aws-sdk/client-s3`, `@aws-sdk/s3-request-presigner`).
 Until Spaces is configured and the real PDFs are uploaded, submitting the
 form still captures the lead but the presigned link will 404.
+
+`resources/downloads/` is the ungated counterpart, for plain marketing
+collateral (whitepaper, product brochures, a slide deck) rather than
+case-study PDFs — no modal, no lead capture. Each "Download" button is a
+plain `<a href="/api/forms/asset?id=<id>">` pointing at a third Functions
+action, `forms/asset`: given `?id=`, it looks up the Spaces object key in
+that file's `ASSETS` map and issues an HTTP 302 redirect straight to a
+short-lived (2-minute) presigned URL — no Turnstile check, no Zoho lead.
+It reuses the same Spaces credentials already configured for
+`forms/download` (`SPACES_KEY`/`SPACES_SECRET`/`SPACES_BUCKET`/
+`SPACES_REGION`/`SPACES_ENDPOINT`), so no additional env vars are needed —
+just upload each file to the bucket under the exact key listed in `ASSETS`.
 
 ## Analytics, consent & booking
 
