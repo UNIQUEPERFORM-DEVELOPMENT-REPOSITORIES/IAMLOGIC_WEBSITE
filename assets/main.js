@@ -241,6 +241,7 @@
     "book-open": '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
     "file-text": '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
     "files": '<path d="M20 7h-3a2 2 0 0 1-2-2V2"/><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z"/><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8"/>',
+    "download": '<path d="M12 15V3"/><path d="m6 9 6 6 6-6"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>',
     "scale": '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
     // Brand marks (filled) — stored as complete <svg> so injectIcons paints them
     // with fill=currentColor instead of the line-icon stroke wrapper.
@@ -461,10 +462,11 @@
       return "Please use your work email so we can route your request correctly.";
     return "";
   }
-  function validate(name, value) {
+  function validate(name, value, required) {
     if (name === "name" && value.trim().length < 2) return "Please enter your full name.";
     if (name === "email") return emailBad(value.trim());
     if (name === "company" && value.trim().length < 2) return "Please enter your organisation name.";
+    if (required && !value.trim()) return "This field is required.";
     return "";
   }
   function fieldError(form, name, msg) {
@@ -491,9 +493,11 @@
   }
 
   function wireLeadForm(form) {
-    ["name", "email", "company"].forEach(function (n) {
-      var input = form.querySelector('[name="' + n + '"]');
-      if (input) input.addEventListener("blur", function () { fieldError(form, n, validate(n, input.value)); });
+    var requiredInputs = Array.prototype.filter.call(form.elements, function (el) {
+      return el.name && el.hasAttribute("required");
+    });
+    requiredInputs.forEach(function (input) {
+      input.addEventListener("blur", function () { fieldError(form, input.name, validate(input.name, input.value, true)); });
     });
 
     var tsId = null;
@@ -506,8 +510,8 @@
       new FormData(form).forEach(function (v, k) { data[k] = v; });
 
       var ok = true;
-      ["name", "email", "company"].forEach(function (n) {
-        if (!fieldError(form, n, validate(n, data[n] || ""))) ok = false;
+      requiredInputs.forEach(function (input) {
+        if (!fieldError(form, input.name, validate(input.name, data[input.name] || "", true))) ok = false;
       });
       if (!ok) {
         var bad = form.querySelector('[aria-invalid="true"]');
