@@ -77,7 +77,7 @@
   // below). Clarity project ID from clarity.microsoft.com → Settings → Setup;
   // GA4 Measurement ID from Google Analytics → Admin → Data Streams → your
   // stream (format "G-XXXXXXXXXX").
-  var CLARITY_PROJECT_ID = "xp9b7u1bvr";
+  var CLARITY_PROJECT_ID = "xpro7pnr20";
   var GA_MEASUREMENT_ID = "G-F7KE1QKQWE";
   // GA4 falls back to this shipped default until a real Measurement ID is
   // set — compared by exact match (not "contains X") since a real ID could
@@ -578,7 +578,7 @@
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
       t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "xp9b7u1bvr");
+    })(window, document, "clarity", "script", "xpro7pnr20");
   }
   function loadGA() {
     if (gaLoaded || !GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === GA_PLACEHOLDER) return;
