@@ -40,7 +40,7 @@ assets/
                     driven by CSS variables in the :root { … } block.
   main.js           SINGLE SOURCE for the header + footer, nav data, dropdown /
                     mobile-nav behaviour, lead-form logic, the icon set, and
-                    consent-gated analytics (Clarity + GA4).
+                    consent-gated analytics (Google Tag Manager).
   booking-modal.js  The Microsoft Bookings appointment modal — self-contained,
                     included only on pages that trigger it (see "Analytics,
                     consent & booking" below).
@@ -60,7 +60,7 @@ functions/          Lead-form backend (DigitalOcean Functions) — deployed
      `href` entry is a plain link.
    - `FOOTER_COLUMNS` — footer link columns.
    - `ICONS` — the icon registry (SVG inner paths).
-   - `CLARITY_PROJECT_ID`, `GA_MEASUREMENT_ID` — analytics IDs (see
+   - `GTM_CONTAINER_ID` — the Google Tag Manager container ID (see
      "Analytics, consent & booking" below).
    Edit these and **every page updates at once**, because the header/footer are
    injected into each page's `<header id="site-header">` / `<footer id="site-footer">`.
@@ -120,6 +120,10 @@ for a depth-2 page — use `./` at root, `../` one deep):
   <script src="../../assets/main.js" defer></script>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5LC3HBB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <a class="skip-link" href="#main">Skip to main content</a>
   <header id="site-header"></header>       <!-- filled by main.js -->
   <main id="main">
@@ -129,6 +133,13 @@ for a depth-2 page — use `./` at root, `../` one deep):
 </body>
 </html>
 ```
+
+The GTM `<noscript>` block is a static fallback for JS-disabled visitors and
+is **not** consent-gated (unlike the JS-loaded GTM container in `main.js` —
+see "Analytics, consent & booking" below) since it can't run any consent
+check itself. Every page includes it immediately after `<body>`. If the GTM
+container ID ever changes, update the `id=` query param here on all pages
+(it's a plain string, not sourced from `main.js`).
 
 When you add a page, also:
 - add it to `sitemap.xml`,
@@ -229,21 +240,22 @@ just upload each file to the bucket under the exact key listed in `ASSETS`.
 
 Three more deliberate exceptions to the "self-hosted only" rule.
 
-- **Microsoft Clarity + Google Analytics 4** — wired up in `assets/main.js`,
-  no per-page script tags needed since `main.js` already loads on every page.
-  Consent-gated (opt-in): neither loads for a first-time visitor until they
+- **Google Tag Manager** — wired up in `assets/main.js`, no per-page script
+  tags needed since `main.js` already loads on every page. Consent-gated
+  (opt-in): the container doesn't load for a first-time visitor until they
   click "Accept" on the cookie bar, which appears once per visitor (choice
   persisted in `localStorage`, reopenable from the footer's "Cookie settings"
-  link) — a returning visitor whose stored choice isn't "denied" loads both
-  immediately, no re-prompt. Rejecting sets GA's official `ga-disable-<id>` kill switch and
-  best-effort clears Clarity/GA cookies. `CLARITY_PROJECT_ID` near the top of
-  `main.js` is the real Clarity project ID (Clarity: clarity.microsoft.com →
-  Settings → Setup) and always loads on accept — there's no placeholder
-  check for it. `GA_MEASUREMENT_ID` still ships as the literal placeholder
-  `G-XXXXXXXXXX` (`GA_PLACEHOLDER`, compared by exact match, not "contains
-  X") until a real GA4 Measurement ID (Google Analytics → Admin → Data
-  Streams → Measurement ID) is set — the GA loader no-ops only while the
-  value is still exactly that default.
+  link) — a returning visitor whose stored choice isn't "denied" loads it
+  immediately, no re-prompt. Rejecting best-effort clears cookies commonly
+  set by tags configured inside the container (`ANALYTICS_COOKIES` in that
+  file). `GTM_CONTAINER_ID` near the top of `main.js` is the real container
+  ID (Tag Manager → your container, format `GTM-XXXXXXX`). Whatever tags
+  (GA4, Clarity, etc.) are configured inside that GTM container are managed
+  entirely in the Tag Manager UI, not in this repo — if finer-grained
+  consent (Google Consent Mode) is needed, configure it there. Every page
+  also carries GTM's static `<noscript><iframe>` fallback right after
+  `<body>` (see "Page anatomy" above) — unlike the JS loader, it's **not**
+  consent-gated, since plain HTML can't run a consent check.
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so
   it can be dropped onto only the pages that need it, the same way the
@@ -261,9 +273,9 @@ Three more deliberate exceptions to the "self-hosted only" rule.
 - If the Bookings page is ever republished, update the `url` in
   `assets/booking-modal.js`; nothing else references it.
 
-`privacy/index.html` documents the Clarity/GA cookies — keep it in sync if
-the analytics setup changes materially (still marked "draft for legal review"
-pending counsel sign-off).
+`privacy/index.html` documents the GTM-loaded analytics cookies — keep it in
+sync if the analytics setup changes materially (still marked "draft for legal
+review" pending counsel sign-off).
 
 ## Deploy
 
@@ -287,10 +299,10 @@ no part in serving the static pages.
   seems to need one, stop and ask first. (`functions/` is a narrow, documented
   exception — see "Lead forms" above — not a precedent for adding more.)
 - **Keep everything self-hosted**, with documented exceptions: the Cloudflare
-  Turnstile script used by the lead forms (see "Lead forms" above), Microsoft
-  Clarity + Google Analytics 4, and the Microsoft Bookings iframe (see
-  "Analytics, consent & booking" below). No other external CDN scripts,
-  fonts, or stylesheets — fonts are bundled in `assets/fonts/`.
+  Turnstile script used by the lead forms (see "Lead forms" above), Google
+  Tag Manager, and the Microsoft Bookings iframe (see "Analytics, consent &
+  booking" below). No other external CDN scripts, fonts, or stylesheets —
+  fonts are bundled in `assets/fonts/`.
 - **Use page-relative links, never root-absolute** (`../assets/…`, not
   `/assets/…`) — see "Paths are RELATIVE" above. This is what lets the site run
   at any base.

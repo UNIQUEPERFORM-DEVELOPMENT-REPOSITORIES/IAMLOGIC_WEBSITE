@@ -14,8 +14,8 @@
    site root from this script's own relative src — so nothing hard-codes a base.
 
    It also powers the lead form (add data-lead-form to a <form>, see demo/)
-   and consent-gated analytics (Microsoft Clarity + Google Analytics 4 — see
-   CLARITY_PROJECT_ID / GA_MEASUREMENT_ID below). The Microsoft Bookings
+   and consent-gated analytics (Google Tag Manager — see GTM_CONTAINER_ID
+   below). The Microsoft Bookings
    appointment modal lives separately in assets/booking-modal.js (loaded on
    pages that trigger it with data-book or a link to "#book-a-call").
    ========================================================================== */
@@ -73,16 +73,9 @@
     try { window.turnstile.remove(id); } catch (e) {}
   }
 
-  // Microsoft Clarity + Google Analytics 4 (see "Analytics & cookie consent"
-  // below). Clarity project ID from clarity.microsoft.com → Settings → Setup;
-  // GA4 Measurement ID from Google Analytics → Admin → Data Streams → your
-  // stream (format "G-XXXXXXXXXX").
-  var CLARITY_PROJECT_ID = "xpvhqz7m4e";
-  var GA_MEASUREMENT_ID = "G-Q9M731JPG4";
-  // GA4 falls back to this shipped default until a real Measurement ID is
-  // set — compared by exact match (not "contains X") since a real ID could
-  // contain one.
-  var GA_PLACEHOLDER = "G-XXXXXXXXXX";
+  // Google Tag Manager (see "Analytics & cookie consent" below). Container
+  // ID from tagmanager.google.com → your container (format "GTM-XXXXXXX").
+  var GTM_CONTAINER_ID = "GTM-T5LC3HBB";
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
   var NAV = [
@@ -567,41 +560,35 @@
   }
 
   /* ----- Analytics & cookie consent ---------------------------------------
-     Microsoft Clarity + Google Analytics 4, opt-in: neither loads for a
-     first-time visitor until they click "Accept" on the banner below (a
-     returning visitor whose stored choice isn't "denied" loads both
-     immediately, no re-prompt). Rejecting stops them immediately (GA's
-     official kill switch, plus best-effort cookie cleanup) and the head
-     loader skips them entirely on the next navigation. GA4 skips loading
-     while GA_MEASUREMENT_ID above is still the shipped placeholder. */
-  var clarityLoaded = false, gaLoaded = false;
-  function loadClarity() {
-    if (clarityLoaded) return;
-    clarityLoaded = true;
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
-      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
-  }
-  function loadGA() {
-    if (gaLoaded || !GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === GA_PLACEHOLDER) return;
-    gaLoaded = true;
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    var s = document.createElement("script");
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
-    document.head.appendChild(s);
-    window.gtag("js", new Date());
-    window.gtag("config", GA_MEASUREMENT_ID);
+     Google Tag Manager, opt-in: the container doesn't load for a first-time
+     visitor until they click "Accept" on the banner below (a returning
+     visitor whose stored choice isn't "denied" loads it immediately, no
+     re-prompt). Rejecting skips the container entirely, plus a best-effort
+     cookie cleanup for common tags (GA4, Clarity, etc.) that may already be
+     configured inside it. Per-tag consent (e.g. Google Consent Mode) is
+     configured inside the GTM container itself, not here. */
+  var gtmLoaded = false;
+  function loadGTM() {
+    if (gtmLoaded) return;
+    gtmLoaded = true;
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l !== "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", GTM_CONTAINER_ID);
   }
 
   var CONSENT_KEY = "iamlogic_consent";
-  // Cookies Clarity and GA4 set, cleared on reject.
+  // Cookies commonly set by tags deployed via Google Tag Manager (GA4,
+  // Clarity, etc.), cleared on reject as a best effort.
   var ANALYTICS_COOKIES = [
     "_clck", "_clsk", "CLID", "ANONCHK", "MUID", "SM",
-    "_ga", "_gid", "_gat", "_ga_" + GA_MEASUREMENT_ID.replace(/^G-/, "")
+    "_ga", "_gid", "_gat"
   ];
   function readConsent() {
     try { return JSON.parse(localStorage.getItem(CONSENT_KEY) || "null"); } catch (e) { return null; }
@@ -631,7 +618,7 @@
       bar.setAttribute("role", "dialog");
       bar.setAttribute("aria-label", "Cookie consent");
       bar.innerHTML =
-        '<p class="cookie-bar__text">We use analytics cookies (Microsoft Clarity and Google Analytics) to understand how visitors use this site. ' +
+        '<p class="cookie-bar__text">We use analytics cookies (via Google Tag Manager) to understand how visitors use this site. ' +
         'You can reject them or change your choice anytime. See our <a href="' + url("privacy/") + '">Privacy Policy</a>.</p>' +
         '<div class="cookie-bar__actions">' +
           '<button type="button" class="btn btn--secondary" data-consent-action="reject">Reject</button>' +
@@ -657,22 +644,18 @@
     }
     function accept() {
       writeConsent("granted");
-      window["ga-disable-" + GA_MEASUREMENT_ID] = false;
-      loadClarity();
-      loadGA();
+      loadGTM();
       close();
     }
     function reject() {
       writeConsent("denied");
-      window["ga-disable-" + GA_MEASUREMENT_ID] = true; // GA's kill switch — stops hits even if already loaded
       clearAnalyticsCookies();
       close();
     }
 
     var consent = readConsent();
     if (!consent) open(); // first-time visitor — ask
-    else if (consent.status !== "denied") { loadClarity(); loadGA(); }
-    else window["ga-disable-" + GA_MEASUREMENT_ID] = true;
+    else if (consent.status !== "denied") loadGTM();
 
     // Footer "Cookie settings" (or any [data-consent="manage"]) reopens it.
     document.addEventListener("click", function (e) {
