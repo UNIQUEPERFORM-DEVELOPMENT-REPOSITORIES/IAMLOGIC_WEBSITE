@@ -17,7 +17,8 @@ const ASSETS = {
   "dpdp-2025-whitepaper": "IamLogic-dpdp-act-2025-compliance-whitepaper.pdf",
   "am-brochure": "IamLogic-access-manager-brochure.pdf",
   "iga-brochure": "IamLogic-iga-brochure.pdf",
-  "iga-demo-deck": "IamLogic-iga-demo-presentation.pptx"
+  "iga-demo-deck": "IamLogic-iga-demo-presentation.pptx",
+  "app-imgs": "APP_IMGS.zip"
 };
 
 function json(statusCode, obj) {
