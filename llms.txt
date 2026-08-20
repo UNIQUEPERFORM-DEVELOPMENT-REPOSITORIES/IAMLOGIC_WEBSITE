@@ -1,0 +1,65 @@
+# LLM Discovery File
+
+Website: https://iamlogic.com/
+Organization: IamLogic
+Industry: Access Management & Identity Governance
+Description: IamLogic provides enterprise Identity, Access Management and Identity Governance solutions, including SSO, MFA, passwordless authentication, identity lifecycle management, access certification, role management, SoD enforcement and compliance reporting for regulated organizations.
+
+Primary Language: English
+Country: India
+Headquarters: Bangalore
+Website Type: Business Website
+
+## Important Pages
+
+Home: https://iamlogic.com/
+About: https://iamlogic.com/about/
+Contact: https://iamlogic.com/contact/
+Blog: https://iamlogic.com/blog/
+
+## Products
+
+- Access Manager: https://iamlogic.com/products/access-manager/
+- IamLogic IGA: https://iamlogic.com/products/identity-governance/
+
+## Solutions By Industry
+
+- Banking & Financial Services: https://iamlogic.com/solutions/banking-financial-services/
+- Government & PSU: https://iamlogic.com/solutions/government-psu/
+
+## Solutions By Use case
+
+- Zero Trust access: https://iamlogic.com/solutions/zero-trust-access/
+- Joinerâ€“Moverâ€“Leaver automation: https://iamlogic.com/solutions/joiner-mover-leaver-automation/
+
+## Solutions By Compliance
+
+- DPDP Act 2023: https://iamlogic.com/compliance/dpdp-act/
+
+## Blogs
+
+- DPDP Act 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance: https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/
+- DPDP Act 2023: an IAM readiness checklist for Indian enterprises: https://iamlogic.com/blog/dpdp-act-iam-readiness-checklist/
+- How identity governance turns RBI, SEBI and IRDAI audits into report downloads: https://iamlogic.com/blog/identity-governance-audit-evidence-rbi-sebi-irdai/
+- Joinerâ€“Moverâ€“Leaver automation: closing identity's most exploited gaps: https://iamlogic.com/blog/joiner-mover-leaver-automation-guide/
+- Passwordless authentication: a practical rollout path for Indian enterprises: https://iamlogic.com/blog/passwordless-authentication-rollout-india/
+
+## Social Profiles
+
+LinkedIn: https://www.linkedin.com/company/iamlogic
+Youtube: https://www.youtube.com/@IamLogicIdentityManagement
+
+## Contact
+
+Email: info@iamlogic.com
+Phone: +91-9916421806
+Address: No. 14 & 15, KR Colony, Domlur Layout, Bengaluru, Karnataka 560071, India
+
+
+## AI Summary
+
+IamLogic is a B2B cybersecurity and Identity & Access Management (IAM) solutions provider focused on helping enterprises securely manage digital identities, user access and authentication.
+
+## Last Updated
+
+2026-08-19
