@@ -2,8 +2,8 @@
 
 Website: https://iamlogic.com/
 Organization: IamLogic
-Industry: Access Management & Identity Governance
-Description: IamLogic provides enterprise Identity, Access Management and Identity Governance solutions, including SSO, MFA, passwordless authentication, identity lifecycle management, access certification, role management, SoD enforcement and compliance reporting for regulated organizations.
+Industry: Identity Governance & Administration (IGA) and Identity & Access Management (IAM)
+Description: IamLogic provides enterprise IGA and IAM solutions, including identity lifecycle management, Joiner-Mover-Leaver (JML) automation, provisioning and deprovisioning, access requests, access certification, role management, Segregation of Duties (SoD), SSO, MFA, passwordless authentication and compliance reporting for modern, legacy and hybrid environments.
 
 Primary Language: English
 Country: India
@@ -58,8 +58,8 @@ Address: No. 14 & 15, KR Colony, Domlur Layout, Bengaluru, Karnataka 560071, Ind
 
 ## AI Summary
 
-IamLogic is a B2B cybersecurity and Identity & Access Management (IAM) solutions provider focused on helping enterprises securely manage digital identities, user access and authentication.
+IamLogic is an enterprise identity security provider offering Identity Governance & Administration (IGA) and Identity & Access Management (IAM) solutions. IamLogic helps organizations govern identity lifecycles and user access through JML automation, provisioning and deprovisioning, access requests, certifications, role management and SoD, while securing authentication and application access with SSO, MFA and passwordless authentication across modern, legacy and hybrid environments.
 
 ## Last Updated
 
-2026-08-19
+2026-08-20
