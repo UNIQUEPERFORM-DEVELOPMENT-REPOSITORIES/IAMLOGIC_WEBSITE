@@ -90,6 +90,12 @@
             { label: "Platform — Better Together", href: "platform/", description: "How Access Manager and IGA work as one identity fabric" },
             { label: "Integrations", href: "integrations/", description: "Directories, business apps, infrastructure and ticketing" }
           ]
+        },
+        {
+          heading: "Tools",
+          links: [
+            { label: "IamLogic Infra Reckoner", href: "reckoner/on-prem/", description: "Size and spec self-hosted Access Manager and IGA deployments" }
+          ]
         }
       ]
     },
@@ -142,7 +148,7 @@
             { label: "Datasheets", href: "resources/datasheets/", description: "Product capability summaries" },
             { label: "All resources", href: "resources/", description: "Everything in one place" }
           ]
-        }
+        },
       ]
     },
     {
@@ -168,7 +174,8 @@
       { label: "Access Manager", href: "products/access-manager/" },
       { label: "IamLogic IGA", href: "products/identity-governance/" },
       { label: "Platform", href: "platform/" },
-      { label: "Integrations", href: "integrations/" }
+      { label: "Integrations", href: "integrations/" },
+      { label: "IamLogic Infra Reckoner", href: "reckoner/on-prem/" }
     ]},
     { heading: "Solutions", links: [
       { label: "Banking & Financial Services", href: "solutions/banking-financial-services/" },
@@ -188,7 +195,8 @@
       { label: "Blog", href: "blog/" },
       { label: "Case studies", href: "resources/case-studies/" },
       { label: "Datasheets", href: "resources/datasheets/" },
-      { label: "IAM Services", href: "services/" }
+      { label: "IAM Services", href: "services/" },
+      { label: "Cloud Calculator", href: "reckoner/cloud/" }
     ]},
     { heading: "Company", links: [
       { label: "About", href: "about/" },
