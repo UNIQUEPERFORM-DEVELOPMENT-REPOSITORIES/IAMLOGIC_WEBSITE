@@ -1077,3 +1077,5 @@ body.bk-lock { overflow: hidden; }
   .bk-dialog { max-height: 94vh; }
   .bk-frame { height: 70vh; }
 }
+
+.bc-mb{margin-bottom: 1.5rem;}
