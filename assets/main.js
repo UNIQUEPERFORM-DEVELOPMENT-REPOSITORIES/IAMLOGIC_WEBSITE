@@ -94,7 +94,7 @@
         {
           heading: "Tools",
           links: [
-            { label: "IamLogic Infra Reckoner", href: "reckoner/on-prem/", description: "Size and spec self-hosted Access Manager and IGA deployments" }
+            { label: "IamLogic Infra Reckoner", href: "reckoner/", description: "Size and price cloud or on-premise Access Manager and IGA deployments" }
           ]
         }
       ]
@@ -175,7 +175,7 @@
       { label: "IamLogic IGA", href: "products/identity-governance/" },
       { label: "Platform", href: "platform/" },
       { label: "Integrations", href: "integrations/" },
-      { label: "IamLogic Infra Reckoner", href: "reckoner/on-prem/" }
+      { label: "IamLogic Infra Reckoner", href: "reckoner/" }
     ]},
     { heading: "Solutions", links: [
       { label: "Banking & Financial Services", href: "solutions/banking-financial-services/" },
@@ -196,7 +196,7 @@
       { label: "Case studies", href: "resources/case-studies/" },
       { label: "Datasheets", href: "resources/datasheets/" },
       { label: "IAM Services", href: "services/" },
-      { label: "Cloud Calculator", href: "reckoner/cloud/" }
+      { label: "Cloud Calculator", href: "reckoner/" }
     ]},
     { heading: "Company", links: [
       { label: "About", href: "about/" },
