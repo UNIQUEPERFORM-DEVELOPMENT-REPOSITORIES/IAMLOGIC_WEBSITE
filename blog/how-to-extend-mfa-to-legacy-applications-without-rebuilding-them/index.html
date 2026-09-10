@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding</title>
+  <meta name="description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic."/>
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/">
+  <link rel="icon" href="../../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#3a2a85">
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <script src="../../assets/main.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#article",
+    "mainEntityOfPage": {
+      "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#webpage"
+    },
+    "url": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/",
+    "headline": "DPDP Act 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance",
+    "datePublished": "2026-07-15",
+    "publisher": {
+      "@id": "https://iamlogic.com/#organization"
+    },
+    "description": "Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic."
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#webpage",
+    "url": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/",
+    "name": "MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#breadcrumb",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://iamlogic.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://iamlogic.com/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "DPDP Act 2025 Implementation Checklist",
+        "item": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5LC3HBB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <article class="container article" style="padding-block:3.5rem">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><span aria-hidden="true">/</span><a href="../../blog/">Blog</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Access Management</span></li></ol></nav>
+      <h1 class="mt-6">How to Extend MFA to Legacy Applications Without Rebuilding Them?</h1>
+      <p class="article__meta">10 September 2026 · 10 min read · IamLogic team</p>
+      <div class="article__body">
+          <section><div class="stack"><p>Most security breaches start with a stolen or reused password. Multi-factor authentication (MFA) is the simplest way to stop this — it asks for a second proof of identity, such as a phone approval or a one-time code. The problem is that MFA is easy to add to new cloud apps, but hard to add to older, “legacy” applications. This post explains three ways IamLogic adds MFA to legacy apps — without touching their code.</p></div></section>
+
+          <section><h2>Why legacy apps are so hard to protect</h2>
+            <div class="stack"><p>Legacy and custom-built applications were made before modern login standards like SAML, OAuth2 and OpenID Connect (OIDC) became common. Because they don’t “speak” these standards, you can’t simply plug in an MFA service. The usual fix is to re-engineer the application — which is slow, costly and risky, especially for apps that nobody wants to touch. Many teams give up and leave these apps protected by a password only, exactly where critical data often lives.</p>
+            <p>IamLogic takes a different route. Instead of rebuilding the application, it adds a layer of MFA around it. Here are the three approaches, from simplest to most advanced.</p>
+            </div>
+          </section>
+
+          <section><h2>1. Browser Plugin SSO — for old web apps</h2>
+            <div class="stack"><p>Some legacy web applications only offer a plain username-and-password login page and can’t support modern single sign-on (SSO). For these, IamLogic Access Manager provides a browser plugin.</p>
+            <img src="../../assets/mockups/webapp.jpg" style="width: 100%;display: block;">
+            <p class="img-tag"><b>image alt tag:</b> browser plugin sso</p>
+            <ul class="dot-list mt-6 no-li-flex">
+              <li><b>One secure login.</b> The user signs in to IamLogic once (with MFA). The plugin then opens the legacy app for them.</li>
+              <li><b>Automatic autofill.</b> The plugin fills in the app’s username and password inside its own login screen — the user never has to know or type the password.</li>
+              <li><b>Password rotation after every use.</b> To stop passwords being stolen or copied from the browser, IamLogic automatically changes the password immediately after it is used. A stolen password is already useless.</li>
+            </ul>
+            <p>This is the fastest option: no changes to the app, and the login stays exactly as it looks today — just safer.</p></div>
+          </section>
+
+          <section><h2>2. Reverse Proxy — an MFA gatekeeper in front of the app</h2>
+            <div class="stack"><p>For web applications that can’t handle SSO or MFA at all, IamLogic places a reverse proxy in front of the app. A reverse proxy is simply a checkpoint that every request must pass through before it reaches the application.</p>
+            <img src="../../assets/mockups/webapp1.png" style="width: 100%;display: block;">
+            <p class="img-tag"><b>image alt tag:</b> reverse proxy mfa</p>
+            <p>Here is how it works, step by step:</p>
+            <ul class="dot-list no-li-flex">
+              <li><b>Step 1 —</b> The user tries to open the legacy application. The request hits the IamLogic Reverse Proxy first.</li>
+              <li><b>Step 2 — </b>Because the user isn’t signed in yet, the proxy redirects them to the IamLogic OIDC Provider to verify their identity with MFA (for example, an email OTP or an authenticator app).</li>
+              <li><b>Step 3 — </b>Once MFA is confirmed, the identity is trusted and a secure session is created.</li>
+              <li><b>Step 4 — </b>Only now does the proxy forward the request to the legacy application in the protected zone.</li>
+            </ul>
+            <p>The application itself never changes and is never exposed directly. It only ever receives requests that have already passed MFA.</p>
+            </div>
+
+          </section>
+
+          <section><h2>3. MFA for Kerberos Applications — no app changes</h2>
+            <div class="stack"><p>Many internal Windows and on-premises applications use Kerberos, an older authentication system built into Active Directory. Kerberos was never designed for modern MFA. IamLogic adds a second factor to it using push-based 2FA — without changing the application.</p>
+            <img src="../../assets/mockups/webapp2.png" style="width: 100%;display: block;">
+            <p class="img-tag-italic">Kerberos 2FA: an interceptor agent triggers an IamLogic push approval before a service ticket is issued.</p>
+            </div>
+            <p>A lightweight <a href="https://iamlogic.com/">IamLogic</a> interceptor agent sits on the domain controller and watches Kerberos ticket requests. When a user tries to open a protected application, the agent pauses the request and sends a push notification to the user’s registered device. If the user approves, the ticket is issued and the app opens as normal. If they deny it, the request is dropped. The user’s normal Windows login stays the same — they simply get one extra tap to approve.</p>
+          </section>
+
+          <section><h2>Which approach is right for you?</h2>
+            <div class="stack">
+              <ul class="dot-list mt-6 no-li-flex">
+              <li><b>Browser Plugin SSO —</b> best for legacy web apps with a simple login page.</li>
+              <li><b>Reverse Proxy —</b> best for web apps that can’t support SSO or MFA and need a gatekeeper in front.</li>
+              <li><b>Kerberos 2FA —</b> best for internal Windows / Active Directory apps that use Kerberos.</li>
+                </ul>
+                <p>In many organizations, all three are used together to cover the full mix of old and custom applications. The result is the same everywhere: strong MFA on every app, with no rebuilds, no downtime and no disruption to users.</p>
+            </div>
+            
+          </section>
+          <div class="callout mt-12" style="padding:1.75rem">
+            <p class="note-p">IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001:2022 certified company. It secures access to modern and legacy applications alike — with SSO, MFA and controlled access across every application, not just the new ones.</p>
+            <div class="mt-4"><p class="note-link"><b>Learn more:</b>  <a href="https://iamlogic.com/ ">https://iamlogic.com/ </a> • <b>Talk to us:</b>  <a href="mailto:info@iamlogic.com">info@iamlogic.com</a></p></div>
+          </div>
+
+          
+
+
+
+  </main>
+  <footer id="site-footer"></footer>
+</body>
+</html>

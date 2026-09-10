@@ -1079,3 +1079,9 @@ body.bk-lock { overflow: hidden; }
 }
 
 .bc-mb{margin-bottom: 1.5rem;}
+.article__body p.img-tag{text-align: center;font-size: .8rem;}
+.no-li-flex li{display: block;position: relative;}
+.no-li-flex li::before{ display: inline-block;margin-right: 10px;vertical-align: inherit;}
+.article__body p.img-tag-italic{font-size: .8rem;text-align: center;font-style: italic;}
+.article__body  p.note-p{font-size: .9rem;font-style: italic;text-align: center;line-height: 1.4;}
+.article__body  p.note-link{text-align: center;}
