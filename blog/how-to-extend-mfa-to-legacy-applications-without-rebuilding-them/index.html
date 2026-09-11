@@ -7,7 +7,7 @@
   <title>MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding</title>
   <meta name="description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic."/>
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/">
+  <link rel="canonical" href="https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
@@ -19,11 +19,11 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#article",
+    "@id": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/#article",
     "mainEntityOfPage": {
-      "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#webpage"
+      "@id": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/#webpage"
     },
-    "url": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/",
+    "url": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/",
     "headline": "DPDP Act 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance",
     "datePublished": "2026-07-15",
     "publisher": {
@@ -37,8 +37,8 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#webpage",
-    "url": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/",
+    "@id": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/#webpage",
+    "url": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/",
     "name": "MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding"
   }
   </script>
@@ -47,7 +47,7 @@
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/#breadcrumb",
+    "@id": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/#breadcrumb",
     "itemListElement": [
       {
         "@type": "ListItem",
@@ -65,7 +65,7 @@
         "@type": "ListItem",
         "position": 3,
         "name": "DPDP Act 2025 Implementation Checklist",
-        "item": "https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/"
+        "item": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/"
       }
     ]
   }
@@ -94,8 +94,7 @@
 
           <section><h2>1. Browser Plugin SSO — for old web apps</h2>
             <div class="stack"><p>Some legacy web applications only offer a plain username-and-password login page and can’t support modern single sign-on (SSO). For these, IamLogic Access Manager provides a browser plugin.</p>
-            <img src="../../assets/mockups/webapp.jpg" style="width: 100%;display: block;">
-            <p class="img-tag"><b>image alt tag:</b> browser plugin sso</p>
+            <img src="../../assets/mockups/webapp.jpg" alt="browser plugin sso" style="width: 100%;display: block;">
             <ul class="dot-list mt-6 no-li-flex">
               <li><b>One secure login.</b> The user signs in to IamLogic once (with MFA). The plugin then opens the legacy app for them.</li>
               <li><b>Automatic autofill.</b> The plugin fills in the app’s username and password inside its own login screen — the user never has to know or type the password.</li>
@@ -106,8 +105,7 @@
 
           <section><h2>2. Reverse Proxy — an MFA gatekeeper in front of the app</h2>
             <div class="stack"><p>For web applications that can’t handle SSO or MFA at all, IamLogic places a reverse proxy in front of the app. A reverse proxy is simply a checkpoint that every request must pass through before it reaches the application.</p>
-            <img src="../../assets/mockups/webapp1.png" style="width: 100%;display: block;">
-            <p class="img-tag"><b>image alt tag:</b> reverse proxy mfa</p>
+            <img src="../../assets/mockups/webapp1.png" style="width: 100%;display: block;" alt="reverse proxy mfa">
             <p>Here is how it works, step by step:</p>
             <ul class="dot-list no-li-flex">
               <li><b>Step 1 —</b> The user tries to open the legacy application. The request hits the IamLogic Reverse Proxy first.</li>
@@ -122,10 +120,9 @@
 
           <section><h2>3. MFA for Kerberos Applications — no app changes</h2>
             <div class="stack"><p>Many internal Windows and on-premises applications use Kerberos, an older authentication system built into Active Directory. Kerberos was never designed for modern MFA. IamLogic adds a second factor to it using push-based 2FA — without changing the application.</p>
-            <img src="../../assets/mockups/webapp2.png" style="width: 100%;display: block;">
-            <p class="img-tag-italic">Kerberos 2FA: an interceptor agent triggers an IamLogic push approval before a service ticket is issued.</p>
-            </div>
+            <img src="../../assets/mockups/webapp2.png" style="width: 100%;display: block;" alt="Kerberos 2FA">
             <p>A lightweight <a href="https://iamlogic.com/">IamLogic</a> interceptor agent sits on the domain controller and watches Kerberos ticket requests. When a user tries to open a protected application, the agent pauses the request and sends a push notification to the user’s registered device. If the user approves, the ticket is issued and the app opens as normal. If they deny it, the request is dropped. The user’s normal Windows login stays the same — they simply get one extra tap to approve.</p>
+            </div>
           </section>
 
           <section><h2>Which approach is right for you?</h2>
