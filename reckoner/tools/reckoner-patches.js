@@ -158,9 +158,31 @@ function reorderAccountsAbovePeak(t) {
   return { text: t.slice(0, peak.start) + rebuilt + t.slice(acct.end), applied: true };
 }
 
+// The accounts/peak mismatch warning belongs on the PEAK field. Accounts is the
+// figure the visitor states; peak is derived from it and is the only one they
+// can push out of range, because editing accounts re-derives peak. So peak is
+// the field that can be wrong, and the field the warning now sits under -
+// directly below its input, where the accounts copy used to sit below its own.
+// The wording is rephrased to name the offending field rather than describe the
+// relationship from the accounts side.
+// Removal must run before the insert, or the anchor would match twice.
+const WARN = msg => ',e.totalUsers<e.peakConcurrent?o.jsxs("p",{className:"field-error",'
+  + 'style:{marginTop:"0.5rem",display:"flex",alignItems:"center",gap:"0.35rem"},'
+  + 'children:[o.jsx(kt,{name:"alert-triangle",style:{fontSize:"1rem",flexShrink:0}}),'
+  + 'o.jsx("span",{children:"' + msg + '"})]}):null';
+
+const WARN_OLD = WARN('Fewer accounts than concurrent sign-ins ' + DASH + ' one of the two figures is wrong.');
+const WARN_NEW = WARN('Peak concurrent users is higher than your total user accounts ' + DASH
+  + ' one of the two figures is wrong.');
+
 exports.INDEX = [
   // --- input order and flow ---
   ['put Total user accounts above Peak concurrent users', reorderAccountsAbovePeak],
+  ['take the accounts/peak mismatch warning off the accounts field',
+    WARN_OLD + ']})', ']})'],
+  ['put that warning under the peak concurrent input, naming the peak figure',
+    'i(null)}})]}),o.jsx("datalist",{id:"rk-tested-levels"',
+    'i(null)}})]})' + WARN_NEW + ',o.jsx("datalist",{id:"rk-tested-levels"'],
   ['accounts help text says it feeds the peak figure below',
     'children:"Everyone with an account, not just those signing in. For licensing ' + DASH + ' it does not change the sizing."',
     'children:"Everyone with an account, not just those signing in. Used to suggest the peak concurrent figure below."'],
