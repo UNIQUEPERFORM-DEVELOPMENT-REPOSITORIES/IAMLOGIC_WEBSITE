@@ -201,14 +201,13 @@ exports.INDEX = [
   // reported as the MONTHLY cost, so the quote charged the whole block every
   // month: 12 x $5.00 = $60 a year for a $5.00 purchase.
   //
-  // The costing table is a 12-month view (its annual line is 12 x monthly), so
-  // the block is spread across 12 months: $5.00 / 12 = $0.42 a month, $5.00 a
-  // year. Note this is a budgeting convention, not the vendor's billing cycle -
-  // the credits themselves carry a 6-month validity, which the settings panel
-  // and the helper box both still state.
-  ['spread the prepaid SMTP block across the 12 months of the costing table',
+  // The per-month figure is the block divided by its own validity: $5.00 / 6 =
+  // $0.83. That single number is what the price box, the costing table and the
+  // reports all use - the table must not re-divide the total by 12, because the
+  // monthly value has already been worked out.
+  ['spread the prepaid SMTP block across its validity period',
     'totalUsd:total,monthlyUsd:he(total),months:n.validityMonths',
-    'totalUsd:total,monthlyUsd:he(total/12),months:n.validityMonths'],
+    'totalUsd:total,monthlyUsd:he(total/n.validityMonths),months:n.validityMonths'],
   // X(usd) is the app's existing INR formatter; it returns null when the
   // secondary currency is switched off, so every use is guarded.
   ['the SMTP line states the prepaid amount and the per-month cost, in both currencies',
@@ -218,9 +217,13 @@ exports.INDEX = [
     // so the division is visible and neither misreading is available.
     // This one string is the costing-table row, the sub-line in the settings
     // panel, and the line in the Excel/Word/PDF reports.
+    // INR is spelled "Rs" here, not with U+20B9: this string is drawn into the
+    // PDF cost table, which uses a WinAnsi font and has no glyph for it. See the
+    // note above exports.TARGETS.
     'detail:`${x.credits} prepaid credits ' + D + ' ${x.capacity.toLocaleString("en-US")} billable recipients '
-      + D + ' $${x.totalUsd.toFixed(2)}${X(x.totalUsd)?" / "+X(x.totalUsd):""} total, spread over 12 months '
-      + '= $${x.monthlyUsd.toFixed(2)}${X(x.monthlyUsd)?" / "+X(x.monthlyUsd):""} per month`'],
+      + D + ' $${x.totalUsd.toFixed(2)}${X(x.totalUsd)?" / "+X(x.totalUsd).replace(/^[^0-9]*/,"Rs "):""} total, '
+      + 'spread over ${x.months} months '
+      + '= $${x.monthlyUsd.toFixed(2)}${X(x.monthlyUsd)?" / "+X(x.monthlyUsd).replace(/^[^0-9]*/,"Rs "):""} per month`'],
   // The SMTP price box in the settings panel headlined the amortised monthly
   // figure, which is not a number anyone is ever billed. Headline what is
   // actually paid, and how long it lasts; the monthly stays on the line below.
@@ -230,22 +233,23 @@ exports.INDEX = [
       + 'o.jsx("p",{className:"rk-alert__body",children:S.detail})]}):null})()',
     '(()=>{const S=SMTPCOST(F,e),T=SMTPTOT(F,e);return S&&T?o.jsxs("div",{className:"rk-alert rk-alert--note",children:['
       + 'o.jsx("p",{className:"rk-alert__title",children:"$"+T.totalUsd.toFixed(2)+(X(T.totalUsd)?" / "+X(T.totalUsd):"")+"  ' + D + '  valid "+T.months+" months"}),'
-      // This box works to the credits' own 6-month validity: $5.00 / 6 = $0.83.
-      // The costing table works to its own 12-month basis and shows $0.42, so
-      // this deliberately does NOT reuse S.detail.
+      // Uses the same rounded monthlyUsd the costing table and the reports use,
+      // so the rupee figure cannot drift (dividing unrounded here gave Rs 80
+      // against the table's Rs 79). The wording differs from S.detail, the
+      // number does not.
       + 'o.jsx("p",{className:"rk-alert__body",children:T.credits+" prepaid credits  ' + D + '  "+T.capacity.toLocaleString("en-US")'
-      + '+" billable recipients, spread over "+T.months+" months = $"+(T.totalUsd/T.months).toFixed(2)'
-      + '+(X(T.totalUsd/T.months)?" / "+X(T.totalUsd/T.months):"")+" per month"})]}):null})()'],
-  ['the SMTP helper shows the 12-month spread and rupees',
+      + '+" billable recipients, spread over "+T.months+" months = $"+T.monthlyUsd.toFixed(2)'
+      + '+(X(T.monthlyUsd)?" / "+X(T.monthlyUsd):"")+" per month"})]}):null})()'],
+  ['the SMTP helper divides by the validity period and shows rupees',
     '["cost",`$${x.totalUsd.toFixed(2)}  ' + D + '  ${x.credits} credits at $2.50/credit`],["",""],'
       + '["= credits ' + MUL + ' $2.50 flat USD",""],[`= ${x.credits} ' + MUL + ' $2.50`,""],[`= $${x.totalUsd.toFixed(2)}`,""]',
     '["prepaid cost",`$${x.totalUsd.toFixed(2)}${X(x.totalUsd)?" / "+X(x.totalUsd):""}  ' + D + '  ${x.credits} credits at $2.50/credit`],'
       // The row above this one already states the real validity. Spelling out
       // that the divisor is 12 - not that validity - keeps the two from reading
       // as a contradiction.
-      + '["shown as","One purchase spread across the 12 months of this estimate"],["",""],'
-      + '["= credits ' + MUL + ' $2.50 ' + DIV + ' 12",""],'
-      + '[`= ${x.credits} ' + MUL + ' $2.50 ' + DIV + ' 12`,""],'
+      + '["shown as",`One purchase spread across its ${x.months}-month validity`],["",""],'
+      + '["= credits ' + MUL + ' $2.50 ' + DIV + ' validity months",""],'
+      + '[`= ${x.credits} ' + MUL + ' $2.50 ' + DIV + ' ${x.months}`,""],'
       + '[`= $${x.monthlyUsd.toFixed(2)}${X(x.monthlyUsd)?" / "+X(x.monthlyUsd):""} per month`,""]'],
 
   // --- managed MySQL catalogue ---
@@ -322,8 +326,32 @@ exports.MODEL = [
     '`${A.validatedAtVus} concurrent users. ${e.peakConcurrent} is not one of the levels load testing swept (${I.meta.testedLevels.join(", ")}). ${A.primary.extrapolated?`It is above the tested range, so the configuration is sized from the measured ${A.validatedAtVus}-user point on a per-concurrent-user basis with a 25% allowance for platform overhead, HA and burst, then fitted to the smallest node count that can carry it. This is an estimate, not a measurement.`:"It is costed on the next validated tier above it rather than interpolated."}`'],
 ];
 
-// Which built file each edit set belongs to. The model bundle is content-hashed
-// by the build, so it is matched by prefix rather than by an exact name.
+// ---------------------------------------------------------------------------
+// The PDF exporter draws with jsPDF's built-in Helvetica, which is WinAnsi
+// (cp1252) and has no glyph for the rupee sign U+20B9. Feeding it one produced
+// the wrong glyph ("¹") AND wrong width metrics, so the SMTP row rendered
+// letter-spaced and overflowed into the Qty and Unit columns.
+//
+// Fixing it properly would mean embedding a Unicode font in the bundle. Instead
+// swap the symbol for "Rs " on its way into the PDF only - the web UI, Excel
+// and Word are all Unicode and keep the real symbol.
+//
+// The wrapper goes on the jsPDF instance rather than on the call sites, because
+// the cost table is drawn by autotable, which measures and writes text itself.
+// Wrapping text/splitTextToSize/getTextWidth/getStringUnitWidth covers both.
+// NOTE for anyone tempted to "fix" the rupee sign in the PDF exporter: don't.
+// jsPDF's built-in Helvetica is WinAnsi and has no U+20B9 glyph, and the
+// exporter already works around that on its own - it rasterises the symbol to a
+// PNG and draws it, stripping the literal character from the cell first. Any
+// substitution applied before that strip leaves text behind for the image to
+// land on top of, which is what produced overlapping "Rs" in the totals table.
+//
+// The rule is simply: keep U+20B9 out of strings that reach a PDF table the
+// exporter does NOT special-case. The SMTP detail line below spells its rupee
+// figure "Rs" for that reason.
+
+// Which built file each edit set belongs to. The model and pdf bundles are
+// content-hashed by the build, so they are matched by prefix, not exact name.
 exports.TARGETS = [
   { glob: /^index-noL58BdD\.js$/, edits: exports.INDEX, name: 'app bundle' },
   { glob: /^model-.*\.js$/, edits: exports.MODEL, name: 'report model' },
