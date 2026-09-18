@@ -94,8 +94,17 @@ const SIZEX = 'function SIZEX(peak,prod,l,base,op){try{'
   // that merely clears the count left quotes riding at 96-98% of the limit, where
   // one extra replica, a rolling restart or a stuck connection means MySQL starts
   // refusing logins outright rather than just slowing down.
-  + 'const need=Math.ceil(conns*1.4),'
-  + 'db=[...(l.managedMysql||[])].sort((x,y)=>x.monthlyUsd-y.monthlyUsd).find(x=>x.connectionLimit>=need)||null;'
+  // Selecting on the connection limit alone let the catalogue pick a WEAKER
+  // machine as load rose: the 4 vCPU / 32 GB plan carries more connections than
+  // the cheaper 6 vCPU / 16 GB one, so between roughly 3,100 and 4,100 users the
+  // database dropped from 6 vCPU to 4 while the price nearly doubled. Walk the
+  // plans by connection limit keeping a running maximum of vCPU and RAM, and
+  // require the chosen plan to meet that floor as well - the same "capacity on
+  // every dimension, cheapest that fits" rule the cluster nodes use.
+  + 'const need=Math.ceil(conns*1.4),MM=[...(l.managedMysql||[])],'
+  + 'fl=(()=>{let v=0,r=0;for(const p of [...MM].sort((x,y)=>x.connectionLimit-y.connectionLimit)){'
+  + 'v=Math.max(v,p.vcpu);r=Math.max(r,p.ramGb);if(p.connectionLimit>=need)break}return{v,r}})(),'
+  + 'db=MM.sort((x,y)=>x.monthlyUsd-y.monthlyUsd).find(x=>x.connectionLimit>=need&&x.vcpu>=fl.v&&x.ramGb>=fl.r)||null;'
   + 'return{cpu,ram,nodes:w.n,droplet:w.d,replicas:reps,connections:conns,db,dbNode:null}}catch(e){return null}}';
 
 // ---------------------------------------------------------------------------

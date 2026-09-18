@@ -195,8 +195,20 @@ Then:
    what makes the machine grow before the node count does.
 4. **Replicas** = `ceil(peak / 100) × 3`.
 5. **Connections** = `12.5 × replicas + 15`. The database is the cheapest plan
-   whose connection limit covers **1.4 ×** that, floored at the measured plan —
-   so no quote runs above about 70% of its limit.
+   that covers **1.4 ×** that, floored at the measured plan — so no quote runs
+   above about 70% of its limit.
+
+The database uses the **same selection shape as the cluster nodes**: capacity on
+every dimension first, price only to choose between plans that all qualify.
+Selecting on the connection limit alone is not safe, because DigitalOcean's
+catalogue is not monotonic — the 4 vCPU / 32 GB plan carries *more* connections
+than the cheaper 6 vCPU / 16 GB one. That let the database drop from 6 vCPU to
+4 while the price nearly doubled, anywhere between about 3,100 and 4,100
+concurrent users. The selector now walks the plans by connection limit keeping a
+running maximum of vCPU and RAM and requires the chosen plan to clear that floor
+too, so the quote can never get weaker as load rises. In practice this means the
+4 vCPU / 32 GB plan is never chosen for this workload, which is the right
+outcome for a CPU-active login path.
 
 The 1.4× matters. Selecting the cheapest plan that merely cleared the count put
 quotes at 98% of the limit at 1,000 concurrent users and 96% at 2,000. Hitting
