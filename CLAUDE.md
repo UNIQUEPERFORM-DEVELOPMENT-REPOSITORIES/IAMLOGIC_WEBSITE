@@ -49,7 +49,32 @@ assets/
 
 functions/          Lead-form backend (DigitalOcean Functions) — deployed
                     separately from the static site, see "Lead forms" below.
+
+reckoner/           Infra Reckoner — the sizing / cost estimator. A COMPILED
+                    app, not hand-written like the rest of the site. Read
+                    reckoner/DEVELOPERS.md before touching it.
 ```
+
+## The Infra Reckoner is different from the rest of this site
+
+Everything above applies to the hand-written marketing site. `reckoner/` is the
+one exception: it is the **built output** of a Vite/React app whose source is
+**not in this repo**, served at `reckoner/`, `reckoner/cloud/` and
+`reckoner/on-prem/` (three byte-identical copies of each asset).
+
+Two things bite people, both covered in **`reckoner/DEVELOPERS.md`**:
+
+- Changes made here are string edits against minified JavaScript, and are wiped
+  whenever someone rebuilds from the real source. The whole edit set is data in
+  `reckoner/tools/reckoner-patches.js`; `--apply` restores it.
+- Each deployment has a Workbox service worker that precaches its assets by
+  content hash. Edit a bundle without re-stamping those hashes and returning
+  visitors keep the old version. Run
+  `node reckoner/tools/sw-revisions.js --apply` after **any** edit under
+  `reckoner/`, before committing.
+
+Both scripts are plain Node with no dependencies and are developer tools only —
+they add no build step, and nothing in the shipped site loads them.
 
 ## The three files that control almost everything
 
