@@ -271,28 +271,44 @@ Things worth knowing before you trust a number:
 
 ---
 
-## 6. Known gap: on-premise sizing is flat above 1,000
+## 6. On-premise sizing
 
-The linear model is applied to **cloud + Kubernetes only**. On-premise (and the
-cloud "Application HA (Multi-Node)" topology) still picks from the Premium
-Intel list, which tops out at 8 vCPU / 32 GB — so it saturates:
+On-premise quotes **hardware only, never a price**, so it is not restricted to
+a provider's catalogue — the model emits the required spec directly rather than
+picking a machine off a list. Same per-user footprint and same +25% allowance
+as the cloud path (section 4), applied to the `swarm-ha` topology.
 
-| Peak | On-prem application nodes |
-|---|---|
-| 250 | 3 × 4 vCPU / 16 GB |
-| 1,000 | 3 × 8 vCPU / 32 GB |
-| 5,000 | 3 × 8 vCPU / 32 GB |
-| 18,000 | 3 × 8 vCPU / 32 GB |
+1. **Node count** starts at the **3 managers** the on-prem topology was tested
+   with, and only grows once a single node would have to exceed a practical
+   2-socket server — capped at **64 vCPU / 128 GB**.
+2. **Per-node spec** = demand ÷ nodes, rounded up to a realistic step
+   (vCPU 2/4/6/8/12/16/20/24/32/40/48/56/64, RAM 4/8/12/16/24/…/512 GB),
+   floored at the measured node (4 vCPU / 8 GB for AM).
+3. **Database node** is sized from connection demand: RAM ≈ connections ÷ 100
+   plus 1 GB, minimum 4 GB; vCPU ≈ RAM ÷ 8, minimum 2.
 
-From 1,000 upward it proposes the same hardware regardless of load, and the
-co-located MySQL/Redis node stays at 2 vCPU / 4 GB throughout. For the same
-8,140 peak the cloud path sizes 416 vCPU and on-prem sizes 24.
+| Peak | Application nodes | MySQL + Redis |
+|---|---|---|
+| 100 *(measured)* | 3 × 2 vCPU / 4 GB | 2 vCPU / 2 GB |
+| 250 | 3 × 6 vCPU / 12 GB | 2 vCPU / 4 GB |
+| 1,000 | 3 × 20 vCPU / 40 GB | 2 vCPU / 8 GB |
+| 2,000 | 3 × 40 vCPU / 80 GB | 2 vCPU / 12 GB |
+| 5,000 | 4 × 64 vCPU / 128 GB | 4 vCPU / 24 GB |
+| 8,140 | 7 × 64 vCPU / 128 GB | 4 vCPU / 32 GB |
+| 18,000 | 15 × 64 vCPU / 128 GB | 12 vCPU / 80 GB |
 
-On-premise quotes no prices, only a hardware specification, so the fix is to
-let the model emit a required spec directly instead of picking from a
-provider's catalogue. Not done yet — decide the approach before implementing,
-because the same change would move real prices on the cloud multi-node
-topology.
+Synthetic specs carry no vendor name, no transfer allowance and
+`monthlyUsd: 0` — on-premise output has no cost column, so nothing is invented.
+
+### Still open: cloud "Application HA (Multi-Node)"
+
+The model runs on **cloud + Kubernetes** and **on-prem + swarm-ha**. The *cloud*
+multi-node topology still picks from the Premium Intel list, which tops out at
+8 vCPU / 32 GB, so in the topology comparison it claims ~$812/month carries
+8,140 concurrent users where Kubernetes is sized at $12,267. Fixing it means
+extending the Premium Intel catalogue with larger machines and real prices,
+which moves figures customers may already have been quoted — decide before
+implementing.
 
 ---
 

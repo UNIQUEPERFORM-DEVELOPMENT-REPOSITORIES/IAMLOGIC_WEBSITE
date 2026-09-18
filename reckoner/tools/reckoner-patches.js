@@ -63,11 +63,26 @@ const STORAGE = 'mysqlStorage:{perGibMonthlyUsd:.215,advancedPerGibMonthlyUsd:.1
 // Linear model from the validated 100-VU benchmark. Per concurrent user: AM 0.04 vCPU / 0.08 GB,
 // IGA half, AM+IGA double, +25% for platform overhead / HA / burst. Node choice prefers a bigger
 // machine over more of them, because load testing showed extra nodes do not add throughput.
-const SIZEX = 'function SIZEX(peak,prod,l,base){try{'
+// On-premise quotes hardware only, never a price, so it is not limited to a
+// provider's catalogue: the spec is emitted directly. Node count starts at the
+// 3 managers the on-prem topology was tested with and only grows once one node
+// would have to exceed a practical 2-socket server (64 vCPU / 128 GB).
+const SIZEX = 'function SIZEX(peak,prod,l,base,op){try{'
   + 'const PU=prod==="iga"?{c:.02,r:.04}:prod==="am-iga"?{c:.08,r:.16}:{c:.04,r:.08},'
-  + 'cpu=Math.max(peak*PU.c*1.25,base?base.vcpu*2:0),ram=Math.max(peak*PU.r*1.25,base?base.ramGb*2:0),'
-  + 'FAM=x=>x.family==="cpu-optimized"||x.family==="basic-regular",'
   + 'mv=PU.c*100,mr=PU.r*100,'
+  + 'cpu=Math.max(peak*PU.c*1.25,base?base.vcpu*2:0),ram=Math.max(peak*PU.r*1.25,base?base.ramGb*2:0),'
+  + 'reps=Math.ceil(peak/100)*3,conns=Math.ceil(12.5*reps+15);'
+  // ---- on-premise: synthesise the required spec, no prices ----
+  + 'if(op){const VS=[2,4,6,8,12,16,20,24,32,40,48,56,64],RS=[4,8,12,16,24,32,40,48,64,80,96,128,160,192,256,384,512],'
+  + 'up=(x,S)=>S.find(v=>v>=x)||S[S.length-1],'
+  + 'mk=(v,r)=>({id:"onprem-"+v+"c-"+r+"g",family:"on-prem",label:v+" vCPU / "+r+" GB",vcpu:v,ramGb:r,'
+  + 'diskGb:Math.max(200,r*5),transferTb:0,monthlyUsd:0,verified:!1}),'
+  + 'nodes=Math.max(3,Math.ceil(cpu/64),Math.ceil(ram/128)),'
+  + 'pv=Math.max(up(Math.ceil(cpu/nodes),VS),mv),pr=Math.max(up(Math.ceil(ram/nodes),RS),mr),'
+  + 'dr=Math.max(4,up(Math.ceil(conns/100)+1,RS)),dv=Math.max(2,up(Math.ceil(dr/8),VS));'
+  + 'return{cpu,ram,nodes,droplet:mk(pv,pr),replicas:reps,connections:conns,db:null,dbNode:mk(dv,dr)}}'
+  // ---- cloud: choose from the real catalogue ----
+  + 'const FAM=x=>x.family==="cpu-optimized"||x.family==="basic-regular",'
   + 'pool=(l.droplets||[]).filter(x=>FAM(x)&&x.vcpu>=mv&&x.ramGb>=mr),'
   + 'cand=(pool.length?pool:(l.droplets||[]).filter(FAM)).map(x=>{'
   + 'const n=Math.max(2,Math.ceil(cpu/x.vcpu),Math.ceil(ram/x.ramGb));return{d:x,n,cost:n*x.monthlyUsd}});'
@@ -75,9 +90,8 @@ const SIZEX = 'function SIZEX(peak,prod,l,base){try{'
   + 'const mn=Math.min.apply(null,cand.map(x=>x.n)),cap=Math.ceil(mn*1.5),'
   + 'w=cand.filter(x=>x.n<=cap).sort((x,y)=>x.cost-y.cost||x.n-y.n)[0];'
   + 'if(!w)return null;'
-  + 'const reps=Math.ceil(peak/100)*3,conns=Math.ceil(12.5*reps+15),'
-  + 'db=[...(l.managedMysql||[])].sort((x,y)=>x.monthlyUsd-y.monthlyUsd).find(x=>x.connectionLimit>=conns)||null;'
-  + 'return{cpu,ram,nodes:w.n,droplet:w.d,replicas:reps,connections:conns,db}}catch(e){return null}}';
+  + 'const db=[...(l.managedMysql||[])].sort((x,y)=>x.monthlyUsd-y.monthlyUsd).find(x=>x.connectionLimit>=conns)||null;'
+  + 'return{cpu,ram,nodes:w.n,droplet:w.d,replicas:reps,connections:conns,db,dbNode:null}}catch(e){return null}}';
 
 // ---------------------------------------------------------------------------
 // Peak concurrent logins is the primary input; total accounts is suggested from
@@ -155,7 +169,7 @@ exports.INDEX = [
     'function Cl(e,t,n,r,l,s,i){', SIZEX + 'function Cl(e,t,n,r,l,s,i){'],
   ['compute the sizing once per configuration',
     'const a=[],u=e.components,d=nn(l,u.appDropletId),y=3,g=u.appCount*t,',
-    'const a=[],u=e.components,d=nn(l,u.appDropletId),y=3,g=u.appCount*t,SZ=(r&&e.topology==="kubernetes"&&s.delivery!=="on-prem"&&n>100)?SIZEX(n,s.product,l,d):null,'],
+    'const a=[],u=e.components,d=nn(l,u.appDropletId),y=3,g=u.appCount*t,SZ=(r&&n>100&&(s.delivery==="on-prem"?e.topology==="swarm-ha":e.topology==="kubernetes"))?SIZEX(n,s.product,l,d,s.delivery==="on-prem"):null,'],
   ['node count comes from the linear model',
     'v=p?u.appCount:r?Math.min(g,y):g,', 'v=SZ?SZ.nodes:p?u.appCount:r?Math.min(g,y):g,'],
   ['machine choice comes from the linear model',
@@ -163,6 +177,15 @@ exports.INDEX = [
   ['label the line item when the linear model drove it',
     '${B&&r&&t>1?" ' + D + ' spec upgrade estimate":""}',
     '${SZ?" ' + D + ' linear sizing estimate":B&&r&&t>1?" ' + D + ' spec upgrade estimate":""}'],
+  ['on-premise load balancer is a spec, not a DigitalOcean machine name',
+    'detail:`${(w==null?void 0:w.label)??"Premium Intel ' + D + ' 2 vCPU / 2 GB"} ' + D + ' ${c} ${U?"HAProxy":"load balancer"} nodes',
+    'detail:`${U?((w==null?void 0:w.label)??"Premium Intel ' + D + ' 2 vCPU / 2 GB"):`${(w==null?void 0:w.vcpu)??2} vCPU / ${(w==null?void 0:w.ramGb)??2} GB`} ' + D + ' ${c} ${U?"HAProxy":"load balancer"} nodes'],
+  ['on-premise node spec has no transfer allowance, so do not print one',
+    '${b.diskGb} GB NVMe ' + D + ' ${b.transferTb} TB transfer',
+    '${b.diskGb} GB NVMe${b.transferTb?` ' + D + ' ${b.transferTb} TB transfer`:""}'],
+  ['the self-hosted database node follows the linear model too',
+    'const c=(()=>{if(!r||t<=1)return w;const b=l.droplets.filter($=>$.family===w.family).sort(($,se)=>$.monthlyUsd-se.monthlyUsd),A=b.findIndex($=>$.id===w.id);return b[A+1]??w})(),k=c.monthlyUsd,U=he(k);m+=U;const P=r&&t>1?" ' + D + ' spec upgrade estimate":"";',
+    'const c=(SZ&&SZ.dbNode)?SZ.dbNode:(()=>{if(!r||t<=1)return w;const b=l.droplets.filter($=>$.family===w.family).sort(($,se)=>$.monthlyUsd-se.monthlyUsd),A=b.findIndex($=>$.id===w.id);return b[A+1]??w})(),k=c.monthlyUsd,U=he(k);m+=U;const P=SZ&&SZ.dbNode?" ' + D + ' linear sizing estimate":r&&t>1?" ' + D + ' spec upgrade estimate":"";'],
   ['database chosen by connection demand, floored at the measured plan',
     'const c=(()=>{if(!r||t<=1)return w;const se=[...l.managedMysql].sort((L,I)=>L.monthlyUsd-I.monthlyUsd),E=se.findIndex(L=>L.id===w.id);return se[E+1]??w})()',
     'const c=SZ?((SZ.db&&SZ.db.connectionLimit>=(w.connectionLimit||0))?SZ.db:w):(()=>{if(!r||t<=1)return w;const se=[...l.managedMysql].sort((L,I)=>L.monthlyUsd-I.monthlyUsd),E=se.findIndex(L=>L.id===w.id);return se[E+1]??w})()'],
