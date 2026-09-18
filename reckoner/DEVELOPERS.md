@@ -162,6 +162,20 @@ the included storage is enough.
 
 ## 4. How the configuration is chosen
 
+### The two inputs
+
+**Total user accounts** comes first and suggests **Peak concurrent users**
+below it, via the existing `peak = ceil(accounts × 6 × 36 ÷ 480 + baseLoad)`
+(6 logins per user per day, a 36-minute morning rush inside a 480-minute day,
+plus admin/service accounts at 25% of accounts capped at 40). So 18,000
+accounts suggests 8,140 peak.
+
+**Everything is sized and priced from the peak figure, not from the account
+count.** Peak is editable and has no upper cap, and typing into it does not
+overwrite the account count — so a visitor who knows their real concurrency can
+override the suggestion and get a quote built on it. The account count is only
+used for the per-user cost line after that.
+
 ### Below the tested ceiling (≤ 100 concurrent users)
 
 The quote is a **measured** configuration, taken straight from the load-test

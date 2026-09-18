@@ -108,61 +108,71 @@ const SIZEX = 'function SIZEX(peak,prod,l,base,op){try{'
   + 'return{cpu,ram,nodes:w.n,droplet:w.d,replicas:reps,connections:conns,db,dbNode:null}}catch(e){return null}}';
 
 // ---------------------------------------------------------------------------
-// Peak concurrent logins is the primary input; total accounts is suggested from
-// it. Recovered from commit 4d701ec - upstream rebuilt from source and this
-// work exists only as a bundle patch.
+// Input order and flow.
+//
+// Total accounts is the first field and drives the suggested peak concurrent
+// figure, as it always did. Peak stays editable and uncapped, and the sizing
+// and cost follow whatever it ends up as - that part is the fix, and it works
+// regardless of which of the two fields the visitor typed in.
 // ---------------------------------------------------------------------------
-const G2DEF = 'G2=q=>q<=110?Math.max(q,Math.round(q/.7)):Math.max(q,Math.round((q-40)/.45)),'
-  + 'SETP=q=>{const P=Math.max(1,Math.round(q)||1);t({...e,peakConcurrent:P,totalUsers:G2(P)})},';
 
-const ACCT_LABEL_OLD = 'o.jsx("label",{className:"rk-label",htmlFor:"rk-total-users",children:"Total user accounts"}),'
-  + 'o.jsx("p",{className:"rk-help",children:"Everyone with an account, not just those signing in. For licensing '
-  + DASH + ' it does not change the sizing."})';
+// Walk a balanced JS expression starting at `i`, respecting strings and
+// template literals, and return the index just past it.
+function endOfExpr(s, i) {
+  let d = 0, q = null, tpl = false;
+  for (let k = i; k < s.length; k++) {
+    const c = s[k];
+    if (q) { if (c === '\\') k++; else if (c === q) q = null; continue; }
+    if (tpl) { if (c === '\\') k++; else if (c === '`') tpl = false; continue; }
+    if (c === '"' || c === "'") { q = c; continue; }
+    if (c === '`') { tpl = true; continue; }
+    if (c === '(' || c === '[' || c === '{') d++;
+    else if (c === ')' || c === ']' || c === '}') { d--; if (d === 0) return k + 1; }
+  }
+  throw new Error('unbalanced expression');
+}
 
-const ACCT_LABEL_NEW = 'o.jsxs("label",{className:"rk-label",htmlFor:"rk-total-users",style:{display:"inline-flex",alignItems:"center",gap:"0.4rem"},children:["Total user accounts",'
-  + 'o.jsx(ka,{title:"How this suggestion is calculated",rows:[["Variable","Value  ' + D + '  Reason"],'
-  + '["peakConcurrent",`${e.peakConcurrent}  ' + D + '  Simultaneous sign-ins you entered`],'
-  + '["sessionRate","6  ' + D + '  60-min timeout, about 6 logins per user per day"],'
-  + '["peakWindow","36 min  ' + D + '  Morning rush (9:00 ' + DASH + ' 9:36 AM)"],'
-  + '["workday","480 min  ' + D + '  8-hour day (8 AM ' + DASH + ' 5 PM)"],'
-  + '["baseLoad","25% of accounts, capped at 40  ' + D + '  Admin, service and integration accounts"],'
-  + '["",""],["peak = accounts ' + MUL + ' 0.45 + baseLoad",""],["so accounts = peak ' + DIV + ' 0.70",""],'
-  + '[`= ${e.peakConcurrent} ' + DIV + ' 0.70`,""],'
-  + '[`= ${G2(e.peakConcurrent).toLocaleString("en-US")} user accounts`,""]]})]}),'
-  + 'o.jsx("p",{className:"rk-help",children:"Suggested from your peak concurrent figure. For licensing '
-  + DASH + ' it does not change the sizing. Type over it if you know the real number."})';
+// Move the "Total user accounts" group above "Peak concurrent users".
+// Expressed as a transform rather than a literal because the two blocks are
+// several thousand characters of minified JSX and their contents are edited by
+// other patches in this file.
+const GRP = 'o.jsxs("div",{className:"rk-group",children:[';
+const groupAt = (t, marker) => {
+  let i = -1;
+  while ((i = t.indexOf(GRP, i + 1)) >= 0) {
+    const end = endOfExpr(t, i + 'o.jsxs'.length);
+    if (t.slice(i, end).includes(marker)) return { start: i, end };
+  }
+  throw new Error('group containing ' + marker + ' not found');
+};
+
+function reorderAccountsAbovePeak(t) {
+  const peak = groupAt(t, 'htmlFor:"rk-vu"');
+  const acct = groupAt(t, 'htmlFor:"rk-total-users"');
+  if (acct.start < peak.start) return { text: t, applied: false };   // already in order
+  // peak , <anything between> , accounts   ->   accounts , peak , <between>
+  const between = t.slice(peak.end, acct.start);          // includes the separating commas
+  if (!/^,.*,$/s.test(between)) throw new Error('unexpected text between the two groups');
+  const middle = between.slice(1, -1);
+  const rebuilt = t.slice(acct.start, acct.end) + ',' + t.slice(peak.start, peak.end) + ',' + middle;
+  return { text: t.slice(0, peak.start) + rebuilt + t.slice(acct.end), applied: true };
+}
 
 exports.INDEX = [
-  // --- peak concurrent becomes the primary input ---
-  ['default state starts from peak 100, not from 500 accounts',
-    'totalUsers:500,peakConcurrent:Math.max(1,Math.min(500,Math.ceil(500*6*36/480+Math.min(40,Math.ceil(500*.25))))),requireHa:!0',
-    'totalUsers:143,peakConcurrent:100,requireHa:!0'],
-  ['define the inverse (peak -> accounts) and the peak setter',
-    'Math.ceil(c*.25))))),p=e.delivery==="on-prem"',
-    'Math.ceil(c*.25))))),' + G2DEF + 'p=e.delivery==="on-prem"'],
-  ['peak is typed, so drop the "how this was suggested" tooltip on it',
-    '"Peak concurrent users",e.totalUsers>0?o.jsx(ka,',
-    '"Peak concurrent users",!1?o.jsx(ka,'],
-  ['peak help text says it drives the estimate',
+  // --- input order and flow ---
+  ['put Total user accounts above Peak concurrent users', reorderAccountsAbovePeak],
+  ['accounts help text says it feeds the peak figure below',
+    'children:"Everyone with an account, not just those signing in. For licensing ' + DASH + ' it does not change the sizing."',
+    'children:"Everyone with an account, not just those signing in. Used to suggest the peak concurrent figure below."'],
+  ['peak help text says the sizing follows it',
     'children:["Logins at the same moment, not the daily total. Load-tested up to"," ",It," users ' + DASH + ' values above that scale the ",It,"-user configuration proportionally (extrapolated, not measured)."]}',
-    'children:["Logins at the same moment, not the daily total. This drives the whole estimate. Load-tested up to"," ",It," ' + DASH + ' above that the configuration is scaled proportionally, which is an extrapolation rather than a measurement."]}'],
-  ['slider sets peak and suggests accounts',
-    'onChange:c=>l("peakConcurrent",Number(c.target.value)),"aria-label":"Peak concurrent users"',
-    'onChange:c=>SETP(Number(c.target.value)),"aria-label":"Peak concurrent users"'],
+    'children:["Logins at the same moment, not the daily total. Suggested from your total accounts ' + DASH + ' change it if you know the real figure, because the sizing and cost follow this number. Load-tested up to"," ",It," users."]}'],
   ['remove the cap on the peak input',
     'type:"number",min:1,max:Or,value:s??e.peakConcurrent',
     'type:"number",min:1,value:s??e.peakConcurrent'],
-  ['typing a peak sets peak and suggests accounts',
+  ['a typed peak is not capped either',
     'l("peakConcurrent",Number.isFinite(k)?Math.max(1,Math.min(Or,k)):e.peakConcurrent),i(null)',
-    'SETP(Number.isFinite(k)?k:e.peakConcurrent),i(null)'],
-  ['tested-level chips set peak and suggest accounts',
-    'onClick:()=>l("peakConcurrent",c),style:{border:0}',
-    'onClick:()=>SETP(c),style:{border:0}'],
-  ['accounts field explains it is suggested from peak',
-    ACCT_LABEL_OLD, ACCT_LABEL_NEW],
-  ['typing accounts no longer overwrites peak',
-    'u(null),t({...e,totalUsers:U,peakConcurrent:g(U)})',
-    'u(null),l("totalUsers",U)'],
+    'l("peakConcurrent",Number.isFinite(k)?Math.max(1,k):e.peakConcurrent),i(null)'],
 
   // --- managed MySQL catalogue ---
   ['mysql 4 GB plan: connection limit 225 -> 400',
@@ -278,6 +288,16 @@ if (require.main === module) {
       let present = 0, done = 0;
       const broken = [], pending = [];
       for (const [name, from, to] of t.edits) {
+        // A transform edit: a function that returns {text, applied}, or throws
+        // if the shape it expects is no longer there.
+        if (typeof from === 'function') {
+          let r;
+          try { r = from(text); } catch (err) { broken.push(`${name} (${err.message})`); continue; }
+          if (!r.applied) { present++; continue; }
+          text = r.text;
+          if (APPLY) { done++; console.log(`    applied: ${name}`); } else pending.push(name);
+          continue;
+        }
         if (text.includes(to)) { present++; continue; }        // already patched
         const n = text.split(from).length - 1;
         if (n !== 1) { broken.push(`${name} (anchor matched ${n}x)`); continue; }
