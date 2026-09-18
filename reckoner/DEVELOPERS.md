@@ -194,8 +194,19 @@ Then:
    allow up to **1.5×** that, and within that band take the cheapest. This is
    what makes the machine grow before the node count does.
 4. **Replicas** = `ceil(peak / 100) × 3`.
-5. **Connections** = `12.5 × replicas + 15`, and the database is the cheapest
-   plan whose connection limit covers it, floored at the measured plan.
+5. **Connections** = `12.5 × replicas + 15`. The database is the cheapest plan
+   whose connection limit covers **1.4 ×** that, floored at the measured plan —
+   so no quote runs above about 70% of its limit.
+
+The 1.4× matters. Selecting the cheapest plan that merely cleared the count put
+quotes at 98% of the limit at 1,000 concurrent users and 96% at 2,000. Hitting
+a MySQL connection limit is a hard failure — it refuses logins rather than
+slowing down — so one extra replica, a rolling restart or a stuck connection
+took the login path out.
+
+> **The 12.5 connections per replica is an assumption, not a measurement.** It
+> is the least-evidenced number in the tool. Reading the real pool size out of
+> the AM configuration is the single highest-value thing anyone can do here.
 
 Step 3 exists because **adding nodes did not add throughput** in testing — the
 matrix has 4 nodes / 3 replicas reaching 50 VU where 3 nodes / 3 replicas
@@ -230,11 +241,30 @@ conns     12.5 × 246 + 15 = 3,090  ->  8 vCPU / 64 GB (4,425 limit), $868
 | 250 | 2 | Basic Regular 8 / 16 | $192 | 9 | $60.90 |
 | 500 | 2 | CPU-Optimized 16 / 32 | $874 | 15 | $60.90 |
 | 1,000 | 2 | CPU-Optimized 32 / 64 | $1,748 | 30 | $60.90 |
-| 2,000 | 4 | CPU-Optimized 32 / 64 | $3,496 | 60 | $122.10 |
-| 5,000 | 8 | CPU-Optimized 32 / 64 | $6,992 | 150 | $431 |
+| 2,000 | 4 | CPU-Optimized 32 / 64 | $3,496 | 60 | $244.35 |
+| 5,000 | 8 | CPU-Optimized 32 / 64 | $6,992 | 150 | $868 |
 | 8,140 | 13 | CPU-Optimized 32 / 64 | $11,362 | 246 | $868 |
 
 Only the first row is measured.
+
+### Why the database grows so much more slowly than the cluster
+
+From 100 to 8,140 concurrent users the cluster goes from 8 vCPU to 416, but the
+database only goes from 2 vCPU to 8. That looks wrong and is worth
+understanding before anyone "fixes" it.
+
+At the 100-user benchmark the system drained the burst in 30 s — about **3.3
+logins per second**. At that rate a 2 vCPU MySQL is nowhere near saturated, so
+the measured configuration tells us the database was **over**-provisioned; it
+does not tell us that 2 vCPU carries 100 users. Scaling the database by that
+ratio would buy an 80 vCPU instance for 6,000 users, which the catalogue cannot
+even supply.
+
+What actually binds a login burst at the database is queries per second and
+lock contention, and **no database metrics were captured in any run**, so the
+saturation point is unknown. Connections are the only constraint the tool can
+compute, which is why they drive the choice — with the 1.4× margin above, and
+nothing stronger claimed than that.
 
 ---
 

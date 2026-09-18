@@ -90,7 +90,12 @@ const SIZEX = 'function SIZEX(peak,prod,l,base,op){try{'
   + 'const mn=Math.min.apply(null,cand.map(x=>x.n)),cap=Math.ceil(mn*1.5),'
   + 'w=cand.filter(x=>x.n<=cap).sort((x,y)=>x.cost-y.cost||x.n-y.n)[0];'
   + 'if(!w)return null;'
-  + 'const db=[...(l.managedMysql||[])].sort((x,y)=>x.monthlyUsd-y.monthlyUsd).find(x=>x.connectionLimit>=conns)||null;'
+  // Size the database for 1.4x the connection demand. Picking the cheapest plan
+  // that merely clears the count left quotes riding at 96-98% of the limit, where
+  // one extra replica, a rolling restart or a stuck connection means MySQL starts
+  // refusing logins outright rather than just slowing down.
+  + 'const need=Math.ceil(conns*1.4),'
+  + 'db=[...(l.managedMysql||[])].sort((x,y)=>x.monthlyUsd-y.monthlyUsd).find(x=>x.connectionLimit>=need)||null;'
   + 'return{cpu,ram,nodes:w.n,droplet:w.d,replicas:reps,connections:conns,db,dbNode:null}}catch(e){return null}}';
 
 // ---------------------------------------------------------------------------
@@ -186,6 +191,9 @@ exports.INDEX = [
   ['the self-hosted database node follows the linear model too',
     'const c=(()=>{if(!r||t<=1)return w;const b=l.droplets.filter($=>$.family===w.family).sort(($,se)=>$.monthlyUsd-se.monthlyUsd),A=b.findIndex($=>$.id===w.id);return b[A+1]??w})(),k=c.monthlyUsd,U=he(k);m+=U;const P=r&&t>1?" ' + D + ' spec upgrade estimate":"";',
     'const c=(SZ&&SZ.dbNode)?SZ.dbNode:(()=>{if(!r||t<=1)return w;const b=l.droplets.filter($=>$.family===w.family).sort(($,se)=>$.monthlyUsd-se.monthlyUsd),A=b.findIndex($=>$.id===w.id);return b[A+1]??w})(),k=c.monthlyUsd,U=he(k);m+=U;const P=SZ&&SZ.dbNode?" ' + D + ' linear sizing estimate":r&&t>1?" ' + D + ' spec upgrade estimate":"";'],
+  ['database line says what it was sized for, not just "spec upgrade"',
+    'k=c.monthlyUsd,U=r&&t>1?" ' + D + ' spec upgrade estimate":"",P=r&&t>1?',
+    'k=c.monthlyUsd,U=(SZ&&SZ.db&&SZ.db.id===c.id)?` ' + D + ' sized for ${SZ.connections} concurrent connections`:r&&t>1?" ' + D + ' spec upgrade estimate":"",P=r&&t>1?'],
   ['database chosen by connection demand, floored at the measured plan',
     'const c=(()=>{if(!r||t<=1)return w;const se=[...l.managedMysql].sort((L,I)=>L.monthlyUsd-I.monthlyUsd),E=se.findIndex(L=>L.id===w.id);return se[E+1]??w})()',
     'const c=SZ?((SZ.db&&SZ.db.connectionLimit>=(w.connectionLimit||0))?SZ.db:w):(()=>{if(!r||t<=1)return w;const se=[...l.managedMysql].sort((L,I)=>L.monthlyUsd-I.monthlyUsd),E=se.findIndex(L=>L.id===w.id);return se[E+1]??w})()'],
