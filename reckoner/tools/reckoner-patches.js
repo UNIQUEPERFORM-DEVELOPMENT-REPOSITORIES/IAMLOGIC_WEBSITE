@@ -196,6 +196,58 @@ exports.INDEX = [
     'l("peakConcurrent",Number.isFinite(k)?Math.max(1,Math.min(Or,k)):e.peakConcurrent),i(null)',
     'l("peakConcurrent",Number.isFinite(k)?Math.max(1,k):e.peakConcurrent),i(null)'],
 
+  // --- SMTP is a prepaid purchase, not a monthly charge ---
+  // credits x $2.50 buys a block ($5.00 for the default 2). That total was being
+  // reported as the MONTHLY cost, so the quote charged the whole block every
+  // month: 12 x $5.00 = $60 a year for a $5.00 purchase.
+  //
+  // The costing table is a 12-month view (its annual line is 12 x monthly), so
+  // the block is spread across 12 months: $5.00 / 12 = $0.42 a month, $5.00 a
+  // year. Note this is a budgeting convention, not the vendor's billing cycle -
+  // the credits themselves carry a 6-month validity, which the settings panel
+  // and the helper box both still state.
+  ['spread the prepaid SMTP block across the 12 months of the costing table',
+    'totalUsd:total,monthlyUsd:he(total),months:n.validityMonths',
+    'totalUsd:total,monthlyUsd:he(total/12),months:n.validityMonths'],
+  // X(usd) is the app's existing INR formatter; it returns null when the
+  // secondary currency is switched off, so every use is guarded.
+  ['the SMTP line states the prepaid amount and the per-month cost, in both currencies',
+    'detail:`${x.credits} prepaid credits ' + D + ' ${x.capacity.toLocaleString("en-US")} billable recipients over ${x.months} months`',
+    // A bare "$0.42 per month" gets read as the bill, or as a yearly figure.
+    // State the purchase, then say explicitly that it is spread over 12 months,
+    // so the division is visible and neither misreading is available.
+    // This one string is the costing-table row, the sub-line in the settings
+    // panel, and the line in the Excel/Word/PDF reports.
+    'detail:`${x.credits} prepaid credits ' + D + ' ${x.capacity.toLocaleString("en-US")} billable recipients '
+      + D + ' $${x.totalUsd.toFixed(2)}${X(x.totalUsd)?" / "+X(x.totalUsd):""} total, spread over 12 months '
+      + '= $${x.monthlyUsd.toFixed(2)}${X(x.monthlyUsd)?" / "+X(x.monthlyUsd):""} per month`'],
+  // The SMTP price box in the settings panel headlined the amortised monthly
+  // figure, which is not a number anyone is ever billed. Headline what is
+  // actually paid, and how long it lasts; the monthly stays on the line below.
+  ['the SMTP price box headlines the prepaid amount and its validity',
+    '(()=>{const S=SMTPCOST(F,e);return S?o.jsxs("div",{className:"rk-alert rk-alert--note",children:['
+      + 'o.jsx("p",{className:"rk-alert__title",children:"$"+S.monthlyUsd.toFixed(2)+(X(S.monthlyUsd)?" / "+X(S.monthlyUsd):"")}),'
+      + 'o.jsx("p",{className:"rk-alert__body",children:S.detail})]}):null})()',
+    '(()=>{const S=SMTPCOST(F,e),T=SMTPTOT(F,e);return S&&T?o.jsxs("div",{className:"rk-alert rk-alert--note",children:['
+      + 'o.jsx("p",{className:"rk-alert__title",children:"$"+T.totalUsd.toFixed(2)+(X(T.totalUsd)?" / "+X(T.totalUsd):"")+"  ' + D + '  valid "+T.months+" months"}),'
+      // This box works to the credits' own 6-month validity: $5.00 / 6 = $0.83.
+      // The costing table works to its own 12-month basis and shows $0.42, so
+      // this deliberately does NOT reuse S.detail.
+      + 'o.jsx("p",{className:"rk-alert__body",children:T.credits+" prepaid credits  ' + D + '  "+T.capacity.toLocaleString("en-US")'
+      + '+" billable recipients, spread over "+T.months+" months = $"+(T.totalUsd/T.months).toFixed(2)'
+      + '+(X(T.totalUsd/T.months)?" / "+X(T.totalUsd/T.months):"")+" per month"})]}):null})()'],
+  ['the SMTP helper shows the 12-month spread and rupees',
+    '["cost",`$${x.totalUsd.toFixed(2)}  ' + D + '  ${x.credits} credits at $2.50/credit`],["",""],'
+      + '["= credits ' + MUL + ' $2.50 flat USD",""],[`= ${x.credits} ' + MUL + ' $2.50`,""],[`= $${x.totalUsd.toFixed(2)}`,""]',
+    '["prepaid cost",`$${x.totalUsd.toFixed(2)}${X(x.totalUsd)?" / "+X(x.totalUsd):""}  ' + D + '  ${x.credits} credits at $2.50/credit`],'
+      // The row above this one already states the real validity. Spelling out
+      // that the divisor is 12 - not that validity - keeps the two from reading
+      // as a contradiction.
+      + '["shown as","One purchase spread across the 12 months of this estimate"],["",""],'
+      + '["= credits ' + MUL + ' $2.50 ' + DIV + ' 12",""],'
+      + '[`= ${x.credits} ' + MUL + ' $2.50 ' + DIV + ' 12`,""],'
+      + '[`= $${x.monthlyUsd.toFixed(2)}${X(x.monthlyUsd)?" / "+X(x.monthlyUsd):""} per month`,""]'],
+
   // --- managed MySQL catalogue ---
   ['mysql 4 GB plan: connection limit 225 -> 400',
     'connectionLimit:225,monthlyUsd:60.9', 'connectionLimit:400,monthlyUsd:60.9'],
