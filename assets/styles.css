@@ -1085,3 +1085,421 @@ body.bk-lock { overflow: hidden; }
 .article__body p.img-tag-italic{font-size: .8rem;text-align: center;font-style: italic;}
 .article__body  p.note-p{font-size: .9rem;font-style: italic;text-align: center;line-height: 1.4;}
 .article__body  p.note-link{text-align: center;}
+
+/* 12. BLOG =================================================================
+   Blog-only layer: the /blog/ listing and the article template. Every rule
+   here is scoped to a blog class (.blog-*, .post-*, .article--post, .toc,
+   .article-intro, .key-takeaways, .author-box, .share) so nothing
+   outside /blog/ is affected. Behaviour lives in assets/blog.js, which is
+   loaded only by blog pages (same pattern as assets/booking-modal.js).
+   ========================================================================== */
+
+/* --- 12.1 Listing: filters ------------------------------------------------ */
+.blog-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1rem 1.5rem; margin-top: 2.5rem;
+  padding-bottom: 1.25rem; border-bottom: 1px solid var(--line);
+}
+.blog-cats { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.blog-cats__label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--slate-500); align-self: center; margin-right: 0.25rem; }
+.blog-cat {
+  font: inherit; font-size: 0.875rem; font-weight: 600; line-height: 1;
+  padding: 0.55rem 0.9rem; border-radius: 999px; cursor: pointer;
+  color: var(--slate-600); background: var(--surface); border: 1px solid var(--line);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.blog-cat:hover { color: var(--indigo-800); border-color: var(--indigo-400); background: var(--indigo-50); }
+.blog-cat[aria-pressed="true"] { color: #fff; background: var(--indigo-800); border-color: var(--indigo-800); }
+.blog-search { position: relative; flex: 0 1 18rem; }
+.blog-search input {
+  width: 100%; font: inherit; font-size: 0.9rem; padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink);
+}
+.blog-search input::placeholder { color: var(--slate-400); }
+.blog-search input:focus { outline: none; border-color: var(--indigo-500); box-shadow: 0 0 0 3px rgba(126, 102, 209, 0.15); }
+.blog-result-count { margin-top: 1rem; font-size: 0.875rem; color: var(--slate-500); }
+.blog-empty { margin-top: 2rem; padding: 2rem; text-align: center; color: var(--slate-600);
+  border: 1px dashed var(--line); border-radius: var(--radius); }
+.blog-empty[hidden] { display: none; }
+
+/* --- 12.2 Listing: post cards --------------------------------------------- */
+.post-grid { display: grid; gap: 1.5rem; margin-top: 2rem; }
+@media (min-width: 640px)  { .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .post-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.post-card {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.post-card:hover { border-color: var(--indigo-400); box-shadow: 0 12px 30px rgba(29, 20, 67, 0.07); }
+.post-card[hidden] { display: none; }
+.post-card__media { display: block; background: var(--surface-muted); border-bottom: 1px solid var(--line); }
+.post-card__media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.post-card__body { display: flex; flex-direction: column; flex: 1; gap: 0.75rem; padding: 1.5rem; }
+.post-card__cat {
+  align-self: flex-start; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--indigo-700);
+}
+.post-card__title { font-size: 1.125rem; font-weight: 700; line-height: 1.35; color: var(--indigo-950); }
+.post-card__title a { color: inherit; text-decoration: none; }
+.post-card__title a:hover { color: var(--indigo-800); }
+.post-card__title a:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 3px; border-radius: 3px; }
+.post-card__excerpt { flex: 1; font-size: 0.95rem; line-height: 1.6; color: var(--slate-600); }
+.post-card__meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  font-size: 0.8125rem; color: var(--slate-500); margin: 0; padding: 0; list-style: none;
+}
+.post-card__meta li { display: flex; align-items: center; gap: 0.5rem; }
+.post-card__meta li + li::before { content: "·"; color: var(--slate-400); }
+.post-card__cta {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.875rem; font-weight: 600; color: var(--indigo-700); text-decoration: none;
+}
+.post-card__cta [data-icon] svg { width: 0.9rem; height: 0.9rem; transition: transform 0.2s; }
+.post-card:hover .post-card__cta [data-icon] svg { transform: translateX(2px); }
+
+/* Featured (latest) article — wide card above the grid */
+.post-featured {
+  display: grid; gap: 0; margin-top: 2.5rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.post-featured:hover { border-color: var(--indigo-400); box-shadow: 0 16px 36px rgba(29, 20, 67, 0.08); }
+@media (min-width: 900px) { .post-featured--media { grid-template-columns: 1.05fr 1fr; align-items: stretch; } }
+.post-featured__media { background: var(--surface-muted); }
+.post-featured__media img { display: block; width: 100%; height: 100%; min-height: 14rem; object-fit: cover; }
+.post-featured__body { display: flex; flex-direction: column; gap: 1rem; padding: 2rem; }
+@media (min-width: 900px) { .post-featured__body { padding: 2.5rem; justify-content: center; } }
+.post-featured__flag {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--indigo-800); background: var(--indigo-50); border-radius: 999px; padding: 0.35rem 0.75rem;
+}
+.post-featured__title { font-size: clamp(1.375rem, 2.6vw, 1.875rem); font-weight: 700;
+  line-height: 1.25; letter-spacing: -0.01em; color: var(--indigo-950); text-wrap: balance; }
+.post-featured__title a { color: inherit; text-decoration: none; }
+.post-featured__title a:hover { color: var(--indigo-800); }
+.post-featured__excerpt { font-size: 1.0625rem; line-height: 1.65; color: var(--slate-600); }
+
+/* --- 12.3 Breadcrumbs ------------------------------------------------------
+   The base reset zeroes `ul` padding but not `ol`, and every breadcrumb is an
+   <ol> — so the trail sits 40px right of the heading below it. Corrected here
+   for blog pages only; the same offset exists on every other page's
+   breadcrumb, which is outside this template's scope. */
+.breadcrumbs--blog ol { padding-inline-start: 0; }
+
+/* --- 12.4 Article: shell + layout ----------------------------------------- */
+.article--post { max-width: none; padding-block: 3rem 4rem; }
+.article--post .article-shell { max-width: 46rem; margin-inline: auto; }
+.article--post .article-head { margin-top: 1.5rem; }
+.article--post .article-eyebrow {
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--indigo-700); margin-bottom: 0.75rem;
+}
+.article-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem;
+  margin: 1.25rem 0 0; padding: 0; list-style: none;
+  font-size: 0.9375rem; color: var(--slate-500);
+}
+.article-meta li { display: flex; align-items: center; gap: 0.75rem; }
+.article-meta li + li::before { content: "·"; color: var(--slate-400); }
+.article-meta strong { font-weight: 600; color: var(--slate-700); }
+
+/* Inline share, sitting after the reading time. The icons reveal on hover and,
+   equally, on click/tap and from the keyboard (blog.js toggles .is-open) — so
+   hover is never the only way in. The menu is absolutely positioned, so
+   revealing it shifts nothing; visibility:hidden keeps it out of the tab order
+   until it is shown. */
+.share-inline { position: relative; }
+.share-inline__toggle {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font: inherit; font-size: 0.875rem; font-weight: 600; line-height: 1;
+  padding: 0.3rem 0.6rem; border-radius: 999px; cursor: pointer;
+  color: var(--indigo-700); background: var(--surface); border: 1px solid var(--line);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.share-inline__toggle svg { width: 1rem; height: 1rem; }
+.share-inline__toggle:hover,
+.share-inline.is-open .share-inline__toggle { color: var(--indigo-900); border-color: var(--indigo-400); background: var(--indigo-50); }
+.share-inline__toggle:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 2px; }
+
+.share-inline__menu {
+  position: absolute; top: 50%; left: calc(100% + 0.5rem); transform: translateY(-50%);
+  display: flex; gap: 0.35rem; padding: 0.35rem; z-index: 5;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(29, 20, 67, 0.12);
+  /* visibility flips instantly on open and only after the fade on close, so
+     the links are never half-interactive mid-transition. */
+  opacity: 0; visibility: hidden; transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+}
+/* Hover, or .is-open (click/tap/keyboard — blog.js). Deliberately NOT
+   :focus-within: the toggle keeps focus after it is pressed, which would pin
+   the menu open and make Escape look broken. */
+.share-inline:hover .share-inline__menu,
+.share-inline.is-open .share-inline__menu {
+  opacity: 1; visibility: visible; transition: opacity 0.15s ease, visibility 0s;
+}
+.share-inline__menu a, .share-inline__menu button {
+  width: 2rem; height: 2rem; border-radius: 999px; cursor: pointer;
+  display: grid; place-items: center; font: inherit;
+  color: var(--indigo-700); background: transparent; border: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.share-inline__menu a:hover, .share-inline__menu button:hover { color: var(--indigo-900); background: var(--indigo-50); }
+.share-inline__menu a:focus-visible, .share-inline__menu button:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 1px; }
+.share-inline__menu svg { width: 1rem; height: 1rem; }
+
+/* Narrow screens: drop the menu below the button so it can't run off-screen. */
+@media (max-width: 560px) {
+  .share-inline__menu { top: calc(100% + 0.5rem); left: 0; transform: none; }
+}
+
+.article-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; margin-top: 2rem; }
+/* blog.js drops the TOC on short articles and fills .share — hide what's left
+   empty so neither leaves a stray border or gap (and none appears without JS). */
+.article-rail:empty { display: none; }
+.share:empty { display: none; }
+@media (min-width: 1120px) {
+  .article--post .article-shell { max-width: 65rem; }
+  .article--post .article-head,
+  .article--post .article-featured-image,
+  .article--post .article-intro,
+  .article--post > .container > .article-shell > .breadcrumbs { max-width: 46rem; }
+  .article-layout { grid-template-columns: minmax(0, 46rem) 16rem; gap: 3rem; }
+  .article-main { grid-column: 1; grid-row: 1; min-width: 0; }
+  /* The rail has to stretch to the full row height — otherwise its sticky
+     child only has the rail's own height to travel in and unsticks at once. */
+  .article-rail { grid-column: 2; grid-row: 1; align-self: stretch; }
+}
+
+/* --- 12.5 Article: featured image ----------------------------------------- */
+.article-featured-image { margin: 2rem 0 0; }
+.article-featured-image img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-muted);
+}
+.article-featured-image figcaption { margin-top: 0.625rem; font-size: 0.8125rem; color: var(--slate-500); }
+
+/* --- 12.6 Article: intro ---------------------------------------------------
+   The article's own opening paragraphs, lifted out of .article__body so they
+   sit above the fold, before the table of contents and key takeaways. */
+.article-intro { margin-top: 2rem; }
+.article-intro .stack { display: flex; flex-direction: column; gap: 1rem; }
+.article-intro p { font-size: 1.0625rem; line-height: 1.75; color: var(--slate-700); }
+.article-intro p + p { margin-top: 1rem; }
+.article-intro .stack p + p { margin-top: 0; }
+
+/* --- 12.7 Article: the rail (contents, related, recent) -------------------- */
+.rail-inner { display: flex; flex-direction: column; gap: 1rem; }
+
+.toc, .rail-recent, .rail-related {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface-muted); padding: 0.25rem;
+}
+.toc > summary, .rail-recent > summary, .rail-related > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.9rem 1.1rem; cursor: pointer; list-style: none;
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--indigo-900); border-radius: calc(var(--radius) - 0.25rem);
+}
+.toc > summary::-webkit-details-marker,
+.rail-recent > summary::-webkit-details-marker,
+.rail-related > summary::-webkit-details-marker { display: none; }
+.toc > summary::after,
+.rail-recent > summary::after,
+.rail-related > summary::after {
+  content: ""; width: 0.55rem; height: 0.55rem; flex: none;
+  border-right: 2px solid var(--indigo-700); border-bottom: 2px solid var(--indigo-700);
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.2s;
+}
+.toc[open] > summary::after,
+.rail-recent[open] > summary::after,
+.rail-related[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.toc > summary:hover, .rail-recent > summary:hover,
+.rail-related > summary:hover { background: var(--indigo-50); }
+.toc > summary:focus-visible,
+.rail-recent > summary:focus-visible,
+.rail-related > summary:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: -2px; }
+.toc__nav { padding: 0 1.1rem 1rem; }
+.toc__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+.toc__list .toc__list { margin-top: 0.15rem; padding-left: 0.85rem; border-left: 1px solid var(--line); }
+.toc__list a {
+  display: block; padding: 0.35rem 0.5rem; border-radius: 0.375rem;
+  font-size: 0.875rem; line-height: 1.45; color: var(--slate-600); text-decoration: none;
+}
+.toc__list a:hover { color: var(--indigo-800); background: var(--indigo-50); }
+.toc__list a.is-current { color: var(--indigo-800); font-weight: 600; background: var(--indigo-50); }
+.toc__list li ul a { font-size: 0.8125rem; }
+/* Shared link list for the "Related resources" and "Recent articles" cards */
+.rail-nav { padding: 0 1.1rem 1rem; }
+.rail-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.rail-list li + li { border-top: 1px solid var(--line); }
+.rail-list a {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: 0.7rem 0.5rem; border-radius: 0.375rem; text-decoration: none;
+}
+.rail-list a:hover { background: var(--indigo-50); }
+.rail-list__cat {
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--indigo-700);
+}
+.rail-list__title { font-size: 0.8125rem; line-height: 1.4; font-weight: 600; color: var(--slate-700); }
+.rail-list a:hover .rail-list__title { color: var(--indigo-800); }
+.rail-more {
+  display: inline-block; margin-top: 0.75rem; padding-left: 0.5rem;
+  font-size: 0.8125rem; font-weight: 600; color: var(--indigo-700); text-decoration: none;
+}
+.rail-more:hover { text-decoration: underline; }
+
+@media (min-width: 1120px) {
+  /* One sticky wrapper, so contents and recent articles travel together. */
+  .article-rail .rail-inner {
+    position: sticky; top: 5.5rem;
+    max-height: calc(100vh - 7rem); overflow-y: auto; padding-bottom: 0.25rem;
+  }
+  .article-rail .toc,
+  .article-rail .rail-recent,
+  .article-rail .rail-related { background: var(--surface); }
+  .article-rail .toc > summary,
+  .article-rail .rail-recent > summary,
+  .article-rail .rail-related > summary { cursor: default; }
+  .article-rail .toc > summary::after,
+  .article-rail .rail-recent > summary::after,
+  .article-rail .rail-related > summary::after { display: none; }
+}
+
+/* --- 12.8 Article: key takeaways ------------------------------------------ */
+.key-takeaways {
+  padding: 1.5rem 1.75rem; background: var(--surface);
+  border: 1px solid var(--line); border-left: 4px solid var(--indigo-400); border-radius: var(--radius);
+}
+.key-takeaways h2 {
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--indigo-800); margin: 0 0 1rem;
+}
+.key-takeaways ul { margin: 0; }
+.key-takeaways li { font-size: 0.9875rem; }
+
+/* --- 12.9 Article: body typography ---------------------------------------- */
+.article--post .article__body h2,
+.article--post .article__body h3,
+.article--post .article-faq { scroll-margin-top: 6rem; }
+.article--post .article__body h3 {
+  font-size: 1.1875rem; font-weight: 700; color: var(--indigo-900);
+  letter-spacing: -0.005em; margin-bottom: 0.75rem;
+}
+.article--post .article__body a:not(.btn) {
+  color: var(--indigo-700); font-weight: 600;
+  text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px;
+  text-decoration-color: var(--indigo-300);
+}
+.article--post .article__body a:not(.btn):hover { color: var(--indigo-900); text-decoration-color: currentColor; }
+.article--post .article__body img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-muted);
+}
+.article--post .article__body figure { margin: 0; }
+.article--post .article__body figcaption { margin-top: 0.625rem; font-size: 0.8125rem; line-height: 1.5;
+  color: var(--slate-500); text-align: center; }
+.article--post .article__body blockquote {
+  margin: 0; padding: 0.25rem 0 0.25rem 1.25rem; border-left: 3px solid var(--indigo-300);
+  color: var(--indigo-950); font-size: 1.0625rem; line-height: 1.7;
+}
+.article--post .article__body ul, .article--post .article__body ol { margin: 0; }
+/* A <strong> label inside a .dot-list item becomes its own flex item and
+   columns away from the text that follows it — several articles use that
+   "Phase 1: …" pattern, so lay list items out inline inside article bodies. */
+.article--post .article__body .dot-list li { display: block; position: relative; }
+.article--post .article__body .dot-list li::before {
+  display: inline-block; margin: 0 0.625rem 0.15rem 0; vertical-align: middle;
+}
+.article--post .article__body ol { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.625rem; }
+.article--post .article__body ol li { color: var(--slate-700); line-height: 1.6; padding-left: 0.25rem; }
+.article--post .article__body .table-wrap { margin: 0; }
+
+/* Trust / editorial note preserved from the original articles */
+.article-note {
+  margin-top: 2rem; padding: 1.25rem 1.5rem;
+  background: var(--surface-muted); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.article-note p { font-size: 0.875rem; line-height: 1.6; color: var(--slate-600); margin: 0; }
+.article-note p + p { margin-top: 0.5rem; }
+
+/* --- 12.10 Article: FAQ ---------------------------------------------------- */
+.article-faq { margin-top: 3rem; }
+.article-faq > h2 {
+  font-size: 1.5rem; font-weight: 700; color: var(--indigo-950);
+  letter-spacing: -0.01em; margin-bottom: 1.25rem;
+}
+/* Opening one answer closes the last — native via the shared `name`, with a
+   blog.js fallback for browsers that don't support exclusive accordions. */
+.article-faq .faq details[open] > summary { color: var(--indigo-800); }
+
+/* --- 12.11 Article: contextual CTA ---------------------------------------- */
+.article-cta {
+  margin-top: 3rem; padding: 2rem;
+  background: var(--indigo-950); border-radius: var(--radius-lg); color: #fff;
+}
+.article-cta__eyebrow {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--indigo-300); margin-bottom: 0.625rem;
+}
+.article-cta h2 { font-size: 1.375rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; color: #fff; }
+.article-cta p { margin-top: 0.75rem; font-size: 1rem; line-height: 1.6; color: rgba(224, 220, 245, 0.85); }
+.article-cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+/* --- 12.12 Article: author + sources -------------------------------------- */
+.author-box {
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  margin-top: 3rem; padding: 1.75rem;
+  background: var(--surface-muted); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.author-box__avatar {
+  width: 3.5rem; height: 3.5rem; flex: none; border-radius: 0.75rem;
+  display: grid; place-items: center; background: var(--indigo-800); color: #fff;
+  margin: 0; font-size: 1.125rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.author-box__eyebrow {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--slate-500); margin-bottom: 0.375rem;
+}
+.author-box__name { font-size: 1.0625rem; font-weight: 700; color: var(--indigo-950); }
+.author-box__title { margin-top: 0.125rem; font-size: 0.875rem; color: var(--indigo-700); font-weight: 600; }
+.author-box__bio { margin-top: 0.5rem; font-size: 0.9375rem; line-height: 1.65; color: var(--slate-600); }
+.author-box__links { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.875rem; }
+
+.article-sources { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.article-sources h2 {
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--slate-500); margin-bottom: 0.75rem;
+}
+.article-sources ol { margin: 0; padding-left: 1.125rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.article-sources li { font-size: 0.875rem; line-height: 1.55; color: var(--slate-600); }
+.article-sources a { color: var(--indigo-700); font-weight: 600; }
+
+/* --- 12.13 Article: sharing ----------------------------------------------- */
+.share {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
+  margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+  min-height: 3.5rem;                    /* reserves space before blog.js fills it */
+}
+.share__label { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--slate-500); }
+.share__links { display: flex; gap: 0.5rem; }
+.share__links a, .share__copy {
+  width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; cursor: pointer;
+  display: grid; place-items: center; font: inherit;
+  color: var(--indigo-700); background: var(--surface); border: 1px solid var(--line);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.share__links a:hover, .share__copy:hover { color: var(--indigo-900); border-color: var(--indigo-400); background: var(--indigo-50); }
+.share__links svg, .share__copy svg { width: 1.125rem; height: 1.125rem; }
+.share__status { font-size: 0.8125rem; color: var(--indigo-700); }
+
+/* --- 12.14 Focus visibility ----------------------------------------------- */
+.blog-cat:focus-visible, .post-card__cta:focus-visible, .rail-list a:focus-visible,
+.toc__list a:focus-visible, .share__links a:focus-visible, .share__copy:focus-visible {
+  outline: 2px solid var(--indigo-600); outline-offset: 2px;
+}

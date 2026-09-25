@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   <title>On-Premises vs Cloud IGA & IAM for Data Sovereignty | IamLogic</title>
   <meta name="description" content="Compare on-premises, cloud and hybrid IGA and IAM deployments, and learn how data sovereignty, data residency, regulatory requirements and security needs influence enterprise identity architecture."/>
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -12,63 +12,168 @@
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this article -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="On-Premises vs Cloud IGA & IAM for Data Sovereignty | IamLogic">
+  <meta property="og:description" content="Compare on-premises, cloud and hybrid IGA and IAM deployments, and learn how data sovereignty, data residency, regulatory requirements and security needs influence enterprise identity architecture.">
+  <meta property="og:url" content="https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/">
+  <meta property="og:image" content="https://iamlogic.com/assets/blog/on-premises-vs-cloud-iam-data-sovereignty.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — On-premises vs cloud IAM: making the data-sovereignty decision honestly">
+  <meta property="article:published_time" content="2026-05-05">
+  <meta property="article:modified_time" content="2026-05-05">
+  <meta property="article:section" content="Strategy">
+  <meta property="article:author" content="Karthik Raja">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="On-Premises vs Cloud IGA & IAM for Data Sovereignty | IamLogic">
+  <meta name="twitter:description" content="Compare on-premises, cloud and hybrid IGA and IAM deployments, and learn how data sovereignty, data residency, regulatory requirements and security needs influence enterprise identity architecture.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/blog/on-premises-vs-cloud-iam-data-sovereignty.png">
+
+  <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/styles.css">
   <script src="../../assets/main.js" defer></script>
+  <script src="../../assets/blog.js" defer></script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#article",
-    "mainEntityOfPage": {
-      "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#webpage"
-    },
-    "url": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/",
-    "headline": "On-premises vs cloud IAM: making the data-sovereignty decision honestly",
-    "datePublished": "2026-05-05",
-    "publisher": {
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#article",
+  "mainEntityOfPage": {
+    "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#webpage"
+  },
+  "url": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/",
+  "headline": "On-premises vs cloud IAM: making the data-sovereignty decision honestly",
+  "description": "Compare on-premises, cloud and hybrid IGA and IAM deployments, and learn how data sovereignty, data residency, regulatory requirements and security needs influence enterprise identity architecture.",
+  "image": "https://iamlogic.com/assets/blog/on-premises-vs-cloud-iam-data-sovereignty.png",
+  "articleSection": "Strategy",
+  "inLanguage": "en-IN",
+  "wordCount": 560,
+  "datePublished": "2026-05-05",
+  "dateModified": "2026-05-05",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/blog/#blog"
+  },
+  "author": {
+    "@type": "Person",
+    "@id": "https://iamlogic.com/#person-karthik-raja",
+    "name": "Karthik Raja",
+    "jobTitle": "Co-Founder, IamLogic / Unique Performance",
+    "worksFor": {
       "@id": "https://iamlogic.com/#organization"
     },
-    "description": "Compare on-premises, cloud and hybrid IGA and IAM deployments, and learn how data sovereignty, data residency, regulatory requirements and security needs influence enterprise identity architecture."
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#webpage",
-    "url": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/",
-    "name": "On-Premises vs Cloud IGA & IAM for Data Sovereignty | IamLogic"
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#breadcrumb",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://iamlogic.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://iamlogic.com/blog/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "On-Premises vs Cloud IGA & IAM",
-        "item": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/"
-      }
+    "sameAs": [
+      "https://www.linkedin.com/in/karthik-raja-8633aa1b"
     ]
+  },
+  "publisher": {
+    "@id": "https://iamlogic.com/#organization"
   }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#webpage",
+  "url": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/",
+  "name": "On-Premises vs Cloud IGA & IAM for Data Sovereignty | IamLogic",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/#website"
+  },
+  "breadcrumb": {
+    "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#breadcrumb"
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://iamlogic.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Strategy",
+      "item": "https://iamlogic.com/blog/#strategy"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "On-premises vs Cloud IAM",
+      "item": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/"
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Indian regulation require IAM to be hosted on-premises?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not universally. CERT-In directions require ICT logs — including authentication logs — to be retained for 180 days within India. RBI, SEBI and IRDAI expectations around data location and auditability lead many BFSI institutions to keep identity data in their own data centres as policy, and government and PSU tenders often require in-country deployment outright."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which identity data is affected by log residency requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Authentication and access logs are squarely in scope of the 180-day ICT log retention requirement, which is why log residency is usually the first constraint an identity architecture runs into."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When is cloud IAM the right default?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For unregulated mid-market companies without sectoral mandates. Cloud deployment wins on speed to value and operational overhead when no regulator is dictating where identity data lives."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does a hybrid identity deployment look like in practice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The regulated core stays on-premises while workforce SaaS applications are served from cloud — one of the three patterns organisations typically land on, alongside fully on-premises and fully cloud."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you keep the deployment decision reversible?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "By choosing software that runs identically in every topology. Then a change in regulatory position is a redeployment rather than a re-procurement."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body>
@@ -79,34 +184,167 @@
   <a class="skip-link" href="#main">Skip to main content</a>
   <header id="site-header"></header>
   <main id="main">
-    <article class="container article" style="padding-block:3.5rem">
-      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><span aria-hidden="true">/</span><a href="../../blog/">Blog</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Strategy</span></li></ol></nav>
-      <h1 class="mt-6">On-premises vs cloud IAM: making the data-sovereignty decision honestly</h1>
-      <p class="article__meta">5 May 2026 · 6 min read · IamLogic team</p>
-      <div class="article__body">
-          <section><div class="stack"><p>Global identity vendors will tell you the future is SaaS-only. Indian regulators, procurement rules and CERT-In directions tell a more nuanced story. The right question isn't 'cloud or not' — it's 'which of our identity workloads can leave our perimeter, and under whose jurisdiction?'</p></div></section>
-          <section><h2>The forcing factors</h2><div class="stack"><p>Three requirements push identity infrastructure on-premises or into Indian sovereign environments. First, log residency: CERT-In directions require 180-day ICT log retention within India, and authentication logs are squarely in scope. Second, sector rules: RBI, SEBI and IRDAI expectations around data location and auditability make many BFSI institutions keep identity data in their own data centres as a matter of policy. Third, procurement: government and PSU tenders frequently require indigenous software and in-country deployment outright.</p><p>Against that, cloud deployment wins on speed to value and operational overhead. For unregulated mid-market companies, a cloud IAM deployment is usually the right default.</p></div></section>
-          <section><h2>The honest decision framework</h2><div class="stack"><p>Ask four questions. Where must authentication and access logs physically live? Which regulator can audit you, and what have they flagged at peers? What latency does your core application estate tolerate for authentication round-trips? And who patches the platform at 2 a.m. — your team or your vendor's?</p><p>The answers usually land in one of three patterns: fully on-premises (government, banks, insurers with strict interpretations), hybrid (regulated core on-prem, workforce SaaS apps via cloud), or fully cloud (growth-stage companies without sectoral mandates). The platform decision that keeps all three open is choosing software that runs identically in every topology — so a regulatory change is a redeployment, not a re-procurement.</p></div></section>
-      </div>
-      <div class="callout mt-12" style="padding:1.75rem">
-        <p style="color:var(--indigo-950);font-weight:600;font-size:1.125rem">IamLogic deploys on-premises, cloud or hybrid — same product, your choice.</p>
-        <div class="mt-4"><a class="btn btn--primary" href="../../security/">Security &amp; deployment <i data-icon="arrow-right"></i></a></div>
-      </div>
-    </article>
-    <section class="band-dark">
-      <div class="container" style="padding-block:4rem">
-        <div class="cta-band__grid">
-          <div class="cta-band__text">
-            <h2>See IamLogic on your own applications</h2>
-            <p>A 30-minute walkthrough of Access Manager and IamLogic IGA, mapped to your environment, your applications and your compliance obligations.</p>
+    <article class="article article--post">
+      <div class="container">
+        <div class="article-shell">
+          <nav class="breadcrumbs breadcrumbs--blog" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="../../">Home</a></li>
+              <li><span aria-hidden="true">/</span><a href="../">Blog</a></li>
+              <li><span aria-hidden="true">/</span><a href="../#strategy">Strategy</a></li>
+              <li><span aria-hidden="true">/</span><span aria-current="page">On-premises vs Cloud IAM</span></li>
+            </ol>
+          </nav>
+
+          <header class="article-head">
+            <p class="article-eyebrow">Strategy</p>
+            <h1>On-premises vs cloud IAM: making the data-sovereignty decision honestly</h1>
+            <ul class="article-meta">
+              <li><strong>Karthik Raja</strong></li>
+              <li>Last updated <time datetime="2026-05-05">5 May 2026</time></li>
+              <li>3 min read</li>
+              <li class="share-inline" data-share-inline>
+                <button type="button" class="share-inline__toggle" aria-expanded="false" aria-label="Share this article">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 13.5 6.8 4"></path><path d="m15.4 6.5-6.8 4"></path></svg>
+                  Share
+                </button>
+              </li>
+            </ul>
+          </header>
+
+          <div class="article-intro">
+            <div class="stack"><p>Global identity vendors will tell you the future is SaaS-only. Indian regulators, procurement rules and CERT-In directions tell a more nuanced story. The right question isn't 'cloud or not' — it's 'which of our identity workloads can leave our perimeter, and under whose jurisdiction?'</p></div>
           </div>
-          <div class="cta-band__actions">
-            <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a demo <i data-icon="arrow-right"></i></a>
-            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to sales</a>
+
+          <div class="article-layout">
+            <aside class="article-rail">
+              <div class="rail-inner">
+                <details class="rail-related" data-rail-card open>
+                  <summary>Related resources</summary>
+                  <nav class="rail-nav" aria-label="Related resources">
+                    <ul class="rail-list">
+                      <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="related_click">
+                        <span class="rail-list__cat">Article</span>
+                        <span class="rail-list__title">Choosing the Right IAM Solution</span>
+                      </a></li>
+                      <li><a href="../../solutions/government-psu/" data-blog-track="related_click">
+                        <span class="rail-list__cat">Solution</span>
+                        <span class="rail-list__title">Government &amp; PSU</span>
+                      </a></li>
+                      <li><a href="../../solutions/banking-financial-services/" data-blog-track="related_click">
+                        <span class="rail-list__cat">Solution</span>
+                        <span class="rail-list__title">Banking &amp; financial services</span>
+                      </a></li>
+                      <li><a href="../../security/" data-blog-track="related_click">
+                        <span class="rail-list__cat">Security</span>
+                        <span class="rail-list__title">Security &amp; deployment</span>
+                      </a></li>
+                    </ul>
+                  </nav>
+                </details>
+                <details class="rail-recent" data-rail-card open>
+                  <summary>Recent articles</summary>
+                  <nav class="rail-nav" aria-label="Recent articles">
+                    <ul class="rail-list">
+                      <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
+                        <span class="rail-list__cat">Access Management</span>
+                        <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
+                      </a></li>
+                      <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
+                        <span class="rail-list__cat">Access Management</span>
+                        <span class="rail-list__title">Extend MFA to Legacy Applications</span>
+                      </a></li>
+                      <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
+                        <span class="rail-list__cat">Access Management</span>
+                        <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
+                      </a></li>
+                      <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
+                        <span class="rail-list__cat">Compliance</span>
+                        <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
+                      </a></li>
+                    </ul>
+                    <a class="rail-more" href="../">All articles &rarr;</a>
+                  </nav>
+                </details>
+              </div>
+            </aside>
+
+            <div class="article-main">
+              <aside class="key-takeaways">
+                <h2>Key takeaways</h2>
+                <ul class="check-list">
+                <li>Log residency is the first forcing factor: CERT-In directions require 180-day ICT log retention within India, and authentication logs are squarely in scope.</li>
+                <li>Sector rules and public-sector procurement frequently settle the question before architecture gets a say.</li>
+                <li>For unregulated mid-market organisations, cloud IAM is usually the right default.</li>
+                <li>Four questions decide it: where logs must live, which regulator can audit you, what authentication latency your estate tolerates, and who patches the platform at 2 a.m.</li>
+                <li>Choosing software that runs identically on-premises, in cloud and hybrid makes a regulatory change a redeployment rather than a re-procurement.</li>
+                </ul>
+              </aside>
+
+              <div class="article__body">
+
+                <section><h2 id="the-forcing-factors">The forcing factors</h2><div class="stack"><p>Three requirements push identity infrastructure on-premises or into Indian sovereign environments. First, log residency: CERT-In directions require 180-day ICT log retention within India, and authentication logs are squarely in scope. Second, sector rules: <a href="../../compliance/">RBI, SEBI and IRDAI expectations</a> around data location and auditability make many BFSI institutions keep identity data in their own data centres as a matter of policy. Third, procurement: government and PSU tenders frequently require indigenous software and in-country deployment outright.</p><p>Against that, cloud deployment wins on speed to value and operational overhead. For unregulated mid-market companies, a cloud IAM deployment is usually the right default.</p></div></section>
+                <section><h2 id="the-honest-decision-framework">The honest decision framework</h2><div class="stack"><p>Ask four questions. Where must authentication and access logs physically live? Which regulator can audit you, and what have they flagged at peers? What latency does your core application estate tolerate for authentication round-trips? And who patches the platform at 2 a.m. — your team or your vendor's?</p><p>The answers usually land in one of three patterns: fully on-premises (government, banks, insurers with strict interpretations), hybrid (regulated core on-prem, workforce SaaS apps via cloud), or fully cloud (growth-stage companies without sectoral mandates). The platform decision that keeps all three open is choosing software that <a href="../../security/">runs identically in every topology</a> — so a regulatory change is a redeployment, not a re-procurement.</p></div></section>
+
+
+              </div>
+
+              <section class="article-faq" id="faqs" aria-labelledby="faqs-heading">
+                <h2 id="faqs-heading">Frequently asked questions</h2>
+                <div class="faq">
+                  <details name="article-faq" open>
+                    <summary>Does Indian regulation require IAM to be hosted on-premises?</summary>
+                    <p>Not universally. CERT-In directions require ICT logs — including authentication logs — to be retained for 180 days within India. RBI, SEBI and IRDAI expectations around data location and auditability lead many BFSI institutions to keep identity data in their own data centres as policy, and government and PSU tenders often require in-country deployment outright.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>Which identity data is affected by log residency requirements?</summary>
+                    <p>Authentication and access logs are squarely in scope of the 180-day ICT log retention requirement, which is why log residency is usually the first constraint an identity architecture runs into.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>When is cloud IAM the right default?</summary>
+                    <p>For unregulated mid-market companies without sectoral mandates. Cloud deployment wins on speed to value and operational overhead when no regulator is dictating where identity data lives.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>What does a hybrid identity deployment look like in practice?</summary>
+                    <p>The regulated core stays on-premises while workforce SaaS applications are served from cloud — one of the three patterns organisations typically land on, alongside fully on-premises and fully cloud.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>How do you keep the deployment decision reversible?</summary>
+                    <p>By choosing software that runs identically in every topology. Then a change in regulatory position is a redeployment rather than a re-procurement.</p>
+                  </details>
+                </div>
+              </section>
+              <aside class="article-cta">
+                <p class="article-cta__eyebrow">Relevant IamLogic solution</p>
+                <h2>Same product, your choice of topology</h2>
+                <p>IamLogic deploys on-premises, in cloud or hybrid — with the security, log residency and high-availability posture the decision above depends on.</p>
+                <div class="article-cta__actions">
+                  <a class="btn btn--on-dark btn--lg" href="../../security/" data-blog-track="cta_primary">Security &amp; deployment <i data-icon="arrow-right"></i></a>
+                  <a class="btn btn--ghost-dark btn--lg" href="../../demo/" data-blog-track="cta_secondary">Request a demo</a>
+                </div>
+              </aside>
+              <section class="article-sources" aria-labelledby="sources-heading">
+                <h2 id="sources-heading">Sources</h2>
+                <ol>
+                  <li><a href="https://www.cert-in.org.in/PDF/CERT-In_Directions_70B_28.04.2022.pdf" target="_blank" rel="noopener noreferrer">CERT-In — Directions under sub-section (6) of section 70B of the Information Technology Act, 2000 (28 April 2022)</a></li>
+                </ol>
+              </section>
+              <aside class="author-box">
+                <p class="author-box__avatar" aria-hidden="true">KR</p>
+                <div>
+                  <p class="author-box__eyebrow">About the author</p>
+                  <p class="author-box__name">Karthik Raja</p>
+                  <p class="author-box__title">Co-Founder, IamLogic / Unique Performance</p>
+                  <p class="author-box__links"><a class="text-link" href="https://www.linkedin.com/in/karthik-raja-8633aa1b" target="_blank" rel="noopener noreferrer">LinkedIn profile</a><a class="text-link" href="../../about/">About IamLogic</a><a class="text-link" href="../../contact/">Talk to the team</a></p>
+                </div>
+              </aside>
+
+              <div class="share" data-share></div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </article>
   </main>
   <footer id="site-footer"></footer>
 </body>

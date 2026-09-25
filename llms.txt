@@ -73,6 +73,11 @@ Key areas include:
 - [How Identity Governance Turns RBI, SEBI and IRDAI Audits into Report Downloads](https://iamlogic.com/blog/identity-governance-audit-evidence-rbi-sebi-irdai/)
 - [Joiner-Mover-Leaver Automation: Closing Identity's Most Exploited Gaps](https://iamlogic.com/blog/joiner-mover-leaver-automation-guide/)
 - [Passwordless Authentication: A Practical Rollout Path for Indian Enterprises](https://iamlogic.com/blog/passwordless-authentication-rollout-india/)
+- [MFA for Custom and Legacy Applications: Key Implementation Challenges](https://iamlogic.com/blog/mfa-for-custom-and-legacy-applications-key-implementation-challenges/)
+- [How to Extend MFA to Legacy Applications Without Rebuilding Them?](https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/)
+- [What to Look for When Evaluating Enterprise IAM Software?](https://iamlogic.com/blog/what-to-look-for-when-evaluating-enterprise-iam-software/)
+- [How to Choose the Right IAM Solution for Your Organization](https://iamlogic.com/blog/how-to-choose-the-right-iam-solution-for-your-organization/)
+- [On-premises vs Cloud IAM: Making the Data-Sovereignty Decision Honestly](https://iamlogic.com/blog/on-premises-vs-cloud-iam-data-sovereignty/)
 
 ## Official Profiles
 
