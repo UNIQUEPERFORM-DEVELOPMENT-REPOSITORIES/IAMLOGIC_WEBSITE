@@ -68,6 +68,7 @@ Key areas include:
 
 ## Featured Resources
 
+- [5 Identity Governance Challenges That Can Create Enterprise Access Risks](https://iamlogic.com/blog/identity-governance-challenges/)
 - [DPDP Act 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance](https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/)
 - [DPDP Act 2023: An IAM Readiness Checklist for Indian Enterprises](https://iamlogic.com/blog/dpdp-act-iam-readiness-checklist/)
 - [How Identity Governance Turns RBI, SEBI and IRDAI Audits into Report Downloads](https://iamlogic.com/blog/identity-governance-audit-evidence-rbi-sebi-irdai/)
