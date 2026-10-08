@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Guidance for AI agents and developers working in this repository. Read this
-first, then `README.md` for the human-oriented editing walkthrough.
+first, then `README.md` for the human-oriented editing walkthrough. to test
 
 ## What this is
 
