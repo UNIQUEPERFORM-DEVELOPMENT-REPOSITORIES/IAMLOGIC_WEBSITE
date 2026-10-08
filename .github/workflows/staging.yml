@@ -19,7 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Block indexing on staging
-        run: printf 'User-agent: *\nDisallow: /\n' > robots.txt
+        run: |
+          echo "User-agent: *" > robots.txt
+          echo "Disallow: /" >> robots.txt
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
