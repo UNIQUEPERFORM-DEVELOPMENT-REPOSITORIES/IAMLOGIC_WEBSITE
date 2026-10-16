@@ -212,6 +212,7 @@
      They inherit colour (currentColor) and size (1em) from their context. */
   var ICONS = {
     "arrow-right": '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    "arrow-left": '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
     "fingerprint": '<path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .13-5.35 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>',
     "key-round": '<path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>',
     "refresh-ccw": '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
@@ -393,7 +394,7 @@
       '<div class="footer-bottom"><p class="footer-bottom__copy">&copy; <span data-year></span> IamLogic. All rights reserved.</p>' +
       '<div class="footer-bottom__meta"><strong>ISO/IEC 27001:2022 certified</strong>' +
       '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a>' +
-      '<a href="#" data-consent="manage">Cookie settings</a></div></div>' +
+      '<button type="button" class="link-button" data-consent="manage">Cookie settings</button></div></div>' +
       "</div></div>";
   }
 
@@ -674,6 +675,32 @@
     });
   }
 
+  /* ----- Card carousel ([data-carousel]) --------------------------------- */
+  /* The track scrolls natively (swipe / trackpad / keyboard); this only wires
+     the prev/next buttons and disables them at either end. */
+  function wireCarousel(el) {
+    var track = el.querySelector(".carousel__track");
+    var prev = el.querySelector("[data-carousel-prev]");
+    var next = el.querySelector("[data-carousel-next]");
+    if (!track || !prev || !next) return;
+    function step() {
+      var card = track.firstElementChild;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+      prev.hidden = next.hidden = max <= 0; // everything fits — no arrows
+    }
+    prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "smooth" }); });
+    next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "smooth" }); });
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
   /* ----- Boot ------------------------------------------------------------ */
   function init() {
     var header = document.getElementById("site-header");
@@ -693,6 +720,8 @@
     });
     // Lead forms
     Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), wireLeadForm);
+    // Card carousels
+    Array.prototype.forEach.call(document.querySelectorAll("[data-carousel]"), wireCarousel);
     // Icons
     injectIcons(document);
     // Analytics consent

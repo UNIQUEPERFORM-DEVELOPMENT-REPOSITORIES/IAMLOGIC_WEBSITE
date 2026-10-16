@@ -9,9 +9,10 @@
    It powers four things and nothing else — no site chrome, no forms:
 
      1. Table of contents  — built from the H2/H3 already in .article__body.
-        Headings carry their own stable id="" in the HTML, so the anchors work
-        without JavaScript and survive edits; ids are only generated as a
-        fallback.
+        Entries are <button>s that scroll to the heading, not #anchors, so no
+        fragment URL ever reaches the address bar, shares or crawlers.
+        Headings keep a stable id="" (generated only as a fallback) as the
+        scroll target.
      2. Scroll-spy         — highlights the section currently being read.
      3. Rail cards         — the contents and "Recent articles" <details> are
         open in the desktop sticky rail, collapsed on mobile where the rail
@@ -85,8 +86,10 @@
 
     headings.forEach(function (h) {
       var li = document.createElement("li");
-      var a = document.createElement("a");
-      a.href = "#" + h.id;
+      var a = document.createElement("button");
+      a.type = "button";
+      a.className = "toc__link";
+      a.setAttribute("data-toc-target", h.id);
       a.textContent = h.textContent.trim();
       li.appendChild(a);
 
@@ -110,8 +113,15 @@
     host.appendChild(nav);
 
     host.addEventListener("click", function (e) {
-      var a = e.target.closest ? e.target.closest("a") : null;
-      if (a && host.contains(a)) track("toc_click", a.textContent.trim());
+      var a = e.target.closest ? e.target.closest("[data-toc-target]") : null;
+      if (!a || !host.contains(a)) return;
+      var target = document.getElementById(a.getAttribute("data-toc-target"));
+      if (!target) return;
+      target.scrollIntoView({ block: "start" });   // smooth/instant per CSS + reduced-motion
+      // Move keyboard / screen-reader focus to the section too, as a link would.
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+      track("toc_click", a.textContent.trim());
     });
 
     spy(headings, nav);
@@ -133,7 +143,7 @@
   function spy(headings, nav) {
     if (!("IntersectionObserver" in window)) return;
     var links = {};
-    $$("a", nav).forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
+    $$("[data-toc-target]", nav).forEach(function (a) { links[a.getAttribute("data-toc-target")] = a; });
     var visible = {};
 
     var io = new IntersectionObserver(function (entries) {
@@ -347,11 +357,13 @@
       });
     }
 
-    /* Article breadcrumbs link back as /blog/#access-management — no separate
-       (thin, duplicate) category URLs, just a pre-selected chip on this page. */
-    function fromHash() {
-      var want = (location.hash || "").replace(/^#/, "");
-      if (!want) return;
+    /* Old /blog/#slug links (articles used to link back that way) still
+       pre-select their chip; the fragment is then dropped from the address
+       bar so it isn't copied or shared onward. */
+    function preselect() {
+      if (!location.hash) return;
+      var want = location.hash.replace(/^#/, "");
+      if (history.replaceState) history.replaceState(null, "", location.pathname + location.search);
       var match = chips.filter(function (c) { return c.getAttribute("data-category-slug") === want; })[0];
       if (!match) return;
       active = match.getAttribute("data-category") || "all";
@@ -361,9 +373,9 @@
 
     toolbar.hidden = false;
     apply();
-    fromHash();
-    window.addEventListener("hashchange", fromHash);
+    preselect();
   }
+
 
   /* ----- boot ------------------------------------------------------------- */
   function init() {
