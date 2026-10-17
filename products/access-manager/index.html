@@ -17,19 +17,25 @@
   <script src="../../assets/main.js" defer></script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://iamlogic.com/products/access-manager/#webpage",
-    "url": "https://iamlogic.com/products/access-manager/",
-    "name": "Identity and Access Management Solution | IamLogic",
-    "isPartOf": {
-      "@id": "https://iamlogic.com/#website"
-    },
-    "publisher": {
-      "@id": "https://iamlogic.com/#organization"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://iamlogic.com/products/access-manager/#webpage",
+  "url": "https://iamlogic.com/products/access-manager/",
+  "name": "Identity and Access Management Solution | IamLogic",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/#website"
+  },
+  "publisher": {
+    "@id": "https://iamlogic.com/#organization"
+  },
+  "mainEntity": {
+    "@id": "https://iamlogic.com/products/access-manager/#software"
+  },
+  "breadcrumb": {
+    "@id": "https://iamlogic.com/products/access-manager/#breadcrumb"
   }
+}
   </script>
 
   <script type="application/ld+json">
@@ -83,31 +89,64 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": "https://iamlogic.com/products/access-manager/#breadcrumb",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://iamlogic.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Products",
-        "item": "https://iamlogic.com/products/access-manager/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Access Manager",
-        "item": "https://iamlogic.com/products/access-manager/"
-      }
-    ]
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/products/access-manager/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Products",
+      "item": "https://iamlogic.com/platform/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Access Manager",
+      "item": "https://iamlogic.com/products/access-manager/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://iamlogic.com/products/access-manager/#software",
+  "name": "IamLogic Access Manager",
+  "url": "https://iamlogic.com/products/access-manager/",
+  "description": "Identity and access management software with SSO, MFA, passwordless authentication and adaptive access for modern, legacy and hybrid applications.",
+  "applicationCategory": "SecurityApplication",
+  "applicationSubCategory": "Identity and access management",
+  "operatingSystem": "Web-based; deployable on-premises, in private or public cloud, or hybrid",
+  "featureList": [
+    "Single sign-on (SAML, OIDC, OAuth2) and identity federation",
+    "Adaptive multi-factor authentication",
+    "Passwordless authentication (WebAuthn, FIDO2)",
+    "Contextual access control",
+    "Legacy application SSO",
+    "RADIUS / VPN authentication",
+    "User and access management",
+    "API access security"
+  ],
+  "inLanguage": "en",
+  "image": {
+    "@id": "https://iamlogic.com/#logo"
+  },
+  "publisher": {
+    "@id": "https://iamlogic.com/#organization"
+  },
+  "provider": {
+    "@id": "https://iamlogic.com/#organization"
   }
+}
   </script>
 </head>
 <body>
@@ -125,7 +164,7 @@
         <nav class="breadcrumbs bc-mb" aria-label="Breadcrumb">
           <ol>
             <li><a href="../../">Home</a></li>
-            <li><span aria-hidden="true">/</span><span aria-current="page">Products</span></li>
+            <li><span aria-hidden="true">/</span><a href="../../platform/">Products</a></li>
             <li><span aria-hidden="true">/</span><span aria-current="page">Access Manager</span></li>
           </ol>
         </nav>
