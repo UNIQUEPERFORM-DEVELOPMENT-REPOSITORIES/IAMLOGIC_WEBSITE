@@ -169,7 +169,12 @@ container ID ever changes, update the `id=` query param here on all pages
 (it's a plain string, not sourced from `main.js`).
 
 When you add a page, also:
-- add it to `sitemap.xml`,
+- add it to `sitemap.xml` (with a `<lastmod>` date),
+- give it Open Graph / X share tags — copy the block under
+  `<!-- Open Graph / X — share cards for this page -->` from any page, set
+  its title/description/url, and point `og:image` at a 1200×630 PNG in
+  `assets/og/` (`<path-with-dashes>.png`; same style as the existing cards:
+  logo, section eyebrow, the page's H1, its URL),
 - link to it from `NAV` / `FOOTER_COLUMNS` in `assets/main.js` (root-relative,
   no leading slash) if it should be reachable from the chrome.
 
