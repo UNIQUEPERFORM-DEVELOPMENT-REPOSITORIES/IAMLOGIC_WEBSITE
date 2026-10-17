@@ -468,6 +468,11 @@
     if (name === "name" && value.trim().length < 2) return "Please enter your full name.";
     if (name === "email") return emailBad(value.trim());
     if (name === "company" && value.trim().length < 2) return "Please enter your organisation name.";
+    if (name === "phone" && required) {
+      var digits = value.replace(/\D/g, "").length;
+      if (!digits) return "Please enter your phone number.";
+      if (digits < 6 || digits > 14) return "Please enter a valid phone number.";
+    }
     if (required && !value.trim()) return "This field is required.";
     return "";
   }
@@ -504,12 +509,18 @@
 
     var tsId = null;
     var tsEl = form.querySelector("[data-turnstile]");
-    if (tsEl) turnstileWhenReady(function () { tsId = turnstileRender(tsEl); });
+    if (tsEl) turnstileWhenReady(function () { tsId = turnstileRender(tsEl); form._tsId = tsId; });
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
+      // A separate country-code select (quick-contact form) is sent as part
+      // of the one phone value the backend expects, e.g. "+91 98765 43210".
+      if ("phoneCode" in data) {
+        if (data.phone) data.phone = data.phoneCode + " " + data.phone.trim();
+        delete data.phoneCode;
+      }
 
       var ok = true;
       requiredInputs.forEach(function (input) {
@@ -675,6 +686,154 @@
     });
   }
 
+  /* ----- Quick-contact bar (fixed to the right edge, every page) ---------- */
+  /* Built from SITE, like the footer: an item appears only if its value is
+     set, so it never shows a channel we don't have. Hidden on phones (CSS),
+     where it would cover the text; the footer carries the same links. */
+  function renderQuickBar() {
+    var items = [
+      SITE.linkedin && { href: SITE.linkedin, icon: "linkedin", label: "IamLogic on LinkedIn", mod: "linkedin", ext: true },
+      SITE.youtube && { href: SITE.youtube, icon: "youtube", label: "IamLogic on YouTube", mod: "youtube", ext: true },
+      SITE.email && { href: "mailto:" + SITE.email, icon: "mail", label: "Email " + SITE.email, mod: "mail" },
+      SITE.phone && { href: "tel:" + SITE.phone, icon: "phone", label: "Call " + SITE.phone, mod: "phone" }
+    ].filter(Boolean).map(function (it) {
+      return '<a class="quick-bar__item quick-bar__item--' + it.mod + '" href="' + it.href + '"' +
+        (it.ext ? ' target="_blank" rel="noopener noreferrer"' : "") +
+        ' aria-label="' + esc(it.label) + '" title="' + esc(it.label) + '"><i data-icon="' + it.icon + '"></i></a>';
+    }).join("");
+    var bar = document.createElement("nav");
+    bar.className = "quick-bar";
+    bar.setAttribute("aria-label", "Quick contact");
+    bar.innerHTML = '<a class="quick-bar__contact" href="' + url("contact/") + '" data-quick-contact' +
+      ' aria-haspopup="dialog" aria-expanded="false">Contact Us</a>' + items;
+    document.body.appendChild(bar);
+  }
+
+  /* ----- Quick-contact form box ([data-quick-contact]) ------------------ */
+  /* A compact dark form that pops out beside the right-edge quick-contact
+     bar (non-modal: no backdrop, the page stays usable). Fields are a short
+     version of the Contact page form — name, phone, work email, organisation
+     (all required; organisation is required by the lead backend) and an
+     optional message — with placeholders as the visible labels (real labels
+     stay for screen readers). It reuses wireLeadForm, so validation,
+     Turnstile and the POST to SITE.leadEndpoint behave exactly like the full
+     forms; intent "quick-contact" labels these leads in Zoho. The trigger
+     keeps its href to contact/, so without JS (or with a modifier-click) it
+     still goes to the full page. Turnstile's script loads on first open. */
+  var TURNSTILE_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=iamlogicTurnstileOnload&render=explicit";
+  var qc = { box: null, body: null, last: null };
+  // Country calling codes for the quick-contact phone field (India first =
+  // default). Shown as "IN +91": flag emoji don't render on Windows.
+  var PHONE_CODES = [
+    ["IN", "+91"], ["US", "+1"], ["GB", "+44"], ["AE", "+971"], ["SA", "+966"],
+    ["QA", "+974"], ["OM", "+968"], ["KW", "+965"], ["BH", "+973"], ["SG", "+65"],
+    ["MY", "+60"], ["ID", "+62"], ["AU", "+61"], ["NZ", "+64"], ["CA", "+1"],
+    ["DE", "+49"], ["FR", "+33"], ["NL", "+31"], ["IE", "+353"], ["CH", "+41"],
+    ["ZA", "+27"], ["KE", "+254"], ["NG", "+234"], ["LK", "+94"], ["BD", "+880"],
+    ["NP", "+977"], ["JP", "+81"], ["HK", "+852"], ["PH", "+63"]
+  ];
+
+  function loadTurnstile() {
+    if (window.turnstile || document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')) return;
+    var s = document.createElement("script");
+    s.src = TURNSTILE_SRC; s.async = true; s.defer = true;
+    document.head.appendChild(s);
+  }
+
+  function qcBuild() {
+    var o = document.createElement("div");
+    o.className = "qc-pop";
+    o.setAttribute("role", "dialog");
+    o.setAttribute("aria-labelledby", "qc-title");
+    o.setAttribute("hidden", "");
+    o.innerHTML =
+      '<div class="qc-pop__head">' +
+        '<h2 id="qc-title" class="qc-pop__title">Contact Us</h2>' +
+        '<button class="qc-pop__close" type="button" aria-label="Close contact form">&times;</button>' +
+      "</div>" +
+      '<div class="qc-pop__body" data-lead-wrap></div>';
+    document.body.appendChild(o);
+    o.querySelector(".qc-pop__close").addEventListener("click", qcClose);
+    qc.box = o;
+    qc.body = o.querySelector(".qc-pop__body");
+  }
+
+  function qcField(id, label, input) {
+    return '<div class="field"><label class="sr-only" for="' + id + '">' + label + "</label>" + input + "</div>";
+  }
+
+  function qcForm() {
+    return '<form class="lead-form qc-form" data-intent="quick-contact" novalidate>' +
+      qcField("qc-name", "Full name (required)",
+        '<input class="input" id="qc-name" name="name" autocomplete="name" required placeholder="Your name *">') +
+      '<div class="field"><div class="qc-phone">' +
+        '<label class="sr-only" for="qc-phone-code">Country code</label>' +
+        '<select class="input qc-phone__code" id="qc-phone-code" name="phoneCode" autocomplete="tel-country-code">' +
+          PHONE_CODES.map(function (c) { return '<option value="' + c[1] + '">' + c[0] + " " + c[1] + "</option>"; }).join("") +
+        "</select>" +
+        '<label class="sr-only" for="qc-phone">Mobile number (required)</label>' +
+        '<input class="input" id="qc-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" required placeholder="Official mobile number *">' +
+      "</div></div>" +
+      qcField("qc-email", "Work email (required)",
+        '<input class="input" id="qc-email" name="email" type="email" autocomplete="email" required placeholder="Official email *">') +
+      qcField("qc-company", "Organisation (required)",
+        '<input class="input" id="qc-company" name="company" autocomplete="organization" required placeholder="Organisation *">') +
+      qcField("qc-message", "Your requirements (optional)",
+        '<textarea class="input" id="qc-message" name="message" rows="2" placeholder="Please explain your requirements"></textarea>') +
+      '<input type="text" name="hp" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<div class="ts-widget" data-turnstile></div>' +
+      '<p class="form-error-banner" data-form-error hidden>Something went wrong on our side. Please retry, or write to us directly at ' +
+        '<a href="mailto:' + SITE.email + '">' + SITE.email + "</a>.</p>" +
+      '<button class="btn btn--on-dark qc-form__submit" type="submit">Submit</button>' +
+    "</form>";
+  }
+
+  function qcOpen(trigger) {
+    if (!qc.box) qcBuild();
+    if (!qc.box.hasAttribute("hidden")) { qcClose(); return; }   // tab toggles
+    loadTurnstile();
+    qc.last = trigger || document.activeElement;
+    qc.body.innerHTML = qcForm();            // fresh form every time
+    var form = qc.body.querySelector("form");
+    wireLeadForm(form);
+    qc.box.removeAttribute("hidden");
+    void qc.box.offsetWidth;                 // reflow so the transition runs
+    qc.box.classList.add("is-open");
+    if (qc.last && qc.last.setAttribute) qc.last.setAttribute("aria-expanded", "true");
+    form.querySelector("input").focus();
+  }
+
+  function qcClose() {
+    if (!qc.box || qc.box.hasAttribute("hidden")) return;
+    var form = qc.body.querySelector("form");
+    if (form && form._tsId != null) turnstileRemove(form._tsId);
+    qc.box.classList.remove("is-open");
+    qc.box.setAttribute("hidden", "");
+    qc.body.innerHTML = "";                  // drop anything typed but not sent
+    if (qc.last && qc.last.setAttribute) qc.last.setAttribute("aria-expanded", "false");
+    if (qc.last && qc.last.focus) qc.last.focus();
+  }
+
+  function wireQuickContact() {
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest ? e.target.closest("[data-quick-contact]") : null;
+      if (!t || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (!SITE.leadEndpoint) return;        // no backend: let the link go to contact/
+      e.preventDefault();
+      qcOpen(t);
+    });
+    // Escape, or a click anywhere outside the box (and its trigger), closes it.
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && qc.box && !qc.box.hasAttribute("hidden")) qcClose();
+    });
+    document.addEventListener("mousedown", function (e) {
+      if (!qc.box || qc.box.hasAttribute("hidden")) return;
+      if (qc.box.contains(e.target)) return;
+      if (e.target.closest && e.target.closest("[data-quick-contact]")) return;
+      qcClose();
+    });
+  }
+
   /* ----- Card carousel ([data-carousel]) --------------------------------- */
   /* The track scrolls natively (swipe / trackpad / keyboard); this only wires
      the prev/next buttons and disables them at either end. */
@@ -720,6 +879,9 @@
     });
     // Lead forms
     Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), wireLeadForm);
+    // Quick-contact bar (right edge) + its Contact Us dialog
+    renderQuickBar();
+    wireQuickContact();
     // Card carousels
     Array.prototype.forEach.call(document.querySelectorAll("[data-carousel]"), wireCarousel);
     // Icons

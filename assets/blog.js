@@ -14,9 +14,16 @@
         Headings keep a stable id="" (generated only as a fallback) as the
         scroll target.
      2. Scroll-spy         — highlights the section currently being read.
-     3. Rail cards         — the contents and "Recent articles" <details> are
-        open in the desktop sticky rail, collapsed on mobile where the rail
-        sits above the article.
+     3. Rail cards         — on desktop every rail box is open and the rail
+        is pinned in stages (CSS): contents, then related resources + related
+        articles, then the CTA. Lists scroll inside fixed-size boxes; the
+        related-articles list is sized here to the room left on screen. On
+        mobile the contents sit collapsed above the article; the other boxes
+        follow the article, open.
+     3b. Related articles  — the rail's "Related articles" box is rebuilt from
+        the /blog/ listing: newest posts in the same category first, topped up
+        with the latest posts overall. The static list in each article is the
+        fallback if the listing can't be fetched (or JS is off).
      4. FAQ accordion      — one answer open at a time. Native, from the shared
         name="" on each <details>; this only patches browsers without it.
      5. Share buttons      — plain share URLs, no third-party widgets/scripts.
@@ -61,13 +68,14 @@
      ====================================================================== */
   function buildToc() {
     var host = $("[data-toc]");
-    var body = $(".article__body");
-    if (!host || !body) return;
+    var main = $(".article-main");
+    if (!host || !main) return;
 
-    var headings = $$("h2, h3", body).filter(function (h) {
-      return h.textContent.trim().length > 0;
-    });
-    if (headings.length < 3) { host.remove(); return; }   // not worth a TOC
+    // Key takeaways, the article's own H2/H3, the FAQ and the sources — in
+    // document order (one combined selector keeps that order).
+    var headings = $$(".key-takeaways > h2, .article__body h2, .article__body h3, .article-faq > h2, .article-sources > h2", main)
+      .filter(function (h) { return h.textContent.trim().length > 0; });
+    if (headings.length < 2) { host.remove(); return; }   // not worth a TOC
 
     var used = {};
     headings.forEach(function (h) {
@@ -134,10 +142,21 @@
     var cards = $$("[data-rail-card]");
     if (!cards.length) return;
     var wide = window.matchMedia("(min-width: 1120px)");
-    function apply(mq) { cards.forEach(function (c) { c.open = mq.matches; }); }
+    // Desktop: all open. Mobile: only the contents (above the article)
+    // collapse; the boxes that follow the article stay open.
+    function apply(mq) { cards.forEach(function (c) { c.open = mq.matches || !c.matches(".toc"); }); }
     apply(wide);
     if (wide.addEventListener) wide.addEventListener("change", apply);
     else if (wide.addListener) wide.addListener(apply);
+  }
+
+  /* The contents list scrolls inside its own fixed-size box (desktop). Keep
+     the highlighted entry visible by scrolling that box only — never the page. */
+  function keepInView(box, el) {
+    if (!el || box.scrollHeight <= box.clientHeight) return;
+    var b = box.getBoundingClientRect(), r = el.getBoundingClientRect(), pad = 8;
+    if (r.top < b.top + pad) box.scrollTop -= (b.top + pad) - r.top;
+    else if (r.bottom > b.bottom - pad) box.scrollTop += r.bottom - (b.bottom - pad);
   }
 
   function spy(headings, nav) {
@@ -160,13 +179,155 @@
         if (id === current) links[id].setAttribute("aria-current", "true");
         else links[id].removeAttribute("aria-current");
       });
+      keepInView(nav, links[current]);
     }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
 
     headings.forEach(function (h) { io.observe(h); });
   }
 
+  /* Desktop: related resources + related articles are pinned together. Give
+     the related-articles list whatever height the screen has left below the
+     related-resources box, so the pair always fits and the list scrolls. */
+  function fitRelatedStack() {
+    var stack = $(".rail-stack");
+    var res = stack && $(".rail-related", stack);
+    var rel = stack && $(".rail-recent", stack);
+    var nav = rel && $(".rail-nav", rel);
+    if (!nav) return;
+    var wide = window.matchMedia("(min-width: 1120px)");
+    function fit() {
+      if (!wide.matches) { stack.style.removeProperty("--related-max"); return; }
+      var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      var gap = parseFloat(getComputedStyle(stack).rowGap) || 0;
+      var chrome = rel.offsetHeight - nav.offsetHeight;   // its heading + padding
+      var room = window.innerHeight - 5.5 * rem - 1 * rem - res.offsetHeight - gap - chrome;
+      stack.style.setProperty("--related-max", Math.max(160, Math.floor(room)) + "px");
+    }
+    fit();
+    window.addEventListener("resize", fit);
+    document.addEventListener("iamlogic:related-ready", fit);
+  }
+
+  /* Phones/tablets (no side column): a slim bar pinned to the bottom with
+     the side CTA's two buttons. Shown once the reader is past the intro;
+     hidden while the full CTA box or the footer is on screen. */
+  function mobileCta() {
+    var cta = $(".rail-cta");
+    var start = $(".article-main");
+    if (!cta || !start || !("IntersectionObserver" in window)) return;
+    var links = $$(".rail-cta__actions a", cta);
+    if (links.length < 2) return;
+
+    var bar = document.createElement("div");
+    bar.className = "mobile-cta";
+    bar.setAttribute("role", "region");
+    bar.setAttribute("aria-label", "Request a demo or contact us");
+    links.forEach(function (a, i) {
+      var b = document.createElement("a");
+      b.href = a.getAttribute("href");
+      b.className = "btn " + (i === 0 ? "btn--on-dark" : "btn--ghost-dark");
+      b.textContent = a.textContent.trim();
+      b.setAttribute("data-blog-track", a.getAttribute("data-blog-track") + "_bar");
+      bar.appendChild(b);
+    });
+    document.body.appendChild(bar);
+
+    var pastIntro = false, ctaVisible = false, footerVisible = false;
+    function update() { bar.classList.toggle("is-shown", pastIntro && !ctaVisible && !footerVisible); }
+    // Past the intro once the article body's top has scrolled above the
+    // screen. (A scroll check, not an observer: the article is taller than
+    // the screen, so its intersection ratio never crosses a threshold there.)
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        pastIntro = start.getBoundingClientRect().top < 0;
+        update();
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    new IntersectionObserver(function (es) { ctaVisible = es[0].isIntersecting; update(); }).observe(cta);
+    var footer = $("#site-footer");
+    if (footer) new IntersectionObserver(function (es) { footerVisible = es[0].isIntersecting; update(); }).observe(footer);
+  }
+
   /* ======================================================================
-     3b. FAQ accordion — one answer open at a time
+     3b. Related articles — same category first, then the latest posts
+     ====================================================================== */
+  var RELATED_COUNT = 4;
+
+  function relatedPosts() {
+    var box = $("[data-related-posts]");
+    var list = box && $(".rail-list", box);
+    var more = box && $(".rail-more", box);
+    if (!list || !more || !window.fetch || !window.DOMParser) return;
+
+    var listingUrl = more.href;   // "All articles" → the /blog/ listing
+    fetch(listingUrl, { credentials: "same-origin" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function (htmlText) {
+        var doc = new DOMParser().parseFromString(htmlText, "text/html");
+        var here = location.pathname.replace(/index\.html$/, "");
+        var posts = $$("[data-post]", doc).map(function (card) {
+          var a = $(".post-card__title a, .post-featured__title a, h2 a, h3 a", card);
+          var img = $("img", card);
+          var time = $("time[datetime]", card);
+          if (!a) return null;
+          var url = new URL(a.getAttribute("href"), listingUrl);
+          return {
+            url: url.href,
+            path: url.pathname.replace(/index\.html$/, ""),
+            title: a.textContent.trim(),
+            category: card.getAttribute("data-category") || "",
+            date: time ? time.getAttribute("datetime") : "",
+            img: img ? new URL(img.getAttribute("src"), listingUrl).href : ""
+          };
+        }).filter(Boolean);
+
+        var current = posts.filter(function (p) { return p.path === here; })[0];
+        if (!current) return;   // not a listed post — keep the static list
+        var others = posts.filter(function (p) { return p !== current; })
+          .sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+        var same = others.filter(function (p) { return p.category === current.category; });
+        var rest = others.filter(function (p) { return p.category !== current.category; });
+        var pick = same.concat(rest).slice(0, RELATED_COUNT);
+        if (!pick.length) return;
+
+        list.innerHTML = "";
+        list.classList.add("rail-list--thumbs");
+        pick.forEach(function (p) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = p.url;
+          a.setAttribute("data-blog-track", p.category === current.category ? "related_same_category" : "related_recent");
+          if (p.img) {
+            var im = document.createElement("img");
+            im.className = "rail-list__thumb";
+            im.src = p.img; im.alt = ""; im.width = 160; im.height = 90;
+            im.loading = "lazy"; im.decoding = "async";
+            a.appendChild(im);
+          }
+          var text = document.createElement("span");
+          text.className = "rail-list__text";
+          var cat = document.createElement("span");
+          cat.className = "rail-list__cat"; cat.textContent = p.category;
+          var title = document.createElement("span");
+          title.className = "rail-list__title"; title.textContent = p.title;
+          text.appendChild(cat); text.appendChild(title);
+          a.appendChild(text);
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+        document.dispatchEvent(new Event("iamlogic:related-ready"));
+      })
+      .catch(function () { /* listing unreachable — the static list stays */ });
+  }
+
+  /* ======================================================================
+     3c. FAQ accordion — one answer open at a time
      ====================================================================== */
   function faqAccordion() {
     var faq = $(".article-faq .faq");
@@ -381,6 +542,9 @@
   function init() {
     buildToc();
     syncRailCards();
+    relatedPosts();
+    fitRelatedStack();
+    mobileCta();
     faqAccordion();
     buildShare();
     buildInlineShare();

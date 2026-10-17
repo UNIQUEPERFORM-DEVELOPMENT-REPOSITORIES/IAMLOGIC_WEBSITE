@@ -38,7 +38,9 @@ apple-touch-icon.png              180×180 iOS home-screen icon
 assets/
   styles.css        ALL styling. Hand-written, sectioned (see header comment),
                     driven by CSS variables in the :root { … } block.
-  main.js           SINGLE SOURCE for the header + footer, nav data, dropdown /
+  main.js           SINGLE SOURCE for the header + footer, the right-edge
+                    quick-contact bar (built from SITE; wide screens only),
+                    nav data, dropdown /
                     mobile-nav behaviour, lead-form logic, the icon set, and
                     consent-gated analytics (Google Tag Manager).
   booking-modal.js  The Microsoft Bookings appointment modal — self-contained,
@@ -171,6 +173,24 @@ When you add a page, also:
 - link to it from `NAV` / `FOOTER_COLUMNS` in `assets/main.js` (root-relative,
   no leading slash) if it should be reachable from the chrome.
 
+**Blog posts** — copy an existing `blog/<slug>/index.html`. The side column
+(`.article-rail`) is three `.rail-seg` stages that pin one after another on
+desktop (contents for 2 screens, related boxes for 2, then the CTA to the
+end — heights in `styles.css`). It holds, in order: the table of contents
+(`[data-toc]`, empty — `assets/blog.js` builds it), "Related resources"
+(hand-picked links), "Related articles" (`[data-related-posts]` — blog.js
+refills it from the `/blog/` listing: same category first, then the latest
+posts; the static list is only the no-JS fallback) and the `.rail-cta` box
+(copy the Access Manager version — "Secure Every Login with Access Manager"
+— for access-management posts, or the IGA version — "Automate Governance with
+IamLogic IGA" — for governance/compliance posts; then rewrite its four ticks
+for the post's own topic, kept to claims the product page makes; then
+"Request a Demo" and "Contact Us"; below 1120px blog.js copies those two
+buttons into a slim bar pinned to the bottom of the screen). So a new post must also get
+a card on `blog/index.html` (with its `data-category` and `<time datetime>`),
+or it won't appear in other posts' related articles. Update the three cards on
+the home page's "From the blog" section by hand.
+
 > **`404.html` caveat:** the host can serve it at any URL depth, so its relative
 > assets only resolve for top-level misses; a deep miss renders it unstyled.
 > Inherent to relative-path static hosting — accept it, don't "fix" it by
@@ -215,7 +235,11 @@ power this, both scoped narrowly to the lead forms:
   into the matching `ZOHO`/`ZOHO_PARTNER` object, and re-check
   `INTEREST_MAP`/the partner `<select>` options against their picklists.
 - **Cloudflare Turnstile script** (`challenges.cloudflare.com/turnstile/v0/api.js`,
-  included on `demo/`, `contact/`, `pricing/`, `partners/apply/`) — the one
+  included on `demo/`, `contact/`, `pricing/`, `partners/apply/`, and
+  injected on demand by `main.js` on any page when the quick-contact
+  form box — the right-edge bar's "Contact Us" tab, `[data-quick-contact]` —
+  is first opened; that box is a shortened contact form posting to the
+  same endpoint with `intent: "quick-contact"`) — the one
   external CDN script in the site. Unavoidable: no hosted captcha can be
   self-hosted. Replace the placeholder `TURNSTILE_SITEKEY` in `assets/main.js`
   (currently Cloudflare's public "always passes" test key) with your real
@@ -333,6 +357,12 @@ no part in serving the static pages.
   at any base.
 - **Reuse existing component classes and CSS tokens** instead of adding one-off
   styles or inline colours.
+- **No `#` URLs in links** (the `#main` skip link is the one exception). An
+  in-page action — open a dialog, jump to a section, cookie settings — is a
+  `<button type="button">` (`.btn` or `.link-button`), not `href="#…"`. Blog
+  table-of-contents entries are buttons built by `assets/blog.js`; article
+  breadcrumbs are Home / Blog / title (no category level), and structured
+  data never uses `#fragment` item URLs.
 - **Header/footer/nav/contact live only in `main.js`** — never hard-code them
   into individual pages (the Contact page duplicates address info intentionally).
 - **After edits, verify by loading pages in the local server** above and

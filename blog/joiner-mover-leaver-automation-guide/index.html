@@ -215,53 +215,78 @@
           <div class="article-layout">
             <aside class="article-rail">
               <div class="rail-inner">
-                <details class="rail-related" data-rail-card open>
-                  <summary>Related resources</summary>
-                  <nav class="rail-nav" aria-label="Related resources">
-                    <ul class="rail-list">
-                      <li><a href="../../solutions/joiner-mover-leaver-automation/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Solution</span>
-                        <span class="rail-list__title">Joiner-Mover-Leaver automation</span>
-                      </a></li>
-                      <li><a href="../../resources/case-studies/identity-lifecycle-automation-jml/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Case study</span>
-                        <span class="rail-list__title">Identity lifecycle automation (JML)</span>
-                      </a></li>
-                      <li><a href="../../products/identity-governance/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Product</span>
-                        <span class="rail-list__title">IamLogic IGA</span>
-                      </a></li>
-                      <li><a href="../dpdp-act-iam-readiness-checklist/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Article</span>
-                        <span class="rail-list__title">DPDP Act IAM Readiness Checklist</span>
-                      </a></li>
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../../solutions/joiner-mover-leaver-automation/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Joiner-Mover-Leaver automation</span>
+                          </a></li>
+                          <li><a href="../../resources/case-studies/identity-lifecycle-automation-jml/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Case study</span>
+                            <span class="rail-list__title">Identity lifecycle automation (JML)</span>
+                          </a></li>
+                          <li><a href="../../products/identity-governance/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Product</span>
+                            <span class="rail-list__title">IamLogic IGA</span>
+                          </a></li>
+                          <li><a href="../dpdp-act-iam-readiness-checklist/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">DPDP Act IAM Readiness Checklist</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Extend MFA to Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Automate Governance with IamLogic IGA</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>HR-driven joiner-mover-leaver</li>
+                      <li>Grant &amp; revoke together on transfers</li>
+                      <li>Deprovisioning for apps without APIs</li>
+                      <li>Audit trail for every access change</li>
                     </ul>
-                  </nav>
-                </details>
-                <details class="rail-recent" data-rail-card open>
-                  <summary>Recent articles</summary>
-                  <nav class="rail-nav" aria-label="Recent articles">
-                    <ul class="rail-list">
-                      <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Identity Governance</span>
-                        <span class="rail-list__title">Identity Governance Challenges</span>
-                      </a></li>
-                      <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Extend MFA to Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
-                      </a></li>
-                    </ul>
-                    <a class="rail-more" href="../">All articles &rarr;</a>
-                  </nav>
-                </details>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </aside>
 
@@ -310,15 +335,6 @@
                   </details>
                 </div>
               </section>
-              <aside class="article-cta">
-                <p class="article-cta__eyebrow">Relevant IamLogic solution</p>
-                <h2>Lifecycle automation, driven by the HR record</h2>
-                <p>IamLogic IGA provisions joiners from HR data, grants and revokes simultaneously on a transfer, and deprovisions leavers across connected systems — including the ones without APIs.</p>
-                <div class="article-cta__actions">
-                  <a class="btn btn--on-dark btn--lg" href="../../solutions/joiner-mover-leaver-automation/" data-blog-track="cta_primary">Explore JML automation <i data-icon="arrow-right"></i></a>
-                  <a class="btn btn--ghost-dark btn--lg" href="../../demo/" data-blog-track="cta_secondary">Request a demo</a>
-                </div>
-              </aside>
               <aside class="author-box">
                 <p class="author-box__avatar" aria-hidden="true">DK</p>
                 <div>

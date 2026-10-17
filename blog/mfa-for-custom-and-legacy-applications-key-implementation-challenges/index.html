@@ -225,56 +225,78 @@
           <div class="article-layout">
             <aside class="article-rail">
               <div class="rail-inner">
-                <details class="toc" data-toc data-rail-card open>
-                  <summary>Table of contents</summary>
-                </details>
-                <details class="rail-related" data-rail-card open>
-                  <summary>Related resources</summary>
-                  <nav class="rail-nav" aria-label="Related resources">
-                    <ul class="rail-list">
-                      <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Article</span>
-                        <span class="rail-list__title">Extend MFA to Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../../solutions/legacy-application-sso/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Solution</span>
-                        <span class="rail-list__title">Legacy application SSO</span>
-                      </a></li>
-                      <li><a href="../../products/access-manager/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Product</span>
-                        <span class="rail-list__title">IamLogic Access Manager</span>
-                      </a></li>
-                      <li><a href="../../resources/case-studies/sso-mfa-privileged-access-protection/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Case study</span>
-                        <span class="rail-list__title">SSO, MFA and privileged access protection</span>
-                      </a></li>
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">Extend MFA to Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../../solutions/legacy-application-sso/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Legacy application SSO</span>
+                          </a></li>
+                          <li><a href="../../products/access-manager/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Product</span>
+                            <span class="rail-list__title">IamLogic Access Manager</span>
+                          </a></li>
+                          <li><a href="../../resources/case-studies/sso-mfa-privileged-access-protection/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Case study</span>
+                            <span class="rail-list__title">SSO, MFA and privileged access protection</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
+                          </a></li>
+                          <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Choosing the Right IAM Solution</span>
+                          </a></li>
+                          <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Compliance</span>
+                            <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Secure Every Login with Access Manager</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>MFA for custom &amp; legacy apps</li>
+                      <li>Passwords rotated after every use</li>
+                      <li>Reverse-proxy MFA checkpoint</li>
+                      <li>Push, TOTP, OTP &amp; passkeys</li>
                     </ul>
-                  </nav>
-                </details>
-                <details class="rail-recent" data-rail-card open>
-                  <summary>Recent articles</summary>
-                  <nav class="rail-nav" aria-label="Recent articles">
-                    <ul class="rail-list">
-                      <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Identity Governance</span>
-                        <span class="rail-list__title">Identity Governance Challenges</span>
-                      </a></li>
-                      <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
-                      </a></li>
-                      <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Choosing the Right IAM Solution</span>
-                      </a></li>
-                      <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Compliance</span>
-                        <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
-                      </a></li>
-                    </ul>
-                    <a class="rail-more" href="../">All articles &rarr;</a>
-                  </nav>
-                </details>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </aside>
 
@@ -398,15 +420,6 @@
                   </details>
                 </div>
               </section>
-              <aside class="article-cta">
-                <p class="article-cta__eyebrow">Relevant IamLogic solution</p>
-                <h2>Bring MFA to every application, not just the new ones</h2>
-                <p>Access Manager adds SSO, adaptive MFA and passwordless authentication across modern SaaS, custom-built and legacy applications — with no rebuilds and no disruption to users.</p>
-                <div class="article-cta__actions">
-                  <a class="btn btn--on-dark btn--lg" href="../../products/access-manager/" data-blog-track="cta_primary">Explore IamLogic Access Manager <i data-icon="arrow-right"></i></a>
-                  <a class="btn btn--ghost-dark btn--lg" href="../../demo/" data-blog-track="cta_secondary">Request a demo</a>
-                </div>
-              </aside>
               <aside class="author-box">
                 <p class="author-box__avatar" aria-hidden="true">DK</p>
                 <div>

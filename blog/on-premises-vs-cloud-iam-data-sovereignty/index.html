@@ -217,53 +217,78 @@
           <div class="article-layout">
             <aside class="article-rail">
               <div class="rail-inner">
-                <details class="rail-related" data-rail-card open>
-                  <summary>Related resources</summary>
-                  <nav class="rail-nav" aria-label="Related resources">
-                    <ul class="rail-list">
-                      <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Article</span>
-                        <span class="rail-list__title">Choosing the Right IAM Solution</span>
-                      </a></li>
-                      <li><a href="../../solutions/government-psu/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Solution</span>
-                        <span class="rail-list__title">Government &amp; PSU</span>
-                      </a></li>
-                      <li><a href="../../solutions/banking-financial-services/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Solution</span>
-                        <span class="rail-list__title">Banking &amp; financial services</span>
-                      </a></li>
-                      <li><a href="../../security/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Security</span>
-                        <span class="rail-list__title">Security &amp; deployment</span>
-                      </a></li>
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">Choosing the Right IAM Solution</span>
+                          </a></li>
+                          <li><a href="../../solutions/government-psu/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Government &amp; PSU</span>
+                          </a></li>
+                          <li><a href="../../solutions/banking-financial-services/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Banking &amp; financial services</span>
+                          </a></li>
+                          <li><a href="../../security/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Security</span>
+                            <span class="rail-list__title">Security &amp; deployment</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Extend MFA to Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Secure Every Login with Access Manager</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>Same software on-prem, cloud or hybrid</li>
+                      <li>Identity logs stay in your data centre</li>
+                      <li>Change deployment, not vendor</li>
+                      <li>High availability &amp; DR built in</li>
                     </ul>
-                  </nav>
-                </details>
-                <details class="rail-recent" data-rail-card open>
-                  <summary>Recent articles</summary>
-                  <nav class="rail-nav" aria-label="Recent articles">
-                    <ul class="rail-list">
-                      <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Identity Governance</span>
-                        <span class="rail-list__title">Identity Governance Challenges</span>
-                      </a></li>
-                      <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Extend MFA to Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
-                      </a></li>
-                    </ul>
-                    <a class="rail-more" href="../">All articles &rarr;</a>
-                  </nav>
-                </details>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </aside>
 
@@ -312,15 +337,6 @@
                   </details>
                 </div>
               </section>
-              <aside class="article-cta">
-                <p class="article-cta__eyebrow">Relevant IamLogic solution</p>
-                <h2>Same product, your choice of topology</h2>
-                <p>IamLogic deploys on-premises, in cloud or hybrid — with the security, log residency and high-availability posture the decision above depends on.</p>
-                <div class="article-cta__actions">
-                  <a class="btn btn--on-dark btn--lg" href="../../security/" data-blog-track="cta_primary">Security &amp; deployment <i data-icon="arrow-right"></i></a>
-                  <a class="btn btn--ghost-dark btn--lg" href="../../demo/" data-blog-track="cta_secondary">Request a demo</a>
-                </div>
-              </aside>
               <section class="article-sources" aria-labelledby="sources-heading">
                 <h2 id="sources-heading">Sources</h2>
                 <ol>

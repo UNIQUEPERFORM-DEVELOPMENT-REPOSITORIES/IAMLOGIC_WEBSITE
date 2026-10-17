@@ -346,18 +346,22 @@ ul { padding: 0; list-style: none; }
 
 /* Check list — the check icon is drawn with CSS so list items stay clean HTML */
 .check-list { display: flex; flex-direction: column; gap: 0.75rem; }
+/* The tick is positioned on its own (not a flex row), so a link or <strong>
+   inside an item flows inline with the text instead of becoming a separate
+   flex item with a gap around it. */
 .check-list li {
-  display: flex;
-  gap: 0.75rem;
+  position: relative;
+  padding-left: 2rem;           /* 1.25rem tick + 0.75rem gap */
   color: var(--slate-700);
   line-height: 1.6;
 }
 .check-list li::before {
   content: "";
-  flex: 0 0 auto;
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
   width: 1.25rem;
   height: 1.25rem;
-  margin-top: 0.15rem;
   background-color: var(--indigo-700);
   /* circle w/ check */
   -webkit-mask: var(--check-mask) center / contain no-repeat;
@@ -777,6 +781,103 @@ a.chip:hover { border-color: var(--indigo-400); }
 
 .contact-social a { color: var(--indigo-700); border-color: var(--line); }
 .contact-social a:hover { color: var(--indigo-900); border-color: var(--indigo-400); background: var(--indigo-50); }
+
+/* Quick-contact bar — fixed to the right edge on every page (main.js). Above
+   page content, below the header (50), cookie bar (150) and dialogs (200).
+   Wide screens only (≥1310px): narrower, the page content runs to within
+   32px of the edge and the 44px bar would cover it. The header (Contact,
+   Request a demo) and footer (all channels) cover smaller screens. */
+:root {
+  --brand-linkedin: #0a66c2;
+  --brand-youtube:  #e62117;
+  --call-green:     #15803d;
+}
+.quick-bar { display: none; }
+@media (min-width: 1310px) {
+  .quick-bar {
+    position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 45;
+    display: flex; flex-direction: column; width: 2.75rem;
+    border-radius: 0.625rem 0 0 0.625rem; overflow: hidden;
+    box-shadow: 0 8px 24px rgba(29, 20, 67, 0.18);
+    /* faint edge so the bar still reads against the dark hero/CTA bands */
+    border: 1px solid rgba(255, 255, 255, 0.22); border-right: 0;
+  }
+}
+.quick-bar a {
+  display: grid; place-items: center; color: #fff; text-decoration: none;
+  transition: filter 0.15s;
+}
+.quick-bar a:hover { filter: brightness(1.15); }
+.quick-bar a:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+/* Vertical tab, reading bottom-to-top */
+.quick-bar__contact {
+  padding: 1rem 0; writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: 0.875rem; font-weight: 700; letter-spacing: 0.04em;
+  background: var(--indigo-800);
+}
+.quick-bar__item { height: 2.75rem; }            /* 44px touch target */
+.quick-bar__item [data-icon] { font-size: 1.1rem; }
+.quick-bar__item--linkedin { background: var(--brand-linkedin); }
+.quick-bar__item--youtube  { background: var(--brand-youtube); }
+.quick-bar__item--mail     { background: var(--indigo-600); }
+.quick-bar__item--phone    { background: var(--call-green); }
+@media print { .quick-bar { display: none !important; } }
+
+/* Quick-contact form box (main.js) — opens flush against the bar's left
+   edge (one joined unit, like the reference), no backdrop.
+   Dark, compact, placeholder-labelled; sits above the bar (45), under the
+   header (50). On narrow screens (bar hidden, but any [data-quick-contact]
+   can open it) it centres instead. */
+.qc-pop {
+  position: fixed; z-index: 48; right: 2.75rem;   /* = bar width */
+  top: calc(50% + 2.25rem);                       /* centred below the 4.5rem header */
+  width: min(21rem, calc(100vw - 2rem)); max-height: calc(100vh - 5.5rem); overflow-y: auto;
+  padding: 0.875rem 1rem 1rem; border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.22); border-right: 0;   /* reads on dark bands, like the bar */
+  background: var(--indigo-950); color: #fff;
+  box-shadow: 0 20px 48px rgba(29, 20, 67, 0.35);
+  opacity: 0; transform: translate(12px, -50%); transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.qc-pop[hidden] { display: none; }
+.qc-pop.is-open { opacity: 1; transform: translate(0, -50%); }
+@media (max-width: 1309.98px) {
+  .qc-pop { right: 50%; top: 50%; transform: translate(50%, -46%); border-radius: var(--radius-lg); border-right: 1px solid rgba(255, 255, 255, 0.22); }
+  .qc-pop.is-open { transform: translate(50%, -50%); }
+}
+.qc-pop__head { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 0.75rem; }
+.qc-pop__title { font-size: 1.125rem; font-weight: 700; color: #fff; }
+.qc-pop__close {
+  position: absolute; right: -0.25rem; top: 50%; transform: translateY(-50%);
+  width: 1.75rem; height: 1.75rem; border: 0; border-radius: 0.375rem; cursor: pointer;
+  background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 1.4rem; line-height: 1;
+}
+.qc-pop__close:hover { background: rgba(255, 255, 255, 0.22); }
+.qc-pop__close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.qc-form { gap: 0.5rem; }
+.qc-form .input {
+  padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #fff;
+  background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.28); border-radius: 0.375rem;
+}
+.qc-form .input::placeholder { color: rgba(224, 220, 245, 0.75); }
+.qc-form .input:focus { border-color: var(--indigo-300); box-shadow: 0 0 0 3px rgba(186, 174, 234, 0.25); }
+.qc-form .input[aria-invalid="true"] { border-color: #fca5a5; }
+.qc-form textarea.input { min-height: 3.5rem; }
+/* Country code + number as one joined control */
+.qc-phone { display: flex; }
+.qc-phone .input { min-width: 0; }
+.qc-phone__code {
+  flex: 0 0 5.75rem; border-radius: 0.375rem 0 0 0.375rem; border-right: 0; cursor: pointer;
+}
+.qc-phone__code + label + .input { flex: 1 1 auto; border-radius: 0 0.375rem 0.375rem 0; }
+.qc-form select.input option { color: var(--ink); background: #fff; }
+.qc-phone + .field-error { margin-top: 0.375rem; }
+.qc-form .field-error { color: #fca5a5; font-size: 0.75rem; margin-top: 0.2rem; }
+.qc-form .ts-widget { min-height: 65px; }
+.qc-form__submit { align-self: flex-start; padding: 0.6rem 1.5rem; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.85rem; }
+.qc-pop .form-success { background: transparent; border-color: rgba(255, 255, 255, 0.2); padding: 1.5rem 1rem; }
+.qc-pop .form-success svg { color: var(--indigo-300); }
+.qc-pop .form-success h3 { color: #fff; }
+.qc-pop .form-success p { color: rgba(224, 220, 245, 0.85); }
 
 /* 8. LEAD FORM ============================================================= */
 .lead-form { display: flex; flex-direction: column; gap: 1rem; }
@@ -1289,6 +1390,11 @@ body.bk-lock { overflow: hidden; }
 /* Narrow screens: drop the menu below the button so it can't run off-screen. */
 @media (max-width: 560px) {
   .share-inline__menu { top: calc(100% + 0.5rem); left: 0; transform: none; }
+  /* Author on its own line, so the date/read-time line never starts with a
+     stray "·"; the Share pill needs no separator. */
+  .article-meta li:first-child { flex-basis: 100%; }
+  .article-meta li:nth-child(2)::before,
+  .article-meta .share-inline::before { display: none; }
 }
 
 .article-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; margin-top: 2rem; }
@@ -1296,17 +1402,39 @@ body.bk-lock { overflow: hidden; }
    empty so neither leaves a stray border or gap (and none appears without JS). */
 .article-rail:empty { display: none; }
 .share:empty { display: none; }
+
+/* Narrow screens: one column. The rail's boxes are dissolved into the column
+   (display: contents) so the contents sit above the article and related
+   resources, related articles and the CTA follow it — not all piled on top. */
+@media (max-width: 1119.98px) {
+  .article-rail, .article-rail .rail-inner,
+  .article-rail .rail-seg, .article-rail .rail-stack { display: contents; }
+  .article-rail .toc { order: 1; }
+  .article-main { order: 2; }
+  .article-rail .rail-related { order: 3; }
+  .article-rail .rail-recent { order: 4; }
+  .article-rail .rail-cta { order: 5; }
+}
+
+/* Wide screens: the rail sits beside the WHOLE article, from the breadcrumb
+   down, so the table of contents is in the first fold. .article-layout is
+   dissolved so its two children (rail, main) join the shell's grid. */
 @media (min-width: 1120px) {
-  .article--post .article-shell { max-width: 65rem; }
-  .article--post .article-head,
-  .article--post .article-featured-image,
-  .article--post .article-intro,
-  .article--post > .container > .article-shell > .breadcrumbs { max-width: 46rem; }
-  .article-layout { grid-template-columns: minmax(0, 46rem) 16rem; gap: 3rem; }
-  .article-main { grid-column: 1; grid-row: 1; min-width: 0; }
-  /* The rail has to stretch to the full row height — otherwise its sticky
-     child only has the rail's own height to travel in and unsticks at once. */
-  .article-rail { grid-column: 2; grid-row: 1; align-self: stretch; }
+  .article--post .article-shell {
+    max-width: 68rem;
+    display: grid; grid-template-columns: minmax(0, 46rem) 19rem;
+    grid-template-rows: auto auto auto auto 1fr;
+    justify-content: space-between; column-gap: 3rem;
+  }
+  .article--post .article-shell > .breadcrumbs { grid-column: 1; grid-row: 1; }
+  .article--post .article-head { grid-column: 1; grid-row: 2; }
+  .article--post .article-featured-image { grid-column: 1; grid-row: 3; }
+  .article--post .article-intro { grid-column: 1; grid-row: 4; }
+  .article-layout { display: contents; }
+  .article-main { grid-column: 1; grid-row: 5; min-width: 0; margin-top: 2rem; }
+  /* The rail spans every row and stretches, so the sticky contents box has
+     the full article height to travel in. */
+  .article-rail { grid-column: 2; grid-row: 1 / 6; align-self: stretch; }
 }
 
 /* --- 12.5 Article: featured image ----------------------------------------- */
@@ -1391,11 +1519,70 @@ body.bk-lock { overflow: hidden; }
 }
 .rail-more:hover { text-decoration: underline; }
 
+/* Related articles (filled by blog.js from the /blog/ listing): thumbnail +
+   category + title. The static list in the HTML is the no-JS fallback. */
+.rail-list--thumbs a { flex-direction: row; align-items: flex-start; gap: 0.75rem; }
+.rail-list__thumb {
+  flex: none; width: 4.75rem; aspect-ratio: 16 / 9; height: auto; object-fit: cover;
+  border-radius: 0.375rem; border: 1px solid var(--line); background: var(--surface-muted);
+}
+.rail-list__text { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.rail-list--thumbs .rail-list__title {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Side-column CTA: product heading, four benefit ticks, Request a Demo /
+   Contact Us. Copy is per product (Access Manager or IGA) in each post. */
+.rail-cta {
+  padding: 1.5rem; background: var(--indigo-950); color: #fff; border-radius: var(--radius-lg);
+}
+.rail-cta__title {
+  font-size: 1.125rem; font-weight: 700; line-height: 1.3; text-align: center;
+  color: var(--indigo-300); text-wrap: balance;
+}
+.rail-cta__list { margin: 1.25rem 0 0; padding: 0; list-style: none; gap: 0.75rem; }
+.rail-cta__list li { color: #fff; font-size: 0.9375rem; font-weight: 600; line-height: 1.4; }
+.rail-cta__list li::before { top: 0.05rem; }
+.rail-cta__actions { display: flex; flex-direction: column; gap: 0.625rem; margin-top: 1.5rem; }
+.rail-cta__actions .btn { white-space: normal; text-align: center; line-height: 1.25; }
+
 @media (min-width: 1120px) {
-  /* One sticky wrapper, so contents and recent articles travel together. */
-  .article-rail .rail-inner {
-    position: sticky; top: 5.5rem;
-    max-height: calc(100vh - 7rem); overflow-y: auto; padding-bottom: 0.25rem;
+  /* The rail is pinned in three stages as the reader scrolls ("fold" = one
+     screen height):
+       folds 1–2  table of contents
+       folds 3–4  related resources + related articles
+       fold 5 →   CTA, to the end of the article
+     Each stage is a .rail-seg: its sticky box, then a spacer (::after) as
+     tall as the scroll distance the box stays pinned for — so the box is
+     held for that long whatever its own height, then the next stage takes
+     over. The rail stretches to the article's height; on posts too short
+     for all of it the spacers shrink (the CTA's least), so every stage still
+     gets its turn and the CTA is pinned through the end.
+     .rail-inner is absolutely positioned inside the rail so the stages (and
+     their tall spacers) never add height to the article's grid row: the
+     article alone sets the height, and the stages share it. */
+  .article-rail { position: relative; }
+  .article-rail .rail-inner { position: absolute; inset: 0; gap: 0; }
+  /* min-height: 0 lets a stage give up its spacer on short posts (a column
+     flexbox's automatic minimum would otherwise include the full spacer). */
+  .article-rail .rail-seg { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; padding-bottom: 1rem; }
+  .article-rail .rail-seg::after { content: ""; flex: 0 1 200vh; }
+  .article-rail .rail-seg--cta { flex: 1 0 auto; padding-bottom: 0; }
+  .article-rail .rail-seg--cta::after { flex: 0 0.25 100vh; }
+  .article-rail .rail-seg > .toc,
+  .article-rail .rail-seg > .rail-stack,
+  .article-rail .rail-seg > .rail-cta { position: sticky; top: 5.5rem; flex: none; }
+  .article-rail .rail-stack { display: flex; flex-direction: column; gap: 1rem; }
+  /* Fixed-size boxes: headings stay, lists scroll inside. The related
+     articles list is sized by blog.js to whatever room the related
+     resources box leaves on screen. */
+  .article-rail .toc__nav {
+    max-height: calc(100vh - 11rem);
+    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  }
+  .article-rail .rail-recent .rail-nav {
+    max-height: var(--related-max, none);
+    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   }
   .article-rail .toc,
   .article-rail .rail-recent,
@@ -1423,9 +1610,8 @@ body.bk-lock { overflow: hidden; }
 /* --- 12.9 Article: body typography ---------------------------------------- */
 .article--post .article__body h2,
 .article--post .article__body h3,
-.article--post .article-faq,
-.article--post .article__body h2,
-.article--post .article__body h3 { scroll-margin-top: 6rem; }
+.article--post .article-main h2,
+.article--post .article-main h3 { scroll-margin-top: 6rem; }
 .article--post .article__body h3 {
   font-size: 1.1875rem; font-weight: 700; color: var(--indigo-900);
   letter-spacing: -0.005em; margin-bottom: 0.75rem;
@@ -1477,18 +1663,21 @@ body.bk-lock { overflow: hidden; }
    blog.js fallback for browsers that don't support exclusive accordions. */
 .article-faq .faq details[open] > summary { color: var(--indigo-800); }
 
-/* --- 12.11 Article: contextual CTA ---------------------------------------- */
-.article-cta {
-  margin-top: 3rem; padding: 2rem;
-  background: var(--indigo-950); border-radius: var(--radius-lg); color: #fff;
+/* --- 12.11 Article: contextual CTA — the side-column .rail-cta (12.7) ------
+   Below 1120px there is no side column, so blog.js adds a slim bar pinned to
+   the bottom of the screen with the same two buttons. It slides in once the
+   reader is past the intro and steps aside while the full CTA box or the
+   footer is on screen, so the offer never shows twice. */
+.mobile-cta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  display: flex; gap: 0.625rem; padding: 0.625rem 1rem calc(0.625rem + env(safe-area-inset-bottom));
+  background: var(--indigo-950); box-shadow: 0 -6px 20px rgba(29, 20, 67, 0.18);
+  transform: translateY(110%); visibility: hidden;
+  transition: transform 0.25s ease, visibility 0s linear 0.25s;
 }
-.article-cta__eyebrow {
-  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--indigo-300); margin-bottom: 0.625rem;
-}
-.article-cta h2 { font-size: 1.375rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; color: #fff; }
-.article-cta p { margin-top: 0.75rem; font-size: 1rem; line-height: 1.6; color: rgba(224, 220, 245, 0.85); }
-.article-cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+.mobile-cta.is-shown { transform: none; visibility: visible; transition: transform 0.25s ease, visibility 0s; }
+.mobile-cta .btn { flex: 1 1 0; padding-inline: 0.75rem; white-space: nowrap; }
+@media (min-width: 1120px) { .mobile-cta { display: none; } }
 
 /* --- 12.12 Article: author + sources -------------------------------------- */
 .author-box {
