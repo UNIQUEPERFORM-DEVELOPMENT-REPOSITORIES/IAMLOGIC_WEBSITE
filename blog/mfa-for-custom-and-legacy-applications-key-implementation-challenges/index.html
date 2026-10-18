@@ -343,7 +343,9 @@
                     <h3 id="how-iamlogic-solves-it-2">How IamLogic solves it</h3>
                     <p>IamLogic automatically rotates (changes) the password immediately after each use. So even if someone manages to grab the password from the browser, it has already expired and can’t be reused. Users don’t need to know or remember the password at all.</p>
                     <figure>
-                      <img src="../../assets/mockups/Challenges_1_2.webp" width="512" height="304" loading="lazy" decoding="async" alt="Diagram: the user signs in to IamLogic with MFA, the browser plugin autofills the legacy application’s own login page, and the application password is rotated immediately after use.">
+                      <a class="figure-zoom" href="../../assets/mockups/mfa-legacy-blockers.svg" target="_blank" rel="noopener" title="Open the diagram full size">
+                        <img src="../../assets/mockups/mfa-legacy-blockers.svg" width="1100" height="700" loading="lazy" decoding="async" alt="Diagram: the user signs in to IamLogic with MFA, the browser plugin autofills the legacy application’s own login page, and the application password is rotated immediately after use.">
+                      </a>
                       <figcaption>Browser-plugin sign-in, with the application password rotated after every use.</figcaption>
                     </figure>
                   </div>
@@ -357,7 +359,9 @@
                     <h3 id="how-iamlogic-solves-it-3">How IamLogic solves it</h3>
                     <p>IamLogic places a reverse proxy in front of the application - a checkpoint that every request must pass through. Unauthenticated users are redirected to verify their identity with MFA first; only after that does the proxy forward the request to the app. The application sits in a protected zone and is never reached without a passing MFA check.</p>
                     <figure>
-                      <img src="../../assets/mockups/reverse_proxy.webp" width="512" height="403" loading="lazy" decoding="async" alt="Diagram: an unauthenticated request to a legacy application is redirected to an IamLogic MFA check, and only a verified request is forwarded to the application in its protected zone.">
+                      <a class="figure-zoom" href="../../assets/mockups/mfa-legacy-reverse-proxy.svg" target="_blank" rel="noopener" title="Open the diagram full size">
+                        <img src="../../assets/mockups/mfa-legacy-reverse-proxy.svg" width="1100" height="880" loading="lazy" decoding="async" alt="Diagram: an unauthenticated request to a legacy application is redirected to an IamLogic MFA check, and only a verified request is forwarded to the application in its protected zone.">
+                      </a>
                       <figcaption>The reverse proxy as an MFA checkpoint in front of the application.</figcaption>
                     </figure>
                   </div>
@@ -371,7 +375,9 @@
                     <h3 id="how-iamlogic-solves-it-4">How IamLogic solves it</h3>
                     <p>IamLogic adds push-based 2FA to Kerberos with no application changes. A lightweight interceptor agent on the domain controller watches ticket requests. When a user opens a protected app, the agent pauses the request and sends a push approval to the user’s device. Approve, and the ticket is issued and the app opens; deny, and the request is dropped.</p>
                     <figure>
-                      <img src="../../assets/mockups/Kerberos_2FA.webp" width="512" height="279" loading="lazy" decoding="async" alt="Diagram: an interceptor agent on the domain controller pauses a Kerberos ticket request and sends a push approval to the user’s device before the ticket is issued.">
+                      <a class="figure-zoom" href="../../assets/mockups/mfa-legacy-kerberos-2fa.svg" target="_blank" rel="noopener" title="Open the diagram full size">
+                        <img src="../../assets/mockups/mfa-legacy-kerberos-2fa.svg" width="1200" height="800" loading="lazy" decoding="async" alt="Diagram: an interceptor agent on the domain controller pauses a Kerberos ticket request and sends a push approval to the user’s device before the ticket is issued.">
+                      </a>
                       <figcaption>Push-based 2FA added to Kerberos ticket issuance.</figcaption>
                     </figure>
                   </div>

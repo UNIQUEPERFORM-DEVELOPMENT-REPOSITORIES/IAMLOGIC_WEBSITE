@@ -1627,6 +1627,9 @@ body.bk-lock { overflow: hidden; }
   border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-muted);
 }
 .article--post .article__body figure { margin: 0; }
+/* Diagram that opens full size in a new tab (lets phone readers zoom in) */
+.article--post .article__body .figure-zoom { display: block; cursor: zoom-in; text-decoration: none; }
+.article--post .article__body .figure-zoom:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 3px; border-radius: var(--radius); }
 .article--post .article__body figcaption { margin-top: 0.625rem; font-size: 0.8125rem; line-height: 1.5;
   color: var(--slate-500); text-align: center; }
 .article--post .article__body blockquote {
