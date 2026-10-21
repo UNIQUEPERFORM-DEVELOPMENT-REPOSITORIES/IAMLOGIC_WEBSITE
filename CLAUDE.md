@@ -184,8 +184,10 @@ desktop (contents for 2 screens, related boxes for 2, then the CTA to the
 end — heights in `styles.css`). It holds, in order: the table of contents
 (`[data-toc]`, empty — `assets/blog.js` builds it), "Related resources"
 (hand-picked links), "Related articles" (`[data-related-posts]` — blog.js
-refills it from the `/blog/` listing: same category first, then the latest
-posts; the static list is only the no-JS fallback) and the `.rail-cta` box
+refills it from the `/blog/` listing: every post in the same topic family —
+Identity Governance and Compliance count as one family, see `RELATED_FAMILY`
+— then the latest posts if that gives fewer than 4; up to 6 shown; the static
+list is only the no-JS fallback) and the `.rail-cta` box
 (copy the Access Manager version — "Secure Every Login with Access Manager"
 — for access-management posts, or the IGA version — "Automate Governance with
 IamLogic IGA" — for governance/compliance posts; then rewrite its four ticks

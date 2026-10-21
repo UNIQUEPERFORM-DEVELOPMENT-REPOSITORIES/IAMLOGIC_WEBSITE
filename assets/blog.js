@@ -255,9 +255,16 @@
   }
 
   /* ======================================================================
-     3b. Related articles — same category first, then the latest posts
+     3b. Related articles — the whole topic family first, then the latest
      ====================================================================== */
-  var RELATED_COUNT = 4;
+  /* Categories that cover the same subject. Every post in the current post's
+     family is listed (its own category first, newest first); if that gives
+     fewer than RELATED_MIN, the latest other posts fill the box. */
+  var RELATED_FAMILY = {
+    "Identity Governance": ["Identity Governance", "Compliance"],
+    "Compliance": ["Compliance", "Identity Governance"]
+  };
+  var RELATED_MIN = 4, RELATED_MAX = 6;
 
   function relatedPosts() {
     var box = $("[data-related-posts]");
@@ -291,9 +298,14 @@
         if (!current) return;   // not a listed post — keep the static list
         var others = posts.filter(function (p) { return p !== current; })
           .sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
-        var same = others.filter(function (p) { return p.category === current.category; });
-        var rest = others.filter(function (p) { return p.category !== current.category; });
-        var pick = same.concat(rest).slice(0, RELATED_COUNT);
+        var family = RELATED_FAMILY[current.category] || [current.category];
+        var inFamily = [];
+        family.forEach(function (cat) {
+          others.forEach(function (p) { if (p.category === cat) inFamily.push(p); });
+        });
+        var rest = others.filter(function (p) { return family.indexOf(p.category) === -1; });
+        var pick = inFamily.slice(0, RELATED_MAX);
+        if (pick.length < RELATED_MIN) pick = pick.concat(rest.slice(0, RELATED_MIN - pick.length));
         if (!pick.length) return;
 
         list.innerHTML = "";
@@ -302,7 +314,7 @@
           var li = document.createElement("li");
           var a = document.createElement("a");
           a.href = p.url;
-          a.setAttribute("data-blog-track", p.category === current.category ? "related_same_category" : "related_recent");
+          a.setAttribute("data-blog-track", family.indexOf(p.category) !== -1 ? "related_same_category" : "related_recent");
           if (p.img) {
             var im = document.createElement("img");
             im.className = "rail-list__thumb";
