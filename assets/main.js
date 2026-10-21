@@ -128,7 +128,7 @@
         {
           heading: "By compliance",
           links: [
-            { label: "DPDP Act 2023", href: "compliance/dpdp-act/" },
+            { label: "Digital Personal Data Protection Act", href: "compliance/dpdp-act/" },
             { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
             { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
             { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
@@ -185,7 +185,7 @@
       { label: "All solutions", href: "solutions/" }
     ]},
     { heading: "Compliance", links: [
-      { label: "DPDP Act 2023", href: "compliance/dpdp-act/" },
+      { label: "Digital Personal Data Protection Act", href: "compliance/dpdp-act/" },
       { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
       { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
       { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
@@ -353,14 +353,14 @@
     return '<div class="container header-inner">' + LOGO +
       '<nav class="nav-desktop" aria-label="Main">' + desktop + "</nav>" +
       '<div class="header-actions"><a class="contact-link" href="' + url("contact/") + '">Contact</a>' +
-      '<a class="btn btn--primary" href="' + url("demo/") + '">Request a demo</a></div>' +
+      '<a class="btn btn--primary" href="' + url("demo/") + '">Request a Demo</a></div>' +
       '<button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">' +
       '<svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
       '<svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>' +
       "</button></div>" +
       '<nav class="nav-mobile" aria-label="Mobile"><div class="nav-mobile__inner">' + mobile +
       '<a href="' + url("contact/") + '">Contact</a>' +
-      '<div class="mt-2"><a class="btn btn--primary btn--block" href="' + url("demo/") + '">Request a demo</a></div>' +
+      '<div class="mt-2"><a class="btn btn--primary btn--block" href="' + url("demo/") + '">Request a Demo</a></div>' +
       "</div></nav>";
   }
 
