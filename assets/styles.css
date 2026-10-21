@@ -95,6 +95,7 @@ body {
 main { flex: 1 0 auto; }
 
 img, svg { max-width: 100%; }
+img { height: auto; }   /* keep the file's proportions when CSS sets only the width */
 svg { display: block; }
 
 a { color: inherit; }
