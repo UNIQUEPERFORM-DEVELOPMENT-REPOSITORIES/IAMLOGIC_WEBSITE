@@ -208,50 +208,26 @@
     document.addEventListener("iamlogic:related-ready", fit);
   }
 
-  /* Phones/tablets (no side column): a slim bar pinned to the bottom with
-     the side CTA's two buttons. Shown once the reader is past the intro;
-     hidden while the full CTA box or the footer is on screen. */
-  function mobileCta() {
-    var cta = $(".rail-cta");
-    var start = $(".article-main");
-    if (!cta || !start || !("IntersectionObserver" in window)) return;
-    var links = $$(".rail-cta__actions a", cta);
-    if (links.length < 2) return;
-
-    var bar = document.createElement("div");
-    bar.className = "mobile-cta";
-    bar.setAttribute("role", "region");
-    bar.setAttribute("aria-label", "Request a demo or contact us");
-    links.forEach(function (a, i) {
-      var b = document.createElement("a");
-      b.href = a.getAttribute("href");
-      b.className = "btn " + (i === 0 ? "btn--on-dark" : "btn--ghost-dark");
-      b.textContent = a.textContent.trim();
-      b.setAttribute("data-blog-track", a.getAttribute("data-blog-track") + "_bar");
-      bar.appendChild(b);
+  /* Phones/tablets (no side column): the side column's CTA box is copied
+     into the article itself — after the body, before the FAQs — and the
+     side-column original is hidden there by CSS, so the offer shows once,
+     in the reading flow, rather than as a sticky bar. */
+  function inlineCta() {
+    var cta = $(".article-rail .rail-cta");
+    var main = $(".article-main");
+    if (!cta || !main) return;
+    var box = cta.cloneNode(true);
+    box.classList.add("article-inline-cta");
+    $$("[data-blog-track]", box).forEach(function (a) {
+      a.setAttribute("data-blog-track", a.getAttribute("data-blog-track") + "_inline");
     });
-    document.body.appendChild(bar);
-
-    var pastIntro = false, ctaVisible = false, footerVisible = false;
-    function update() { bar.classList.toggle("is-shown", pastIntro && !ctaVisible && !footerVisible); }
-    // Past the intro once the article body's top has scrolled above the
-    // screen. (A scroll check, not an observer: the article is taller than
-    // the screen, so its intersection ratio never crosses a threshold there.)
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () {
-        ticking = false;
-        pastIntro = start.getBoundingClientRect().top < 0;
-        update();
-      });
+    var faq = $(".article-faq", main);
+    if (faq) main.insertBefore(box, faq);
+    else {
+      var body = $(".article__body", main);
+      if (body && body.nextSibling) main.insertBefore(box, body.nextSibling);
+      else main.appendChild(box);
     }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    new IntersectionObserver(function (es) { ctaVisible = es[0].isIntersecting; update(); }).observe(cta);
-    var footer = $("#site-footer");
-    if (footer) new IntersectionObserver(function (es) { footerVisible = es[0].isIntersecting; update(); }).observe(footer);
   }
 
   /* ======================================================================
@@ -556,7 +532,7 @@
     syncRailCards();
     relatedPosts();
     fitRelatedStack();
-    mobileCta();
+    inlineCta();
     faqAccordion();
     buildShare();
     buildInlineShare();

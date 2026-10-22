@@ -38,8 +38,10 @@ apple-touch-icon.png              180×180 iOS home-screen icon
 assets/
   styles.css        ALL styling. Hand-written, sectioned (see header comment),
                     driven by CSS variables in the :root { … } block.
-  main.js           SINGLE SOURCE for the header + footer, the right-edge
-                    quick-contact bar (built from SITE; wide screens only),
+  main.js           SINGLE SOURCE for the header + footer, the quick-contact
+                    bar (built from SITE: Contact Us, LinkedIn, YouTube,
+                    WhatsApp, email, phone — a right-edge tab at >=1310px,
+                    a bottom bar below that),
                     nav data, dropdown /
                     mobile-nav behaviour, lead-form logic, the icon set, and
                     consent-gated analytics (Google Tag Manager).
@@ -192,8 +194,8 @@ list is only the no-JS fallback) and the `.rail-cta` box
 — for access-management posts, or the IGA version — "Automate Governance with
 IamLogic IGA" — for governance/compliance posts; then rewrite its four ticks
 for the post's own topic, kept to claims the product page makes; then
-"Request a Demo" and "Contact Us"; below 1120px blog.js copies those two
-buttons into a slim bar pinned to the bottom of the screen). So a new post must also get
+"Request a Demo" and "Contact Us"; below 1120px blog.js copies that box into
+the article, after the body and before the FAQs, and hides the side-column one). So a new post must also get
 a card on `blog/index.html` (with its `data-category` and `<time datetime>`),
 or it won't appear in other posts' related articles. Update the three cards on
 the home page's "From the blog" section by hand.
