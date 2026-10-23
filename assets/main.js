@@ -63,7 +63,10 @@
     else turnstileQueue.push(fn);
   }
   function turnstileRender(el) {
-    return window.turnstile.render(el, { sitekey: TURNSTILE_SITEKEY });
+    // The normal widget is a fixed 300px; on narrower phones it would push the
+    // page sideways, so drop to Turnstile's compact (150px) size there.
+    var narrow = el.clientWidth > 0 && el.clientWidth < 300;
+    return window.turnstile.render(el, { sitekey: TURNSTILE_SITEKEY, size: narrow ? "compact" : "normal" });
   }
   function turnstileResponse(id) {
     try { return window.turnstile.getResponse(id); } catch (e) { return ""; }
@@ -571,6 +574,9 @@
       }).then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (res) {
           if (!r.ok || !res.ok) throw new Error(res.error || "bad status");
+          // Key event for GTM: fires only once the lead is accepted, never on a
+          // bare button click. No personal data, just which form it was.
+          (window.dataLayer = window.dataLayer || []).push({ event: "generate_lead", form_intent: data.intent });
           showSuccess();
         });
       }).catch(function (err) {

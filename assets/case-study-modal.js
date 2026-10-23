@@ -188,6 +188,7 @@
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (res) {
         if (!r.ok || !res.ok || !res.url) throw new Error(res.error || "bad status");
+        (window.dataLayer = window.dataLayer || []).push({ event: "generate_lead", form_intent: "case-study-download" });
         showSuccess(s, data.name, res.url);
       });
     }).catch(function (err) {
