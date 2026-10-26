@@ -58,9 +58,19 @@
     turnstileQueue.forEach(function (fn) { fn(); });
     turnstileQueue = [];
   };
+  // Turnstile's script is a heavy third-party load, so no page includes it
+  // up front: the first widget that asks for it pulls it in (lead forms on
+  // first focus or tap, the quick-contact box and case-study modal on open).
+  var TURNSTILE_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=iamlogicTurnstileOnload&render=explicit";
+  function loadTurnstile() {
+    if (window.turnstile || document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')) return;
+    var s = document.createElement("script");
+    s.src = TURNSTILE_SRC; s.async = true; s.defer = true;
+    document.head.appendChild(s);
+  }
   function turnstileWhenReady(fn) {
     if (turnstileReady && window.turnstile) fn();
-    else turnstileQueue.push(fn);
+    else { turnstileQueue.push(fn); loadTurnstile(); }
   }
   function turnstileRender(el) {
     // The normal widget is a fixed 300px; on narrower phones it would push the
@@ -81,6 +91,24 @@
   // Google Tag Manager (see "Analytics & cookie consent" below). Container
   // ID from tagmanager.google.com → your container (format "GTM-XXXXXXX").
   var GTM_CONTAINER_ID = "GTM-T5LC3HBB";
+
+  // The live site. Anywhere else (the GitHub Pages staging copy, localhost)
+  // Tag Manager never loads, and every page is switched to noindex so search
+  // engines don't index the staging copy. GitHub Pages can't send an
+  // X-Robots-Tag header, and robots.txt doesn't apply at a project subpath,
+  // so this is the one place it can be done. Google renders JavaScript and
+  // honours a robots meta changed to noindex this way.
+  var PRODUCTION_HOSTS = ["iamlogic.com", "www.iamlogic.com"];
+  var IS_PRODUCTION = PRODUCTION_HOSTS.indexOf(location.hostname) !== -1;
+  if (!IS_PRODUCTION) {
+    var robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.name = "robots";
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.content = "noindex, nofollow";
+  }
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
   var NAV = [
@@ -137,7 +165,7 @@
             { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
             { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
             { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
-            { label: "ISO 27001", href: "compliance/iso-27001/" }
+            { label: "ISO/IEC 27001", href: "compliance/iso-27001/" }
           ]
         }
       ]
@@ -163,7 +191,7 @@
           heading: "Company",
           links: [
             { label: "About IamLogic", href: "about/", description: "Who we are and why we build in India" },
-            { label: "Security & Trust", href: "security/", description: "ISO 27001, architecture and data residency" },
+            { label: "Security & Trust", href: "security/", description: "ISO/IEC 27001, architecture and data residency" },
             { label: "IAM Services", href: "services/", description: "Consulting, connectors and managed services" },
             { label: "Partners", href: "partners/", description: "Resell, implement or integrate with IamLogic" },
             { label: "Careers", href: "careers/", description: "Build identity security from Bengaluru" },
@@ -194,7 +222,7 @@
       { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
       { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
       { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
-      { label: "ISO 27001", href: "compliance/iso-27001/" }
+      { label: "ISO/IEC 27001", href: "compliance/iso-27001/" }
     ]},
     { heading: "Resources", links: [
       { label: "Blog", href: "blog/" },
@@ -398,7 +426,7 @@
       '<a href="mailto:' + SITE.email + '">' + SITE.email + "</a><br>" +
       '<a href="tel:' + SITE.phone + '">' + SITE.phone + "</a></p>" + social + "</div>" + cols + "</div>" +
       '<div class="footer-bottom"><p class="footer-bottom__copy">&copy; <span data-year></span> IamLogic. All rights reserved.</p>' +
-      '<div class="footer-bottom__meta"><strong>ISO/IEC 27001:2022 certified</strong>' +
+      '<div class="footer-bottom__meta"><strong>ISO/IEC 27001 certified</strong>' +
       '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a>' +
       '<button type="button" class="link-button" data-consent="manage">Cookie settings</button></div></div>' +
       "</div></div>";
@@ -505,7 +533,9 @@
     return !msg;
   }
 
-  function wireLeadForm(form) {
+  // eagerTurnstile: render the widget at once (the quick-contact box, which is
+  // only built when a visitor opens it) instead of on first focus or tap.
+  function wireLeadForm(form, eagerTurnstile) {
     var requiredInputs = Array.prototype.filter.call(form.elements, function (el) {
       return el.name && el.hasAttribute("required");
     });
@@ -515,7 +545,18 @@
 
     var tsId = null;
     var tsEl = form.querySelector("[data-turnstile]");
-    if (tsEl) turnstileWhenReady(function () { tsId = turnstileRender(tsEl); form._tsId = tsId; });
+    // Render the widget (and so load Turnstile) only once the visitor starts
+    // on the form, keeping it out of the page load.
+    function startTurnstile() {
+      form.removeEventListener("focusin", startTurnstile);
+      form.removeEventListener("pointerdown", startTurnstile);
+      turnstileWhenReady(function () { tsId = turnstileRender(tsEl); form._tsId = tsId; });
+    }
+    if (tsEl && eagerTurnstile) startTurnstile();
+    else if (tsEl) {
+      form.addEventListener("focusin", startTurnstile);
+      form.addEventListener("pointerdown", startTurnstile);
+    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -598,7 +639,7 @@
      configured inside the GTM container itself, not here. */
   var gtmLoaded = false;
   function loadGTM() {
-    if (gtmLoaded) return;
+    if (gtmLoaded || !IS_PRODUCTION) return;   // never on staging/localhost
     gtmLoaded = true;
     (function (w, d, s, l, i) {
       w[l] = w[l] || [];
@@ -731,7 +772,6 @@
      forms; intent "quick-contact" labels these leads in Zoho. The trigger
      keeps its href to contact/, so without JS (or with a modifier-click) it
      still goes to the full page. Turnstile's script loads on first open. */
-  var TURNSTILE_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=iamlogicTurnstileOnload&render=explicit";
   var qc = { box: null, body: null, last: null };
   // Country calling codes for the quick-contact phone field (India first =
   // default). Shown as "IN +91": flag emoji don't render on Windows.
@@ -743,13 +783,6 @@
     ["ZA", "+27"], ["KE", "+254"], ["NG", "+234"], ["LK", "+94"], ["BD", "+880"],
     ["NP", "+977"], ["JP", "+81"], ["HK", "+852"], ["PH", "+63"]
   ];
-
-  function loadTurnstile() {
-    if (window.turnstile || document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')) return;
-    var s = document.createElement("script");
-    s.src = TURNSTILE_SRC; s.async = true; s.defer = true;
-    document.head.appendChild(s);
-  }
 
   function qcBuild() {
     var o = document.createElement("div");
@@ -808,11 +841,10 @@
   function qcOpen(trigger) {
     if (!qc.box) qcBuild();
     if (!qc.box.hasAttribute("hidden")) { qcClose(); return; }   // tab toggles
-    loadTurnstile();
     qc.last = trigger || document.activeElement;
     qc.body.innerHTML = qcForm();            // fresh form every time
     var form = qc.body.querySelector("form");
-    wireLeadForm(form);
+    wireLeadForm(form, true);
     qc.box.removeAttribute("hidden");
     void qc.box.offsetWidth;                 // reflow so the transition runs
     qc.box.classList.add("is-open");
@@ -895,7 +927,7 @@
       el.textContent = new Date().getFullYear();
     });
     // Lead forms
-    Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), wireLeadForm);
+    Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), function (form) { wireLeadForm(form); });
     // Quick-contact bar (right edge) + its Contact Us dialog
     renderQuickBar();
     wireQuickContact();

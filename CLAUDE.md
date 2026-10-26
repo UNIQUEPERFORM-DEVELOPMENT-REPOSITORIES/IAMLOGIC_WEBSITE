@@ -244,11 +244,13 @@ power this, both scoped narrowly to the lead forms:
   into the matching `ZOHO`/`ZOHO_PARTNER` object, and re-check
   `INTEREST_MAP`/the partner `<select>` options against their picklists.
 - **Cloudflare Turnstile script** (`challenges.cloudflare.com/turnstile/v0/api.js`,
-  included on `demo/`, `contact/`, `pricing/`, `partners/apply/`, and
-  injected on demand by `main.js` on any page when the quick-contact
+  never in a page's HTML: `main.js` injects it on demand, so it stays out of
+  page load (PageSpeed). A `[data-lead-form]` with a `[data-turnstile]` box
+  loads it on the visitor's first focus or tap in the form; the quick-contact
   form box — the right-edge bar's "Contact Us" tab, `[data-quick-contact]` —
-  is first opened; that box is a shortened contact form posting to the
-  same endpoint with `intent: "quick-contact"`) — the one
+  and the case-study download modal load it when opened. The quick-contact
+  box is a shortened contact form posting to the same endpoint with
+  `intent: "quick-contact"`. Don't add the script tag to pages) — the one
   external CDN script in the site. Unavoidable: no hosted captcha can be
   self-hosted. Replace the placeholder `TURNSTILE_SITEKEY` in `assets/main.js`
   (currently Cloudflare's public "always passes" test key) with your real
@@ -314,6 +316,16 @@ Three more deliberate exceptions to the "self-hosted only" rule.
   also carries GTM's static `<noscript><iframe>` fallback right after
   `<body>` (see "Page anatomy" above) — unlike the JS loader, it's **not**
   consent-gated, since plain HTML can't run a consent check.
+  **Production only:** `PRODUCTION_HOSTS` in `main.js` (`iamlogic.com`,
+  `www.iamlogic.com`). On any other host — the GitHub Pages staging copy,
+  localhost — GTM never loads, even after "Accept", and `main.js` switches
+  the page's robots meta to `noindex, nofollow` (GitHub Pages can't send an
+  X-Robots-Tag header, and `robots.txt` doesn't apply at a project subpath).
+  Add a host there if production ever moves.
+  Successful lead-form submissions (and gated case-study downloads) push
+  `{ event: "generate_lead", form_intent }` to the dataLayer — never on a
+  button click, and with no personal data. The matching trigger, GA4 event
+  tag and key-event setting live in the Tag Manager / GA4 UIs.
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so
   it can be dropped onto only the pages that need it, the same way the
