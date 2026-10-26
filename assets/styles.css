@@ -55,7 +55,7 @@
   /* Neutrals */
   --ink:          #1c1a2e;   /* body text */
   --slate-400:    #8b90a3;
-  --slate-500:    #6b7280;
+  --slate-500:    #646b79;   /* darkened from #6b7280: 4.5:1+ on --surface-muted too */
   --slate-600:    #55596b;
   --slate-700:    #3f4354;
 
@@ -583,6 +583,10 @@ a.chip:hover { border-color: var(--indigo-400); }
 }
 
 /* 6. HEADER + NAV ========================================================== */
+/* main.js fills <header id="site-header"> after the HTML has painted; reserve
+   its height (bar + 1px border) so the page doesn't jump down when it appears. */
+#site-header:empty { display: block; height: calc(4rem + 1px); }
+@media (min-width: 640px) { #site-header:empty { height: calc(4.5rem + 1px); } }
 .site-header {
   position: sticky;
   top: 0;
@@ -652,7 +656,7 @@ a.chip:hover { border-color: var(--indigo-400); }
 .nav-item.is-open .nav-panel--mega { display: grid; }
 .nav-group__heading {
   font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--slate-400); margin-bottom: 0.75rem;
+  letter-spacing: 0.12em; color: var(--slate-500); margin-bottom: 0.75rem;
 }
 .nav-group ul { display: flex; flex-direction: column; gap: 0.25rem; }
 .nav-group a {
@@ -720,7 +724,7 @@ a.chip:hover { border-color: var(--indigo-400); }
 .nav-mobile details[open] summary .chevron { transform: rotate(180deg); }
 .nav-mobile__group-heading {
   font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--slate-400); margin: 0.5rem 0 0.25rem;
+  letter-spacing: 0.12em; color: var(--slate-500); margin: 0.5rem 0 0.25rem;
 }
 .nav-mobile__sublink {
   display: block;
@@ -920,7 +924,7 @@ a.chip:hover { border-color: var(--indigo-400); }
   margin-bottom: 0.375rem;
 }
 .field .req { color: #dc2626; }
-.field .opt { color: var(--slate-400); font-weight: 400; }
+.field .opt { color: var(--slate-500); font-weight: 400; }
 .input {
   width: 100%;
   border: 1px solid var(--line);
@@ -1279,7 +1283,7 @@ body.bk-lock { overflow: hidden; }
 }
 .blog-search input::placeholder { color: var(--slate-400); }
 .blog-search input:focus { outline: none; border-color: var(--indigo-500); box-shadow: 0 0 0 3px rgba(126, 102, 209, 0.15); }
-.blog-result-count { margin-top: 1rem; font-size: 0.875rem; color: var(--slate-500); }
+.blog-result-count { margin-top: 1rem; font-size: 0.875rem; color: var(--slate-500); min-height: 1.5em; }   /* filled by blog.js; reserved so the posts don't jump */
 .blog-empty { margin-top: 2rem; padding: 2rem; text-align: center; color: var(--slate-600);
   border: 1px dashed var(--line); border-radius: var(--radius); }
 .blog-empty[hidden] { display: none; }
@@ -1605,7 +1609,9 @@ body.bk-lock { overflow: hidden; }
   /* min-height: 0 lets a stage give up its spacer on short posts (a column
      flexbox's automatic minimum would otherwise include the full spacer). */
   .article-rail .rail-seg { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; padding-bottom: 1rem; }
-  .article-rail .rail-seg::after { content: ""; flex: 0 1 200vh; }
+  /* visibility:hidden: the spacer is pushed down when blog.js fills the table
+     of contents; an invisible spacer is not counted as a layout shift. */
+  .article-rail .rail-seg::after { content: ""; flex: 0 1 200vh; visibility: hidden; }
   .article-rail .rail-seg--cta { flex: 1 0 auto; padding-bottom: 0; }
   .article-rail .rail-seg--cta::after { flex: 0 0.25 100vh; }
   .article-rail .rail-seg > .toc,
