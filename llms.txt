@@ -1,6 +1,6 @@
 # IamLogic
 
-> IamLogic is an enterprise identity security provider offering Identity Governance & Administration (IGA) and Identity & Access Management (IAM) solutions. Its solutions support identity lifecycle management, Joiner-Mover-Leaver (JML) automation, provisioning and deprovisioning, access requests, access certification, role management, Segregation of Duties (SoD), SSO, MFA, passwordless authentication and compliance reporting across modern, legacy and hybrid environments.
+> IamLogic is an enterprise identity security provider offering Identity Governance & Administration (IGA) and Identity & Access Management (IAM) solutions. Its solutions support identity lifecycle management, Joiner-Mover-Leaver (JML) automation, provisioning and deprovisioning, access requests, access certification, role management, Segregation of Duties (SoD), SSO, MFA, passwordless authentication and compliance reporting across modern, legacy, cloud and on-premises environments.
 
 ## Project Details
 
@@ -42,7 +42,7 @@ Key areas include:
 
 ## Identity and Access Management
 
-IamLogic provides Identity & Access Management capabilities for securing authentication and managing access across modern, legacy and hybrid environments.
+IamLogic provides Identity & Access Management capabilities for securing authentication and managing access across modern, legacy, cloud and on-premises environments.
 
 Key areas include:
 
