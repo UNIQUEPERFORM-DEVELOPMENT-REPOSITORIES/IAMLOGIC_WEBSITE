@@ -38,7 +38,11 @@ apple-touch-icon.png              180×180 iOS home-screen icon
 assets/
   styles.css        ALL styling. Hand-written, sectioned (see header comment),
                     driven by CSS variables in the :root { … } block.
-  main.js           SINGLE SOURCE for the header + footer, nav data, dropdown /
+  main.js           SINGLE SOURCE for the header + footer, the quick-contact
+                    bar (built from SITE: Contact Us, LinkedIn, YouTube,
+                    WhatsApp, email, phone — a right-edge tab at >=1310px,
+                    a bottom bar below that),
+                    nav data, dropdown /
                     mobile-nav behaviour, lead-form logic, the icon set, and
                     consent-gated analytics (Google Tag Manager).
   booking-modal.js  The Microsoft Bookings appointment modal — self-contained,
@@ -167,9 +171,34 @@ container ID ever changes, update the `id=` query param here on all pages
 (it's a plain string, not sourced from `main.js`).
 
 When you add a page, also:
-- add it to `sitemap.xml`,
+- add it to `sitemap.xml` (with a `<lastmod>` date),
+- give it Open Graph / X share tags — copy the block under
+  `<!-- Open Graph / X — share cards for this page -->` from any page, set
+  its title/description/url, and point `og:image` at a 1200×630 PNG in
+  `assets/og/` (`<path-with-dashes>.png`; same style as the existing cards:
+  logo, section eyebrow, the page's H1, its URL),
 - link to it from `NAV` / `FOOTER_COLUMNS` in `assets/main.js` (root-relative,
   no leading slash) if it should be reachable from the chrome.
+
+**Blog posts** — copy an existing `blog/<slug>/index.html`. The side column
+(`.article-rail`) is three `.rail-seg` stages that pin one after another on
+desktop (contents for 2 screens, related boxes for 2, then the CTA to the
+end — heights in `styles.css`). It holds, in order: the table of contents
+(`[data-toc]`, empty — `assets/blog.js` builds it), "Related resources"
+(hand-picked links), "Related articles" (`[data-related-posts]` — blog.js
+refills it from the `/blog/` listing: every post in the same topic family —
+Identity Governance and Compliance count as one family, see `RELATED_FAMILY`
+— then the latest posts if that gives fewer than 4; up to 6 shown; the static
+list is only the no-JS fallback) and the `.rail-cta` box
+(copy the Access Manager version — "Secure Every Login with Access Manager"
+— for access-management posts, or the IGA version — "Automate Governance with
+IamLogic IGA" — for governance/compliance posts; then rewrite its four ticks
+for the post's own topic, kept to claims the product page makes; then
+"Request a Demo" and "Contact Us"; below 1120px blog.js copies that box into
+the article, after the body and before the FAQs, and hides the side-column one). So a new post must also get
+a card on `blog/index.html` (with its `data-category` and `<time datetime>`),
+or it won't appear in other posts' related articles. Update the three cards on
+the home page's "From the blog" section by hand.
 
 > **`404.html` caveat:** the host can serve it at any URL depth, so its relative
 > assets only resolve for top-level misses; a deep miss renders it unstyled.
@@ -215,7 +244,13 @@ power this, both scoped narrowly to the lead forms:
   into the matching `ZOHO`/`ZOHO_PARTNER` object, and re-check
   `INTEREST_MAP`/the partner `<select>` options against their picklists.
 - **Cloudflare Turnstile script** (`challenges.cloudflare.com/turnstile/v0/api.js`,
-  included on `demo/`, `contact/`, `pricing/`, `partners/apply/`) — the one
+  never in a page's HTML: `main.js` injects it on demand, so it stays out of
+  page load (PageSpeed). A `[data-lead-form]` with a `[data-turnstile]` box
+  loads it on the visitor's first focus or tap in the form; the quick-contact
+  form box — the right-edge bar's "Contact Us" tab, `[data-quick-contact]` —
+  and the case-study download modal load it when opened. The quick-contact
+  box is a shortened contact form posting to the same endpoint with
+  `intent: "quick-contact"`. Don't add the script tag to pages) — the one
   external CDN script in the site. Unavoidable: no hosted captcha can be
   self-hosted. Replace the placeholder `TURNSTILE_SITEKEY` in `assets/main.js`
   (currently Cloudflare's public "always passes" test key) with your real
@@ -281,6 +316,16 @@ Three more deliberate exceptions to the "self-hosted only" rule.
   also carries GTM's static `<noscript><iframe>` fallback right after
   `<body>` (see "Page anatomy" above) — unlike the JS loader, it's **not**
   consent-gated, since plain HTML can't run a consent check.
+  **Production only:** `PRODUCTION_HOSTS` in `main.js` (`iamlogic.com`,
+  `www.iamlogic.com`). On any other host — the GitHub Pages staging copy,
+  localhost — GTM never loads, even after "Accept", and `main.js` switches
+  the page's robots meta to `noindex, nofollow` (GitHub Pages can't send an
+  X-Robots-Tag header, and `robots.txt` doesn't apply at a project subpath).
+  Add a host there if production ever moves.
+  Successful lead-form submissions (and gated case-study downloads) push
+  `{ event: "generate_lead", form_intent }` to the dataLayer — never on a
+  button click, and with no personal data. The matching trigger, GA4 event
+  tag and key-event setting live in the Tag Manager / GA4 UIs.
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so
   it can be dropped onto only the pages that need it, the same way the
@@ -333,6 +378,12 @@ no part in serving the static pages.
   at any base.
 - **Reuse existing component classes and CSS tokens** instead of adding one-off
   styles or inline colours.
+- **No `#` URLs in links** (the `#main` skip link is the one exception). An
+  in-page action — open a dialog, jump to a section, cookie settings — is a
+  `<button type="button">` (`.btn` or `.link-button`), not `href="#…"`. Blog
+  table-of-contents entries are buttons built by `assets/blog.js`; article
+  breadcrumbs are Home / Blog / title (no category level), and structured
+  data never uses `#fragment` item URLs.
 - **Header/footer/nav/contact live only in `main.js`** — never hard-code them
   into individual pages (the Contact page duplicates address info intentionally).
 - **After edits, verify by loading pages in the local server** above and

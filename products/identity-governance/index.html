@@ -12,24 +12,48 @@
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this page -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Identity Governance &amp; Administration (IGA) Solution | IamLogic">
+  <meta property="og:description" content="Identity Governance &amp; Administration (IGA) solution for lifecycle management, access reviews, role governance, SoD controls and provisioning.">
+  <meta property="og:url" content="https://iamlogic.com/products/identity-governance/">
+  <meta property="og:image" content="https://iamlogic.com/assets/og/products-identity-governance.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — Identity Governance &amp; Administration">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Identity Governance &amp; Administration (IGA) Solution | IamLogic">
+  <meta name="twitter:description" content="Identity Governance &amp; Administration (IGA) solution for lifecycle management, access reviews, role governance, SoD controls and provisioning.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/og/products-identity-governance.png">
+  <meta name="twitter:image:alt" content="IamLogic — Identity Governance &amp; Administration">
+
   <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../assets/styles.css">
   <script src="../../assets/main.js" defer></script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": "https://iamlogic.com/products/identity-governance/#webpage",
-    "url": "https://iamlogic.com/products/identity-governance/",
-    "name": "Identity Governance & Administration (IGA) Solution | IamLogic",
-    "isPartOf": {
-      "@id": "https://iamlogic.com/#website"
-    },
-    "publisher": {
-      "@id": "https://iamlogic.com/#organization"
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://iamlogic.com/products/identity-governance/#webpage",
+  "url": "https://iamlogic.com/products/identity-governance/",
+  "name": "Identity Governance & Administration (IGA) Solution | IamLogic",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/#website"
+  },
+  "publisher": {
+    "@id": "https://iamlogic.com/#organization"
+  },
+  "mainEntity": {
+    "@id": "https://iamlogic.com/products/identity-governance/#software"
+  },
+  "breadcrumb": {
+    "@id": "https://iamlogic.com/products/identity-governance/#breadcrumb"
   }
+}
   </script>
 
   <script type="application/ld+json">
@@ -59,7 +83,7 @@
       "name": "Can IGA work independently of Access Manager?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. IGA can operate independently. When used with Access Manager, authentication signals can enrich governance decisions and governance outcomes can inform access enforcement."
+        "text": "Yes. IGA can operate independently. When used with Access Manager, IGA users sign in with Access Manager single sign-on, and IGA manages Access Manager users and groups through a built-in connector."
       }
     },
     {
@@ -67,7 +91,7 @@
       "name": "Does IGA support on-premises deployment?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. IGA supports on-premises, private cloud and hybrid deployment, with high availability and disaster recovery."
+        "text": "Yes. IGA supports on-premises and cloud deployment, with high availability and disaster recovery."
       }
     },
     {
@@ -83,31 +107,63 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": "https://iamlogic.com/products/identity-governance/#breadcrumb",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://iamlogic.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Products",
-        "item": "https://iamlogic.com/products/identity-governance/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Identity Governance",
-        "item": "https://iamlogic.com/products/identity-governance/"
-      }
-    ]
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/products/identity-governance/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Products",
+      "item": "https://iamlogic.com/platform/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Identity Governance",
+      "item": "https://iamlogic.com/products/identity-governance/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://iamlogic.com/products/identity-governance/#software",
+  "name": "IamLogic IGA",
+  "url": "https://iamlogic.com/products/identity-governance/",
+  "description": "Identity Governance & Administration (IGA) solution for lifecycle management, access reviews, role governance, SoD controls and provisioning.",
+  "applicationCategory": "SecurityApplication",
+  "applicationSubCategory": "Identity and access management",
+  "operatingSystem": "Web-based; deployable on-premises or in private or public cloud",
+  "featureList": [
+    "Identity lifecycle management (joiner-mover-leaver)",
+    "Access certification campaigns",
+    "Role management and role mining",
+    "Segregation of duties controls",
+    "Access requests and approvals",
+    "Provisioning and connector framework",
+    "Compliance reporting and analytics"
+  ],
+  "inLanguage": "en",
+  "image": {
+    "@id": "https://iamlogic.com/#logo"
+  },
+  "publisher": {
+    "@id": "https://iamlogic.com/#organization"
+  },
+  "provider": {
+    "@id": "https://iamlogic.com/#organization"
   }
+}
   </script>
 </head>
 <body>
@@ -125,7 +181,7 @@
         <nav class="breadcrumbs bc-mb" aria-label="Breadcrumb">
           <ol>
             <li><a href="../../">Home</a></li>
-            <li><span aria-hidden="true">/</span><span aria-current="page">Products</span></li>
+            <li><span aria-hidden="true">/</span><a href="../../platform/">Products</a></li>
             <li><span aria-hidden="true">/</span><span aria-current="page">Identity Governance</span></li>
           </ol>
         </nav>
@@ -138,7 +194,7 @@
               provisioning with audit evidence generated as work happens.
             </p>
             <div class="hero__actions">
-              <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a demo <i data-icon="arrow-right"></i></a>
+              <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
               <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Get a quote</a>
             </div>
             <div class="hero__trust">
@@ -151,7 +207,7 @@
             </div>
           </div>
           <div class="rise-in rise-in--delay">
-            <img src="../../assets/mockup-iga.svg" alt="Illustration of the IamLogic IGA access certification dashboard" width="720" height="460">
+            <img src="../../assets/mockup-iga.webp" alt="Illustration of the IamLogic IGA access certification dashboard" width="1898" height="905">
           </div>
         </div>
       </div>
@@ -307,7 +363,70 @@
           <h2 class="h2">Identity Governance FAQs</h2>
         </div>
         <div class="mt-10 maxw-3xl">
-          <div class="faq"><details><summary>What drives identity lifecycle events?</summary><p>Authoritative sources can include HRMS platforms, databases, files or APIs through the Python connector framework. External populations can use their own systems of record.</p></details><details><summary>How do you provision apps without APIs?</summary><p>For applications without APIs, IGA can use ticketing workflows such as ServiceNow or Jira, with completion documented and governed.</p></details><details><summary>Can IGA work independently of Access Manager?</summary><p>Yes. IGA can operate independently. When used with Access Manager, authentication signals can enrich governance decisions and governance outcomes can inform access enforcement.</p></details><details><summary>Does IGA support on-premises deployment?</summary><p>Yes. IGA supports on-premises, private cloud and hybrid deployment, with high availability and disaster recovery.</p></details><details><summary>How long does IGA deployment take?</summary><p>Initial rollout can be completed in weeks; full coverage depends on application count, integrations and onboarding requirements.</p></details>
+          <div class="faq"><details><summary>What drives identity lifecycle events?</summary><p>Authoritative sources can include HRMS platforms, databases, files or APIs through the Python connector framework. External populations can use their own systems of record.</p></details><details><summary>How do you provision apps without APIs?</summary><p>For applications without APIs, IGA can use ticketing workflows such as ServiceNow or Jira, with completion documented and governed.</p></details><details><summary>Can IGA work independently of Access Manager?</summary><p>Yes. IGA can operate independently. When used with Access Manager, IGA users sign in with Access Manager single sign-on, and IGA manages Access Manager users and groups through a built-in connector.</p></details><details><summary>Does IGA support on-premises deployment?</summary><p>Yes. IGA supports on-premises and cloud deployment, with high availability and disaster recovery.</p></details><details><summary>How long does IGA deployment take?</summary><p>Initial rollout can be completed in weeks; full coverage depends on application count, integrations and onboarding requirements.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RELATED ARTICLES -->
+    <section class="section" id="related-articles">
+      <div class="container">
+        <div class="carousel" data-carousel>
+          <div class="section-head-row">
+            <div class="section-heading">
+              <p class="eyebrow">From the blog</p>
+              <h2 class="h2">Related articles</h2>
+            </div>
+            <div class="carousel__controls">
+              <button type="button" class="btn btn--secondary carousel__btn" data-carousel-prev aria-label="Previous articles"><i data-icon="arrow-left"></i></button>
+              <button type="button" class="btn btn--secondary carousel__btn" data-carousel-next aria-label="Next articles"><i data-icon="arrow-right"></i></button>
+              <a class="btn btn--secondary" href="../../blog/">All articles</a>
+            </div>
+          </div>
+          <div class="carousel__track mt-10" role="region" aria-label="Articles related to IamLogic IGA" tabindex="0">
+            <a class="link-card" href="../../blog/build-cloud-identity-governance-for-enterprise/">
+              <p class="link-card__eyebrow">Identity Governance</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">Building a Cloud and On-Premises Identity Governance Strategy</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">Enterprises run Active Directory, legacy and home-grown systems alongside cloud apps. Here are the six areas a cloud identity governance strategy needs to cover to manage access consistently across all of them.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">6 min read</p>
+            </a>
+            <a class="link-card" href="../../blog/identity-governance-challenges/">
+              <p class="link-card__eyebrow">Identity Governance</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">5 Identity Governance Challenges That Can Create Enterprise Access Risks</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">Identities, applications and permissions get harder to govern as an organisation grows. These five challenges are where access quietly drifts out of line with what people actually need.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">6 min read</p>
+            </a>
+            <a class="link-card" href="../../blog/joiner-mover-leaver-automation-guide/">
+              <p class="link-card__eyebrow">Identity Governance</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">Joiner–Mover–Leaver automation: closing identity's most exploited gaps</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">Nearly every access-related audit finding traces back to a lifecycle event someone handled manually. Automating the three transitions is the highest-ROI move in identity.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">3 min read</p>
+            </a>
+            <a class="link-card" href="../../blog/identity-governance-audit-evidence-rbi-sebi-irdai/">
+              <p class="link-card__eyebrow">Compliance</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">How identity governance turns RBI, SEBI and IRDAI audits into report downloads</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">RBI inspections, SEBI CSCRF audits and IRDAI reviews converge on the same access-control questions. Identity governance answers them as reports instead of quarterly fire drills.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">3 min read</p>
+            </a>
+            <a class="link-card" href="../../blog/dpdp-act-2025-implementation-checklist/">
+              <p class="link-card__eyebrow">Compliance</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">DPDP Act 2025: Implementation Checklist, Timelines &amp; the Critical Role of Identity Governance</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">The DPDP Rules phase in on four separate clocks, not one deadline. Here&#x27;s the rollout timeline, and why identity governance — not access management alone — is what proves compliance to the Data Protection Board.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">8 min read</p>
+            </a>
+            <a class="link-card" href="../../blog/dpdp-act-iam-readiness-checklist/">
+              <p class="link-card__eyebrow">Compliance</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">DPDP Act 2023: an IAM readiness checklist for Indian enterprises</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">Rule 6 of the DPDP Rules names access control, access logging and review as minimum safeguards. Here is what that means in practice, and a checklist to measure yourself against before the obligations bite.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">4 min read</p>
+            </a>
+            <a class="link-card" href="../../blog/on-premises-vs-cloud-iam-data-sovereignty/">
+              <p class="link-card__eyebrow">Strategy</p>
+              <h3 class="link-card__title mt-2" style="line-height:1.3">On-premises vs cloud IAM: making the data-sovereignty decision honestly</h3>
+              <p class="link-card__sub" style="flex:1;line-height:1.6">For regulated Indian enterprises the IAM deployment question isn&#x27;t ideology — it&#x27;s a checklist of regulatory, latency and control requirements. Here&#x27;s how to run the decision.</p>
+              <p class="mt-4" style="font-size:0.875rem;color:var(--slate-500)">3 min read</p>
+            </a>
           </div>
         </div>
       </div>
@@ -322,8 +441,8 @@
             <p>See an IGA certification campaign from scoping to review, revocation and audit evidence.</p>
           </div>
           <div class="cta-band__actions">
-            <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a demo <i data-icon="arrow-right"></i></a>
-            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to sales</a>
+            <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
+            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to Sales</a>
           </div>
         </div>
       </div>

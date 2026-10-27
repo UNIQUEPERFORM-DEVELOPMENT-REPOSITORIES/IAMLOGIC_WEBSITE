@@ -71,7 +71,19 @@
     ]
   },
   "publisher": {
-    "@id": "https://iamlogic.com/#organization"
+    "@type": "Organization",
+    "@id": "https://iamlogic.com/#organization",
+    "name": "IamLogic",
+    "url": "https://iamlogic.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://iamlogic.com/#logo",
+      "url": "https://iamlogic.com/apple-touch-icon.png",
+      "contentUrl": "https://iamlogic.com/apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "caption": "IamLogic"
+    }
   }
 }
   </script>
@@ -113,12 +125,6 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "Access Management",
-      "item": "https://iamlogic.com/blog/#access-management"
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
       "name": "Choosing the Right IAM Solution",
       "item": "https://iamlogic.com/blog/how-to-choose-the-right-iam-solution-for-your-organization/"
     }
@@ -161,7 +167,7 @@
       "name": "Does the deployment model still matter now that cloud IAM is available?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Depending on your infrastructure and regulatory requirements you may need on-premises, cloud or hybrid deployment, plus high availability and disaster recovery. The question isn't whether a platform can run in the cloud, but whether its deployment model fits your environment."
+        "text": "Yes. Depending on your infrastructure and regulatory requirements you may need on-premises or cloud deployment, plus high availability and disaster recovery. The question isn't whether a platform can run in the cloud, but whether its deployment model fits your environment."
       }
     },
     {
@@ -191,7 +197,6 @@
             <ol>
               <li><a href="../../">Home</a></li>
               <li><span aria-hidden="true">/</span><a href="../">Blog</a></li>
-              <li><span aria-hidden="true">/</span><a href="../#access-management">Access Management</a></li>
               <li><span aria-hidden="true">/</span><span aria-current="page">Choosing the Right IAM Solution</span></li>
             </ol>
           </nav>
@@ -235,56 +240,78 @@
           <div class="article-layout">
             <aside class="article-rail">
               <div class="rail-inner">
-                <details class="toc" data-toc data-rail-card open>
-                  <summary>Table of contents</summary>
-                </details>
-                <details class="rail-related" data-rail-card open>
-                  <summary>Related resources</summary>
-                  <nav class="rail-nav" aria-label="Related resources">
-                    <ul class="rail-list">
-                      <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Article</span>
-                        <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
-                      </a></li>
-                      <li><a href="../on-premises-vs-cloud-iam-data-sovereignty/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Article</span>
-                        <span class="rail-list__title">On-premises vs Cloud IAM</span>
-                      </a></li>
-                      <li><a href="../../products/identity-governance/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Product</span>
-                        <span class="rail-list__title">IamLogic IGA</span>
-                      </a></li>
-                      <li><a href="../../services/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Services</span>
-                        <span class="rail-list__title">IAM consulting and connector development</span>
-                      </a></li>
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
+                          </a></li>
+                          <li><a href="../on-premises-vs-cloud-iam-data-sovereignty/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">On-premises vs Cloud IAM</span>
+                          </a></li>
+                          <li><a href="../../products/identity-governance/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Product</span>
+                            <span class="rail-list__title">IamLogic IGA</span>
+                          </a></li>
+                          <li><a href="../../services/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Services</span>
+                            <span class="rail-list__title">IAM consulting and connector development</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Extend MFA to Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Compliance</span>
+                            <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Secure Every Login with Access Manager</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>SSO &amp; MFA for modern and legacy apps</li>
+                      <li>On-premises or cloud</li>
+                      <li>Audit trail for every login</li>
+                      <li>Implementation &amp; 24×7 support</li>
                     </ul>
-                  </nav>
-                </details>
-                <details class="rail-recent" data-rail-card open>
-                  <summary>Recent articles</summary>
-                  <nav class="rail-nav" aria-label="Recent articles">
-                    <ul class="rail-list">
-                      <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Identity Governance</span>
-                        <span class="rail-list__title">Identity Governance Challenges</span>
-                      </a></li>
-                      <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Extend MFA to Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Compliance</span>
-                        <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
-                      </a></li>
-                    </ul>
-                    <a class="rail-more" href="../">All articles &rarr;</a>
-                  </nav>
-                </details>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </aside>
 
@@ -293,7 +320,7 @@
                 <h2>Key takeaways</h2>
                 <ul class="check-list">
                 <li>Start with the existing IT environment: where applications are hosted, which directories are in use, and whether legacy or home-grown apps are in scope.</li>
-                <li>Deployment model matters as much as features — on-premises, cloud or hybrid should follow your infrastructure and regulatory position.</li>
+                <li>Deployment model matters as much as features — on-premises or cloud should follow your infrastructure and regulatory position.</li>
                 <li>Authentication answers only whether someone can get in; entitlements, approvals and reviews need identity governance.</li>
                 <li>Ask what happens to applications without an API — ticketing-based provisioning with verification is often the only realistic route.</li>
                 <li>Decide up front which audit evidence you must be able to produce, then confirm the platform produces it as reports.</li>
@@ -318,10 +345,10 @@
                       directories and systems you already use, and whether your organisation relies on modern, legacy or
                       home-grown applications.</p>
                     <p>Deployment requirements are equally important. Depending on your infrastructure and regulatory
-                      requirements, you may need an on-premises, cloud or hybrid deployment model. An IAM platform that offers
+                      requirements, you may need an on-premises or cloud deployment model. An IAM platform that offers
                       these options can give organisations greater flexibility when deciding how identity systems should fit
                       into their existing environment.</p>
-                    <p>For example, IamLogic supports <strong>on-premises, cloud and hybrid deployment</strong>. Its product
+                    <p>For example, IamLogic supports <strong>on-premises and cloud deployment</strong>. Its product
                       information also highlights high availability and disaster recovery options for environments where these
                       requirements are important.</p>
                     <p>The key question is not simply whether an IAM platform can be deployed in the cloud. It is whether its
@@ -513,7 +540,7 @@
                   </details>
                   <details name="article-faq">
                     <summary>Does the deployment model still matter now that cloud IAM is available?</summary>
-                    <p>Yes. Depending on your infrastructure and regulatory requirements you may need on-premises, cloud or hybrid deployment, plus high availability and disaster recovery. The question isn't whether a platform can run in the cloud, but whether its deployment model fits your environment.</p>
+                    <p>Yes. Depending on your infrastructure and regulatory requirements you may need on-premises or cloud deployment, plus high availability and disaster recovery. The question isn't whether a platform can run in the cloud, but whether its deployment model fits your environment.</p>
                   </details>
                   <details name="article-faq">
                     <summary>What is the difference between Access Manager and IGA?</summary>
@@ -521,15 +548,6 @@
                   </details>
                 </div>
               </section>
-              <aside class="article-cta">
-                <p class="article-cta__eyebrow">Relevant IamLogic solution</p>
-                <h2>One platform for access and governance</h2>
-                <p>Access Manager handles authentication and application access; IamLogic IGA handles lifecycle, certification, roles and Segregation of Duties — deployed on-premises, in cloud or hybrid.</p>
-                <div class="article-cta__actions">
-                  <a class="btn btn--on-dark btn--lg" href="../../products/access-manager/" data-blog-track="cta_primary">Explore IamLogic Access Manager <i data-icon="arrow-right"></i></a>
-                  <a class="btn btn--ghost-dark btn--lg" href="../../demo/" data-blog-track="cta_secondary">Request a demo</a>
-                </div>
-              </aside>
               <aside class="author-box">
                 <p class="author-box__avatar" aria-hidden="true">KR</p>
                 <div>

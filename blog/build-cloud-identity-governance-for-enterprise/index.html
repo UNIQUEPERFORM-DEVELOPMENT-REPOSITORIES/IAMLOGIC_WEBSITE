@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Cloud Identity Governance Strategy Guide | IamLogic</title>
+  <meta name="description" content="Learn how to build a cloud identity governance strategy for enterprises running cloud and on-premises systems, covering lifecycle management, access reviews, integrations and deployment models at IamLogic."/>
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/">
+  <link rel="icon" href="../../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this article -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Cloud Identity Governance Strategy Guide | IamLogic">
+  <meta property="og:description" content="Learn how to build a cloud identity governance strategy for enterprises running cloud and on-premises systems, covering lifecycle management, access reviews, integrations and deployment models at IamLogic.">
+  <meta property="og:url" content="https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/">
+  <meta property="og:image" content="https://iamlogic.com/assets/blog/build-cloud-identity-governance-for-enterprise.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — Building a Cloud and On-Premises Identity Governance Strategy">
+  <meta property="article:published_time" content="2026-10-20">
+  <meta property="article:modified_time" content="2026-10-26">
+  <meta property="article:section" content="Identity Governance">
+  <meta property="article:author" content="Dinesh Kumar">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cloud Identity Governance Strategy Guide | IamLogic">
+  <meta name="twitter:description" content="Learn how to build a cloud identity governance strategy for enterprises running cloud and on-premises systems, covering lifecycle management, access reviews, integrations and deployment models at IamLogic.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/blog/build-cloud-identity-governance-for-enterprise.png">
+
+  <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <script src="../../assets/main.js" defer></script>
+  <script src="../../assets/blog.js" defer></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/#article",
+  "mainEntityOfPage": {
+    "@id": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/#webpage"
+  },
+  "url": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/",
+  "headline": "Building a Cloud and On-Premises Identity Governance Strategy",
+  "description": "Learn how to build a cloud identity governance strategy for enterprises running cloud and on-premises systems, covering lifecycle management, access reviews, integrations and deployment models at IamLogic.",
+  "image": "https://iamlogic.com/assets/blog/build-cloud-identity-governance-for-enterprise.png",
+  "articleSection": "Identity Governance",
+  "keywords": "cloud identity governance, cloud and on-premises identity governance, IGA solution, identity governance solution, access certification, identity lifecycle management",
+  "inLanguage": "en-IN",
+  "wordCount": 1179,
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-26",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/blog/#blog"
+  },
+  "author": {
+    "@type": "Person",
+    "@id": "https://iamlogic.com/#person-dinesh-kumar",
+    "name": "Dinesh Kumar",
+    "jobTitle": "Project Manager — R&D",
+    "worksFor": {
+      "@id": "https://iamlogic.com/#organization"
+    },
+    "description": "Dinesh Kumar leads the design and development of the IamLogic platform, driving its technical architecture, product innovation, and overall engineering direction. He focuses on building scalable and secure identity solutions that address evolving identity and access management needs."
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://iamlogic.com/#organization",
+    "name": "IamLogic",
+    "url": "https://iamlogic.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://iamlogic.com/#logo",
+      "url": "https://iamlogic.com/apple-touch-icon.png",
+      "contentUrl": "https://iamlogic.com/apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "caption": "IamLogic"
+    }
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/#webpage",
+  "url": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/",
+  "name": "Cloud Identity Governance Strategy Guide | IamLogic",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/#website"
+  },
+  "breadcrumb": {
+    "@id": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/#breadcrumb"
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://iamlogic.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Cloud Identity Governance Strategy",
+      "item": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/"
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is identity governance for enterprises across cloud and on-premises systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cloud identity governance manages user identities and access across cloud and on-premises environments. It helps organisations govern lifecycle changes, access requests, provisioning, approvals and access reviews consistently across applications with different architectures and integration capabilities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is identity governance important when cloud and on-premises systems run side by side?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enterprise environments often combine cloud applications, Active Directory, legacy systems and home-grown applications. Managing access separately across these systems can create inconsistencies and visibility gaps. Identity governance provides a structured framework for managing access throughout the user lifecycle across different environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does IGA support identity lifecycle management across cloud and on-premises systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An IGA solution can connect employee lifecycle events with access management. When employees join, change roles or leave, the appropriate access can be provisioned, modified or removed based on defined processes. This helps reduce manual effort and supports more consistent access management across cloud and on-premises systems."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can organisations govern legacy applications without APIs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Legacy or home-grown applications may not support modern API-based integrations. An IGA solution can accommodate alternative integration approaches, such as custom connectors or ticket-based provisioning workflows. This allows applications with different technical capabilities to remain part of the organisation's identity governance framework."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What capabilities should an IGA solution provide for cloud and on-premises systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An IGA solution for cloud and on-premises systems should support identity lifecycle management, provisioning and deprovisioning, access requests, approval workflows, role management, access certification and Segregation of Duties controls. Integration capabilities are also important for connecting cloud, on-premises, legacy and custom applications."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are access reviews important in identity governance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Access reviews help organisations verify that users continue to have appropriate permissions as their roles and responsibilities change. Regular access certification can identify outdated or excessive access and provide a structured process for approving or revoking permissions across the enterprise."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5LC3HBB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <article class="article article--post">
+      <div class="container">
+        <div class="article-shell">
+          <nav class="breadcrumbs breadcrumbs--blog" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="../../">Home</a></li>
+              <li><span aria-hidden="true">/</span><a href="../">Blog</a></li>
+              <li><span aria-hidden="true">/</span><span aria-current="page">Cloud Identity Governance Strategy</span></li>
+            </ol>
+          </nav>
+
+          <header class="article-head">
+            <p class="article-eyebrow">Identity Governance</p>
+            <h1>Building a Cloud and On-Premises Identity Governance Strategy</h1>
+            <ul class="article-meta">
+              <li><strong>Dinesh Kumar</strong></li>
+              <li>Last updated <time datetime="2026-10-26">26 October 2026</time></li>
+              <li>6 min read</li>
+              <li class="share-inline" data-share-inline>
+                <button type="button" class="share-inline__toggle" aria-expanded="false" aria-label="Share this article">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 13.5 6.8 4"></path><path d="m15.4 6.5-6.8 4"></path></svg>
+                  Share
+                </button>
+              </li>
+            </ul>
+          </header>
+
+          <figure class="article-featured-image">
+            <img src="../../assets/blog/build-cloud-identity-governance-for-enterprise.webp" width="1536" height="864"
+                 alt="Building an identity governance strategy across cloud and on-premises systems — a hand beneath glowing fingerprint, cloud, identity, shield, and globe icons beside a laptop.">
+          </figure>
+
+          <div class="article-intro">
+            <div class="stack"><p>Cloud adoption has changed how organisations manage applications and data, but many enterprises still rely on a mix of cloud and on-premises systems. This can include Active Directory, legacy applications and home-grown systems alongside newer cloud applications.</p><p>Managing access across all these systems can be difficult. Some applications may support modern integrations, while others may not.</p><p>A <strong><a href="../../products/identity-governance/">cloud identity governance solution</a></strong> needs to help organisations manage access consistently across both cloud and on-premises environments.</p></div>
+          </div>
+
+          <div class="article-layout">
+            <aside class="article-rail">
+              <div class="rail-inner">
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../../products/identity-governance/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Product</span>
+                            <span class="rail-list__title">IamLogic IGA</span>
+                          </a></li>
+                          <li><a href="../../integrations/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Integrations</span>
+                            <span class="rail-list__title">Connectors &amp; ticketing integrations</span>
+                          </a></li>
+                          <li><a href="../../solutions/access-reviews-audit/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Access reviews &amp; audit</span>
+                          </a></li>
+                          <li><a href="../on-premises-vs-cloud-iam-data-sovereignty/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">On-Premises vs Cloud IAM</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../joiner-mover-leaver-automation-guide/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Joiner-Mover-Leaver Automation</span>
+                          </a></li>
+                          <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Extend MFA to Legacy Applications</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Automate Governance with IamLogic IGA</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>Python connectors for custom &amp; home-grown apps</li>
+                      <li>ServiceNow &amp; Jira provisioning for apps without APIs</li>
+                      <li>Access reviews across cloud &amp; on-premises</li>
+                      <li>On-premises or cloud</li>
+                    </ul>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <div class="article-main">
+              <aside class="key-takeaways">
+                <h2>Key takeaways</h2>
+                <ul class="check-list">
+                <li>Start by mapping where identities originate, which applications users need and how access is provisioned and reviewed today.</li>
+                <li>Connect joiner, mover and leaver events to access so changes don't rely on manual steps across cloud and on-premises systems.</li>
+                <li>Apply one governance layer — requests, approvals, roles, certification and SoD — across cloud and on-premises systems.</li>
+                <li>Applications without modern APIs can stay in scope through custom connectors or ticket-based provisioning.</li>
+                <li>Choose a deployment model that fits your infrastructure and regulatory requirements.</li>
+                </ul>
+              </aside>
+
+              <div class="article__body">
+
+                <section><h2 id="what-a-cloud-and-on-premises-identity-governance-strategy-should-cover">What a Cloud and On-Premises Identity Governance Strategy Should Cover</h2><div class="stack"><p>Building an effective strategy means addressing identity lifecycle, access governance, application integration and ongoing access reviews as part of one framework. The following areas are central to making that approach work across cloud and on-premises systems.</p></div></section>
+
+                <section><h3 id="start-with-your-identity-and-application-landscape">1. Start With Your Identity and Application Landscape</h3><div class="stack"><p>Before implementing an <strong>identity governance solution</strong>, organisations need to understand what they are actually trying to govern.</p><p>This includes identifying where employee and other user identities originate, which applications they need to access, where those applications are hosted, and how access is currently provisioned and reviewed.</p><p>The environment may include:</p>
+                  <ul class="dot-list no-li-flex">
+                    <li>HR systems or other authoritative identity sources</li>
+                    <li><a href="../../integrations/">Active Directory and other on-premises directories</a></li>
+                    <li>Cloud applications and services</li>
+                    <li>Legacy or home-grown applications</li>
+                    <li>Applications with APIs</li>
+                    <li>Applications that require manual or ticket-based provisioning</li>
+                  </ul>
+                  <p>This assessment helps establish where access is being managed consistently and where gaps exist. It also helps determine how different applications should connect to the governance platform.</p></div></section>
+
+                <section><h3 id="connect-identity-lifecycle-to-access">2. Connect Identity Lifecycle to Access</h3><div class="stack"><p>Identity governance needs to follow the <a href="../joiner-mover-leaver-automation-guide/">employee lifecycle</a>. When someone joins the organisation, they need the right access for their role. When they move to another role, their access may need to change. When they leave, access needs to be removed.</p><p>Managing these changes manually across cloud and on-premises systems can leave room for delays and forgotten permissions.</p><p>An <strong><a href="../../solutions/joiner-mover-leaver-automation/">IGA solution</a></strong> can connect these lifecycle events to access management.</p><p>This creates a more consistent process for managing access as people and responsibilities change.</p></div></section>
+
+                <section><h3 id="govern-access-across-cloud-and-on-premises-systems">3. Govern Access Across Cloud and On-Premises Systems</h3><div class="stack"><p>An enterprise running both cloud and on-premises systems also needs a consistent way to decide who should have access to what.</p><p>This goes beyond simply creating user accounts. Organisations need to manage access requests, approvals, roles, permissions and <a href="../identity-governance-challenges/">conflicting combinations of access</a>.</p><p>An <strong>identity governance solution</strong> can support this through capabilities such as:</p>
+                  <ul class="dot-list no-li-flex">
+                    <li>Role-based access management</li>
+                    <li>Access requests and approval workflows</li>
+                    <li>Role management and role mining</li>
+                    <li>Access certification</li>
+                    <li>Segregation of Duties (SoD) controls</li>
+                  </ul>
+                  <p>This provides a governance layer that can be applied across the organisation rather than managing access differently for every application.</p></div></section>
+
+                <section><h3 id="account-for-applications-without-modern-integrations">4. Account for Applications Without Modern Integrations</h3><div class="stack"><p>One of the practical challenges when cloud and on-premises systems run side by side is that not every application will have a modern API. This can make it harder to bring legacy and home-grown applications into the same provisioning and governance processes as newer cloud applications.</p><p>An <strong>IGA solution</strong> therefore needs to accommodate different application architectures and integration requirements. Where standard API-based integration is not possible, organisations may need alternative ways to manage provisioning and access.</p><p>For example, <strong>IamLogic IGA</strong> supports different integration approaches, including Python-based connectors for custom and home-grown applications. Where API-based provisioning is not available, ticket-based workflows can be used through platforms such as <a href="../../integrations/">ServiceNow and Jira</a>, allowing these applications to remain within the identity governance framework.</p></div></section>
+
+                <section><h3 id="make-access-reviews-part-of-the-strategy">5. Make Access Reviews Part of the Strategy</h3><div class="stack"><p>Granting access is only one part of identity governance. Organisations also need to review whether that access remains appropriate as roles, projects and responsibilities change.</p><p><a href="../../solutions/access-reviews-audit/">Access certification</a> provides a structured way to review, approve or revoke access and maintain records for audit purposes.</p><p>Regular reviews help organisations identify outdated or excessive access before it becomes a governance issue.</p></div></section>
+
+                <section><h3 id="choose-the-right-deployment-model">6. Choose the Right Deployment Model</h3><div class="stack"><p>Enterprises may also have different requirements for where identity data and governance infrastructure should operate.</p><p>Some organisations may prefer to keep identity infrastructure <a href="../on-premises-vs-cloud-iam-data-sovereignty/">within their own data centre</a>. Others may run it in a private cloud.</p><p>A <strong>cloud identity governance solution</strong> should therefore fit the organisation's infrastructure and regulatory requirements rather than forcing a single deployment model.</p></div></section>
+
+                <section><h2 id="making-identity-governance-work-across-cloud-and-on-premises-systems">Making Identity Governance Work Across Cloud and On-Premises Systems</h2>
+                  <div class="stack">
+                  <figure>
+                    <img src="../../assets/blog/build-cloud-identity-governance-for-enterprise-hybrid-iga.webp" width="1672" height="941" loading="lazy" decoding="async" alt="How IGA works across cloud and on-premises systems — cloud, on-premises server, Windows and cloud-upload sources connected to a central identity shield that governs access reviews, ticket-based provisioning, connector integrations and on-premises systems">
+                  </figure>
+                  <p>The real challenge when cloud and on-premises systems run side by side is not managing each system individually. It is maintaining a consistent governance process as identities and access move across systems with different capabilities.</p><p>An <a href="../../products/identity-governance/">IGA solution</a> can provide that continuity by connecting lifecycle management, access decisions, provisioning and reviews within one governance framework.</p><p><strong>IamLogic IGA</strong> brings these capabilities together through its provisioning and connector framework. It supports Python-based connectors for enterprise applications, while ticketing workflows through platforms such as ServiceNow and Jira provide a provisioning route for applications without APIs. This allows organisations to govern access across applications with different integration requirements.</p><p>For an enterprise running both cloud and on-premises systems, that consistency is what turns identity governance from a collection of disconnected controls into a strategy.</p></div>
+                </section>
+
+              </div>
+
+              <section class="article-faq" id="faqs" aria-labelledby="faqs-heading">
+                <h2 id="faqs-heading">FAQs on Building Cloud Identity Governance Strategy</h2>
+                <div class="faq">
+                  <details name="article-faq" open>
+                    <summary>What is identity governance for enterprises across cloud and on-premises systems?</summary>
+                    <p>Cloud identity governance manages user identities and access across cloud and on-premises environments. It helps organisations govern lifecycle changes, access requests, provisioning, approvals and access reviews consistently across applications with different architectures and integration capabilities.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>Why is identity governance important when cloud and on-premises systems run side by side?</summary>
+                    <p>Enterprise environments often combine cloud applications, Active Directory, legacy systems and home-grown applications. Managing access separately across these systems can create inconsistencies and visibility gaps. Identity governance provides a structured framework for managing access throughout the user lifecycle across different environments.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>How does IGA support identity lifecycle management across cloud and on-premises systems?</summary>
+                    <p>An IGA solution can connect employee lifecycle events with access management. When employees join, change roles or leave, the appropriate access can be provisioned, modified or removed based on defined processes. This helps reduce manual effort and supports more consistent access management across cloud and on-premises systems.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>How can organisations govern legacy applications without APIs?</summary>
+                    <p>Legacy or home-grown applications may not support modern API-based integrations. An IGA solution can accommodate alternative integration approaches, such as custom connectors or ticket-based provisioning workflows. This allows applications with different technical capabilities to remain part of the organisation's identity governance framework.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>What capabilities should an IGA solution provide for cloud and on-premises systems?</summary>
+                    <p>An IGA solution for cloud and on-premises systems should support identity lifecycle management, provisioning and deprovisioning, access requests, approval workflows, role management, access certification and Segregation of Duties controls. Integration capabilities are also important for connecting cloud, on-premises, legacy and custom applications.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>Why are access reviews important in identity governance?</summary>
+                    <p>Access reviews help organisations verify that users continue to have appropriate permissions as their roles and responsibilities change. Regular access certification can identify outdated or excessive access and provide a structured process for approving or revoking permissions across the enterprise.</p>
+                  </details>
+                </div>
+              </section>
+              <aside class="author-box">
+                <p class="author-box__avatar" aria-hidden="true">DK</p>
+                <div>
+                  <p class="author-box__eyebrow">About the author</p>
+                  <p class="author-box__name">Dinesh Kumar</p>
+                  <p class="author-box__title">Project Manager — R&amp;D</p>
+                  <p class="author-box__bio">Dinesh Kumar leads the design and development of the IamLogic platform, driving its technical architecture, product innovation, and overall engineering direction. He focuses on building scalable and secure identity solutions that address evolving identity and access management needs.</p>
+                  <p class="author-box__links"><a class="text-link" href="../../about/">About IamLogic</a><a class="text-link" href="../../contact/">Talk to the team</a></p>
+                </div>
+              </aside>
+
+              <div class="share" data-share></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer id="site-footer"></footer>
+</body>
+</html>

@@ -55,7 +55,7 @@
   /* Neutrals */
   --ink:          #1c1a2e;   /* body text */
   --slate-400:    #8b90a3;
-  --slate-500:    #6b7280;
+  --slate-500:    #646b79;   /* darkened from #6b7280: 4.5:1+ on --surface-muted too */
   --slate-600:    #55596b;
   --slate-700:    #3f4354;
 
@@ -95,6 +95,7 @@ body {
 main { flex: 1 0 auto; }
 
 img, svg { max-width: 100%; }
+img { height: auto; }   /* keep the file's proportions when CSS sets only the width */
 svg { display: block; }
 
 a { color: inherit; }
@@ -346,18 +347,22 @@ ul { padding: 0; list-style: none; }
 
 /* Check list — the check icon is drawn with CSS so list items stay clean HTML */
 .check-list { display: flex; flex-direction: column; gap: 0.75rem; }
+/* The tick is positioned on its own (not a flex row), so a link or <strong>
+   inside an item flows inline with the text instead of becoming a separate
+   flex item with a gap around it. */
 .check-list li {
-  display: flex;
-  gap: 0.75rem;
+  position: relative;
+  padding-left: 2rem;           /* 1.25rem tick + 0.75rem gap */
   color: var(--slate-700);
   line-height: 1.6;
 }
 .check-list li::before {
   content: "";
-  flex: 0 0 auto;
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
   width: 1.25rem;
   height: 1.25rem;
-  margin-top: 0.15rem;
   background-color: var(--indigo-700);
   /* circle w/ check */
   -webkit-mask: var(--check-mask) center / contain no-repeat;
@@ -578,6 +583,10 @@ a.chip:hover { border-color: var(--indigo-400); }
 }
 
 /* 6. HEADER + NAV ========================================================== */
+/* main.js fills <header id="site-header"> after the HTML has painted; reserve
+   its height (bar + 1px border) so the page doesn't jump down when it appears. */
+#site-header:empty { display: block; height: calc(4rem + 1px); }
+@media (min-width: 640px) { #site-header:empty { height: calc(4.5rem + 1px); } }
 .site-header {
   position: sticky;
   top: 0;
@@ -647,7 +656,7 @@ a.chip:hover { border-color: var(--indigo-400); }
 .nav-item.is-open .nav-panel--mega { display: grid; }
 .nav-group__heading {
   font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--slate-400); margin-bottom: 0.75rem;
+  letter-spacing: 0.12em; color: var(--slate-500); margin-bottom: 0.75rem;
 }
 .nav-group ul { display: flex; flex-direction: column; gap: 0.25rem; }
 .nav-group a {
@@ -715,7 +724,7 @@ a.chip:hover { border-color: var(--indigo-400); }
 .nav-mobile details[open] summary .chevron { transform: rotate(180deg); }
 .nav-mobile__group-heading {
   font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--slate-400); margin: 0.5rem 0 0.25rem;
+  letter-spacing: 0.12em; color: var(--slate-500); margin: 0.5rem 0 0.25rem;
 }
 .nav-mobile__sublink {
   display: block;
@@ -755,7 +764,7 @@ a.chip:hover { border-color: var(--indigo-400); }
 .footer-bottom__copy { font-size: 0.875rem; color: rgba(224, 220, 245, 0.6); }
 .footer-bottom__meta { display: flex; align-items: center; gap: 1.5rem; font-size: 0.875rem; color: rgba(224, 220, 245, 0.6); }
 .footer-bottom__meta a { text-decoration: none; }
-.footer-bottom__meta a:hover { color: #fff; }
+.footer-bottom__meta a:hover, .footer-bottom__meta .link-button:hover { color: #fff; }
 .footer-bottom__meta strong { color: rgba(224, 220, 245, 0.8); font-weight: 600; }
 .site-footer .logo { color: #fff; }
 
@@ -778,6 +787,131 @@ a.chip:hover { border-color: var(--indigo-400); }
 .contact-social a { color: var(--indigo-700); border-color: var(--line); }
 .contact-social a:hover { color: var(--indigo-900); border-color: var(--indigo-400); background: var(--indigo-50); }
 
+/* Quick-contact bar (main.js), every page. Above page content, below the
+   header (50), cookie bar (150) and dialogs (200).
+   ≥1310px: a vertical tab on the right edge (narrower than that, page content
+   runs to within 32px of the edge and the tab would cover it).
+   <1310px: a bar along the bottom of the screen — Contact Us + icons; the
+   page gets matching bottom padding so the footer isn't hidden behind it. */
+:root {
+  --brand-linkedin: #0a66c2;
+  --brand-youtube:  #e62117;
+  --call-green:     #15803d;
+  --brand-whatsapp: #1da851;
+  --quick-bar-h:    3.5rem;   /* bottom-bar height on smaller screens */
+}
+.quick-bar { display: none; }
+@media (max-width: 1309.98px) {
+  body { padding-bottom: calc(var(--quick-bar-h) + env(safe-area-inset-bottom)); }
+  .quick-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    display: flex; align-items: stretch; height: calc(var(--quick-bar-h) + env(safe-area-inset-bottom));
+    background: var(--indigo-950);
+    box-shadow: 0 -6px 20px rgba(29, 20, 67, 0.18);
+  }
+  /* Every cell fills the full bar height, down through the iPhone home-indicator
+     area; the safe-area padding sits inside each cell so its colour runs to the
+     screen edge and the icon stays above the indicator. */
+  body .quick-bar a { flex: 1 1 0; min-width: 0; height: auto; padding-bottom: env(safe-area-inset-bottom); }
+  body .quick-bar .quick-bar__contact {
+    flex: 1.8 1 0; writing-mode: horizontal-tb; transform: none; padding: 0 0.5rem env(safe-area-inset-bottom);
+    font-size: 0.875rem; white-space: nowrap;
+  }
+  body .quick-bar { --qb-icon: 1.2rem; }
+}
+@media (min-width: 1310px) {
+  .quick-bar {
+    position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 45;
+    display: flex; flex-direction: column; width: 2.75rem;
+    border-radius: 0.625rem 0 0 0.625rem; overflow: hidden;
+    box-shadow: 0 8px 24px rgba(29, 20, 67, 0.18);
+    /* faint edge so the bar still reads against the dark hero/CTA bands */
+    border: 1px solid rgba(255, 255, 255, 0.22); border-right: 0;
+  }
+}
+.quick-bar a {
+  display: grid; place-items: center; color: #fff; text-decoration: none;
+  transition: filter 0.15s;
+}
+.quick-bar a:hover { filter: brightness(1.15); }
+.quick-bar a:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+/* Vertical tab, reading bottom-to-top */
+.quick-bar__contact {
+  padding: 1rem 0; writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: 0.875rem; font-weight: 700; letter-spacing: 0.04em;
+  background: var(--indigo-800);
+}
+.quick-bar__item { height: 2.75rem; }            /* 44px touch target */
+.quick-bar { --qb-icon: 1.1rem; }
+.quick-bar__item [data-icon] { font-size: var(--qb-icon); }
+/* Line icons (email, phone) carry built-in padding and thin strokes, so at the
+   same size they read ~20% smaller than the solid brand marks: scale them up
+   and thicken the stroke so every icon in the bar looks the same size. */
+.quick-bar__item--mail [data-icon], .quick-bar__item--phone [data-icon] { font-size: calc(var(--qb-icon) * 1.2); }
+.quick-bar__item--mail svg, .quick-bar__item--phone svg { stroke-width: 2.3; }
+.quick-bar__item--linkedin { background: var(--brand-linkedin); }
+.quick-bar__item--youtube  { background: var(--brand-youtube); }
+.quick-bar__item--whatsapp { background: var(--brand-whatsapp); }
+.quick-bar__item--mail     { background: var(--indigo-600); }
+.quick-bar__item--phone    { background: var(--call-green); }
+@media print { .quick-bar { display: none !important; } }
+
+/* Quick-contact form box (main.js) — opens flush against the bar's left
+   edge (one joined unit, like the reference), no backdrop.
+   Dark, compact, placeholder-labelled; sits above the bar (45), under the
+   header (50). On narrow screens (bar hidden, but any [data-quick-contact]
+   can open it) it centres instead. */
+.qc-pop {
+  position: fixed; z-index: 48; right: 2.75rem;   /* = bar width */
+  top: calc(50% + 2.25rem);                       /* centred below the 4.5rem header */
+  width: min(21rem, calc(100vw - 2rem)); max-height: calc(100vh - 5.5rem); overflow-y: auto;
+  padding: 0.875rem 1rem 1rem; border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.22); border-right: 0;   /* reads on dark bands, like the bar */
+  background: var(--indigo-950); color: #fff;
+  box-shadow: 0 20px 48px rgba(29, 20, 67, 0.35);
+  opacity: 0; transform: translate(12px, -50%); transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.qc-pop[hidden] { display: none; }
+.qc-pop.is-open { opacity: 1; transform: translate(0, -50%); }
+@media (max-width: 1309.98px) {
+  .qc-pop { right: 50%; top: 50%; transform: translate(50%, -46%); border-radius: var(--radius-lg); border-right: 1px solid rgba(255, 255, 255, 0.22); }
+  .qc-pop.is-open { transform: translate(50%, -50%); }
+}
+.qc-pop__head { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 0.75rem; }
+.qc-pop__title { font-size: 1.125rem; font-weight: 700; color: #fff; }
+.qc-pop__close {
+  position: absolute; right: -0.25rem; top: 50%; transform: translateY(-50%);
+  width: 1.75rem; height: 1.75rem; border: 0; border-radius: 0.375rem; cursor: pointer;
+  background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 1.4rem; line-height: 1;
+}
+.qc-pop__close:hover { background: rgba(255, 255, 255, 0.22); }
+.qc-pop__close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.qc-form { gap: 0.5rem; }
+.qc-form .input {
+  padding: 0.5rem 0.75rem; font-size: 0.875rem; color: #fff;
+  background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.28); border-radius: 0.375rem;
+}
+.qc-form .input::placeholder { color: rgba(224, 220, 245, 0.75); }
+.qc-form .input:focus { border-color: var(--indigo-300); box-shadow: 0 0 0 3px rgba(186, 174, 234, 0.25); }
+.qc-form .input[aria-invalid="true"] { border-color: #fca5a5; }
+.qc-form textarea.input { min-height: 3.5rem; }
+/* Country code + number as one joined control */
+.qc-phone { display: flex; }
+.qc-phone .input { min-width: 0; }
+.qc-phone__code {
+  flex: 0 0 5.75rem; border-radius: 0.375rem 0 0 0.375rem; border-right: 0; cursor: pointer;
+}
+.qc-phone__code + label + .input { flex: 1 1 auto; border-radius: 0 0.375rem 0.375rem 0; }
+.qc-form select.input option { color: var(--ink); background: #fff; }
+.qc-phone + .field-error { margin-top: 0.375rem; }
+.qc-form .field-error { color: #fca5a5; font-size: 0.75rem; margin-top: 0.2rem; }
+.qc-form .ts-widget { min-height: 65px; }
+.qc-form__submit { align-self: flex-start; padding: 0.6rem 1.5rem; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.85rem; }
+.qc-pop .form-success { background: transparent; border-color: rgba(255, 255, 255, 0.2); padding: 1.5rem 1rem; }
+.qc-pop .form-success svg { color: var(--indigo-300); }
+.qc-pop .form-success h3 { color: #fff; }
+.qc-pop .form-success p { color: rgba(224, 220, 245, 0.85); }
+
 /* 8. LEAD FORM ============================================================= */
 .lead-form { display: flex; flex-direction: column; gap: 1rem; }
 .lead-form__row { display: grid; gap: 1rem; }
@@ -790,7 +924,7 @@ a.chip:hover { border-color: var(--indigo-400); }
   margin-bottom: 0.375rem;
 }
 .field .req { color: #dc2626; }
-.field .opt { color: var(--slate-400); font-weight: 400; }
+.field .opt { color: var(--slate-500); font-weight: 400; }
 .input {
   width: 100%;
   border: 1px solid var(--line);
@@ -924,7 +1058,38 @@ textarea.input { resize: vertical; min-height: 5rem; }
   gap: 1rem;
 }
 
+/* Card carousel (e.g. "Related articles" on product pages). A horizontally
+   scrolling, snap-aligned track of .link-card items; it still scrolls/swipes
+   without JS — main.js only wires the prev/next buttons ([data-carousel]). */
+.carousel { position: relative; }
+.carousel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 85%;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;   /* room for the focus ring */
+}
+.carousel__track::-webkit-scrollbar { display: none; }
+.carousel__track > * { scroll-snap-align: start; display: flex; flex-direction: column; }
+@media (min-width: 768px)  { .carousel__track { grid-auto-columns: calc((100% - 1.5rem) / 2); } }
+@media (min-width: 1024px) { .carousel__track { grid-auto-columns: calc((100% - 3rem) / 3); } }
+.carousel__controls { display: flex; gap: 0.5rem; }
+.carousel__btn { padding: 0.7rem; }
+.carousel__btn[hidden] { display: none; }
+.carousel__btn[disabled] { opacity: 0.4; cursor: default; }
+.carousel__btn[disabled]:hover { border-color: var(--indigo-200); background: #fff; }
+
 /* 10. UTILITIES + MOTION =================================================== */
+/* A <button> that looks like inline text — for in-page actions (open a
+   dialog, etc.) that would otherwise need a fake href="#" link */
+.link-button {
+  padding: 0; border: 0; background: none; font: inherit; color: inherit;
+  cursor: pointer; text-align: inherit;
+}
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
@@ -1118,7 +1283,7 @@ body.bk-lock { overflow: hidden; }
 }
 .blog-search input::placeholder { color: var(--slate-400); }
 .blog-search input:focus { outline: none; border-color: var(--indigo-500); box-shadow: 0 0 0 3px rgba(126, 102, 209, 0.15); }
-.blog-result-count { margin-top: 1rem; font-size: 0.875rem; color: var(--slate-500); }
+.blog-result-count { margin-top: 1rem; font-size: 0.875rem; color: var(--slate-500); min-height: 1.5em; }   /* filled by blog.js; reserved so the posts don't jump */
 .blog-empty { margin-top: 2rem; padding: 2rem; text-align: center; color: var(--slate-600);
   border: 1px dashed var(--line); border-radius: var(--radius); }
 .blog-empty[hidden] { display: none; }
@@ -1144,6 +1309,12 @@ body.bk-lock { overflow: hidden; }
 }
 .post-card__title { font-size: 1.125rem; font-weight: 700; line-height: 1.35; color: var(--indigo-950); }
 .post-card__title a { color: inherit; text-decoration: none; }
+/* The whole card is the link: the title's link is stretched over the card
+   (one link per card for screen readers; pointer cursor everywhere on it). */
+.post-card, .post-featured { position: relative; cursor: pointer; }
+.post-card__title a::after, .post-featured__title a::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+}
 .post-card__title a:hover { color: var(--indigo-800); }
 .post-card__title a:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 3px; border-radius: 3px; }
 .post-card__excerpt { flex: 1; font-size: 0.95rem; line-height: 1.6; color: var(--slate-600); }
@@ -1255,9 +1426,18 @@ body.bk-lock { overflow: hidden; }
 .share-inline__menu a:focus-visible, .share-inline__menu button:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 1px; }
 .share-inline__menu svg { width: 1rem; height: 1rem; }
 
-/* Narrow screens: drop the menu below the button so it can't run off-screen. */
+/* Narrow screens: drop the menu below the meta line, right-aligned to it, so
+   it can't run off-screen however the line wraps (the Share pill is always
+   last, so the menu still opens beneath it). */
 @media (max-width: 560px) {
-  .share-inline__menu { top: calc(100% + 0.5rem); left: 0; transform: none; }
+  .article-meta { position: relative; }
+  .article-meta .share-inline { position: static; }
+  .share-inline__menu { top: calc(100% + 0.5rem); left: auto; right: 0; transform: none; }
+  /* Author on its own line, so the date/read-time line never starts with a
+     stray "·"; the Share pill needs no separator. */
+  .article-meta li:first-child { flex-basis: 100%; }
+  .article-meta li:nth-child(2)::before,
+  .article-meta .share-inline::before { display: none; }
 }
 
 .article-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; margin-top: 2rem; }
@@ -1265,17 +1445,39 @@ body.bk-lock { overflow: hidden; }
    empty so neither leaves a stray border or gap (and none appears without JS). */
 .article-rail:empty { display: none; }
 .share:empty { display: none; }
+
+/* Narrow screens: one column. The rail's boxes are dissolved into the column
+   (display: contents) so the contents sit above the article and related
+   resources, related articles and the CTA follow it — not all piled on top. */
+@media (max-width: 1119.98px) {
+  .article-rail, .article-rail .rail-inner,
+  .article-rail .rail-seg, .article-rail .rail-stack { display: contents; }
+  .article-rail .toc { order: 1; }
+  .article-main { order: 2; }
+  .article-rail .rail-related { order: 3; }
+  .article-rail .rail-recent { order: 4; }
+  .article-rail .rail-cta { order: 5; }
+}
+
+/* Wide screens: the rail sits beside the WHOLE article, from the breadcrumb
+   down, so the table of contents is in the first fold. .article-layout is
+   dissolved so its two children (rail, main) join the shell's grid. */
 @media (min-width: 1120px) {
-  .article--post .article-shell { max-width: 65rem; }
-  .article--post .article-head,
-  .article--post .article-featured-image,
-  .article--post .article-intro,
-  .article--post > .container > .article-shell > .breadcrumbs { max-width: 46rem; }
-  .article-layout { grid-template-columns: minmax(0, 46rem) 16rem; gap: 3rem; }
-  .article-main { grid-column: 1; grid-row: 1; min-width: 0; }
-  /* The rail has to stretch to the full row height — otherwise its sticky
-     child only has the rail's own height to travel in and unsticks at once. */
-  .article-rail { grid-column: 2; grid-row: 1; align-self: stretch; }
+  .article--post .article-shell {
+    max-width: 68rem;
+    display: grid; grid-template-columns: minmax(0, 46rem) 19rem;
+    grid-template-rows: auto auto auto auto 1fr;
+    justify-content: space-between; column-gap: 3rem;
+  }
+  .article--post .article-shell > .breadcrumbs { grid-column: 1; grid-row: 1; }
+  .article--post .article-head { grid-column: 1; grid-row: 2; }
+  .article--post .article-featured-image { grid-column: 1; grid-row: 3; }
+  .article--post .article-intro { grid-column: 1; grid-row: 4; }
+  .article-layout { display: contents; }
+  .article-main { grid-column: 1; grid-row: 5; min-width: 0; margin-top: 2rem; }
+  /* The rail spans every row and stretches, so the sticky contents box has
+     the full article height to travel in. */
+  .article-rail { grid-column: 2; grid-row: 1 / 6; align-self: stretch; }
 }
 
 /* --- 12.5 Article: featured image ----------------------------------------- */
@@ -1329,13 +1531,16 @@ body.bk-lock { overflow: hidden; }
 .toc__nav { padding: 0 1.1rem 1rem; }
 .toc__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.15rem; }
 .toc__list .toc__list { margin-top: 0.15rem; padding-left: 0.85rem; border-left: 1px solid var(--line); }
-.toc__list a {
-  display: block; padding: 0.35rem 0.5rem; border-radius: 0.375rem;
+/* Entries are <button>s, not #anchors, so jumping to a section never puts a
+   fragment URL in the address bar (or in anything shared / crawled). */
+.toc__link {
+  display: block; width: 100%; padding: 0.35rem 0.5rem; border: 0; border-radius: 0.375rem;
+  background: none; font: inherit; text-align: left; cursor: pointer;
   font-size: 0.875rem; line-height: 1.45; color: var(--slate-600); text-decoration: none;
 }
-.toc__list a:hover { color: var(--indigo-800); background: var(--indigo-50); }
-.toc__list a.is-current { color: var(--indigo-800); font-weight: 600; background: var(--indigo-50); }
-.toc__list li ul a { font-size: 0.8125rem; }
+.toc__link:hover { color: var(--indigo-800); background: var(--indigo-50); }
+.toc__link.is-current { color: var(--indigo-800); font-weight: 600; background: var(--indigo-50); }
+.toc__list .toc__list .toc__link { font-size: 0.8125rem; }
 /* Shared link list for the "Related resources" and "Recent articles" cards */
 .rail-nav { padding: 0 1.1rem 1rem; }
 .rail-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
@@ -1357,11 +1562,72 @@ body.bk-lock { overflow: hidden; }
 }
 .rail-more:hover { text-decoration: underline; }
 
+/* Related articles (filled by blog.js from the /blog/ listing): thumbnail +
+   category + title. The static list in the HTML is the no-JS fallback. */
+.rail-list--thumbs a { flex-direction: row; align-items: flex-start; gap: 0.75rem; }
+.rail-list__thumb {
+  flex: none; width: 4.75rem; aspect-ratio: 16 / 9; height: auto; object-fit: cover;
+  border-radius: 0.375rem; border: 1px solid var(--line); background: var(--surface-muted);
+}
+.rail-list__text { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.rail-list--thumbs .rail-list__title {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Side-column CTA: product heading, four benefit ticks, Request a Demo /
+   Contact Us. Copy is per product (Access Manager or IGA) in each post. */
+.rail-cta {
+  padding: 1.5rem; background: var(--indigo-950); color: #fff; border-radius: var(--radius-lg);
+}
+.rail-cta__title {
+  font-size: 1.125rem; font-weight: 700; line-height: 1.3; text-align: center;
+  color: var(--indigo-300); text-wrap: balance;
+}
+.rail-cta__list { margin: 1.25rem 0 0; padding: 0; list-style: none; gap: 0.75rem; }
+.rail-cta__list li { color: #fff; font-size: 0.9375rem; font-weight: 600; line-height: 1.4; }
+.rail-cta__list li::before { top: 0.05rem; }
+.rail-cta__actions { display: flex; flex-direction: column; gap: 0.625rem; margin-top: 1.5rem; }
+.rail-cta__actions .btn { white-space: normal; text-align: center; line-height: 1.25; }
+
 @media (min-width: 1120px) {
-  /* One sticky wrapper, so contents and recent articles travel together. */
-  .article-rail .rail-inner {
-    position: sticky; top: 5.5rem;
-    max-height: calc(100vh - 7rem); overflow-y: auto; padding-bottom: 0.25rem;
+  /* The rail is pinned in three stages as the reader scrolls ("fold" = one
+     screen height):
+       folds 1–2  table of contents
+       folds 3–4  related resources + related articles
+       fold 5 →   CTA, to the end of the article
+     Each stage is a .rail-seg: its sticky box, then a spacer (::after) as
+     tall as the scroll distance the box stays pinned for — so the box is
+     held for that long whatever its own height, then the next stage takes
+     over. The rail stretches to the article's height; on posts too short
+     for all of it the spacers shrink (the CTA's least), so every stage still
+     gets its turn and the CTA is pinned through the end.
+     .rail-inner is absolutely positioned inside the rail so the stages (and
+     their tall spacers) never add height to the article's grid row: the
+     article alone sets the height, and the stages share it. */
+  .article-rail { position: relative; }
+  .article-rail .rail-inner { position: absolute; inset: 0; gap: 0; }
+  /* min-height: 0 lets a stage give up its spacer on short posts (a column
+     flexbox's automatic minimum would otherwise include the full spacer). */
+  .article-rail .rail-seg { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; padding-bottom: 1rem; }
+  /* visibility:hidden: the spacer is pushed down when blog.js fills the table
+     of contents; an invisible spacer is not counted as a layout shift. */
+  .article-rail .rail-seg::after { content: ""; flex: 0 1 200vh; visibility: hidden; }
+  .article-rail .rail-seg--cta { flex: 1 0 auto; padding-bottom: 0; }
+  .article-rail .rail-seg--cta::after { flex: 0 0.25 100vh; }
+  .article-rail .rail-seg > .toc,
+  .article-rail .rail-seg > .rail-stack,
+  .article-rail .rail-seg > .rail-cta { position: sticky; top: 5.5rem; flex: none; }
+  .article-rail .rail-stack { display: flex; flex-direction: column; gap: 1rem; }
+  /* Fixed-size boxes: headings stay, lists scroll inside. The related
+     articles list is sized by blog.js to whatever room the related
+     resources box leaves on screen. */
+  .article-rail .toc__nav {
+    max-height: calc(100vh - 11rem);
+    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  }
+  .article-rail .rail-recent .rail-nav {
+    max-height: var(--related-max, none);
+    overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   }
   .article-rail .toc,
   .article-rail .rail-recent,
@@ -1389,7 +1655,8 @@ body.bk-lock { overflow: hidden; }
 /* --- 12.9 Article: body typography ---------------------------------------- */
 .article--post .article__body h2,
 .article--post .article__body h3,
-.article--post .article-faq { scroll-margin-top: 6rem; }
+.article--post .article-main h2,
+.article--post .article-main h3 { scroll-margin-top: 6rem; }
 .article--post .article__body h3 {
   font-size: 1.1875rem; font-weight: 700; color: var(--indigo-900);
   letter-spacing: -0.005em; margin-bottom: 0.75rem;
@@ -1405,6 +1672,9 @@ body.bk-lock { overflow: hidden; }
   border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-muted);
 }
 .article--post .article__body figure { margin: 0; }
+/* Diagram that opens full size in a new tab (lets phone readers zoom in) */
+.article--post .article__body .figure-zoom { display: block; cursor: zoom-in; text-decoration: none; }
+.article--post .article__body .figure-zoom:focus-visible { outline: 2px solid var(--indigo-600); outline-offset: 3px; border-radius: var(--radius); }
 .article--post .article__body figcaption { margin-top: 0.625rem; font-size: 0.8125rem; line-height: 1.5;
   color: var(--slate-500); text-align: center; }
 .article--post .article__body blockquote {
@@ -1441,18 +1711,14 @@ body.bk-lock { overflow: hidden; }
    blog.js fallback for browsers that don't support exclusive accordions. */
 .article-faq .faq details[open] > summary { color: var(--indigo-800); }
 
-/* --- 12.11 Article: contextual CTA ---------------------------------------- */
-.article-cta {
-  margin-top: 3rem; padding: 2rem;
-  background: var(--indigo-950); border-radius: var(--radius-lg); color: #fff;
-}
-.article-cta__eyebrow {
-  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--indigo-300); margin-bottom: 0.625rem;
-}
-.article-cta h2 { font-size: 1.375rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; color: #fff; }
-.article-cta p { margin-top: 0.75rem; font-size: 1rem; line-height: 1.6; color: rgba(224, 220, 245, 0.85); }
-.article-cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+/* --- 12.11 Article: contextual CTA — the side-column .rail-cta (12.7) ------
+   Below 1120px there is no side column, so blog.js copies the box into the
+   article (.article-inline-cta, after the body, before the FAQs) and the
+   side-column original is hidden — the offer appears once, in the reading
+   flow. At 1120px+ only the side-column box shows. */
+.article-inline-cta { margin-top: 3rem; }
+@media (max-width: 1119.98px) { .article-rail .rail-cta { display: none; } }
+@media (min-width: 1120px)    { .article-inline-cta { display: none; } }
 
 /* --- 12.12 Article: author + sources -------------------------------------- */
 .author-box {
@@ -1504,6 +1770,6 @@ body.bk-lock { overflow: hidden; }
 
 /* --- 12.14 Focus visibility ----------------------------------------------- */
 .blog-cat:focus-visible, .post-card__cta:focus-visible, .rail-list a:focus-visible,
-.toc__list a:focus-visible, .share__links a:focus-visible, .share__copy:focus-visible {
+.toc__link:focus-visible, .share__links a:focus-visible, .share__copy:focus-visible {
   outline: 2px solid var(--indigo-600); outline-offset: 2px;
 }

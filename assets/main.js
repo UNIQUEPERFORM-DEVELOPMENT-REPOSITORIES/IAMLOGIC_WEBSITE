@@ -27,6 +27,8 @@
     name: "IamLogic",
     email: "info@iamlogic.com",
     phone: "+91-9916421806",
+    // WhatsApp number in international format, digits only ("" hides the icon).
+    whatsapp: "919916421806",
     address:
       "No. 14 & 15, KR Colony, Domlur Layout, Bengaluru, Karnataka 560071, India",
     // Social profiles — leave "" to hide that icon in the footer.
@@ -56,12 +58,25 @@
     turnstileQueue.forEach(function (fn) { fn(); });
     turnstileQueue = [];
   };
+  // Turnstile's script is a heavy third-party load, so no page includes it
+  // up front: the first widget that asks for it pulls it in (lead forms on
+  // first focus or tap, the quick-contact box and case-study modal on open).
+  var TURNSTILE_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=iamlogicTurnstileOnload&render=explicit";
+  function loadTurnstile() {
+    if (window.turnstile || document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')) return;
+    var s = document.createElement("script");
+    s.src = TURNSTILE_SRC; s.async = true; s.defer = true;
+    document.head.appendChild(s);
+  }
   function turnstileWhenReady(fn) {
     if (turnstileReady && window.turnstile) fn();
-    else turnstileQueue.push(fn);
+    else { turnstileQueue.push(fn); loadTurnstile(); }
   }
   function turnstileRender(el) {
-    return window.turnstile.render(el, { sitekey: TURNSTILE_SITEKEY });
+    // The normal widget is a fixed 300px; on narrower phones it would push the
+    // page sideways, so drop to Turnstile's compact (150px) size there.
+    var narrow = el.clientWidth > 0 && el.clientWidth < 300;
+    return window.turnstile.render(el, { sitekey: TURNSTILE_SITEKEY, size: narrow ? "compact" : "normal" });
   }
   function turnstileResponse(id) {
     try { return window.turnstile.getResponse(id); } catch (e) { return ""; }
@@ -76,6 +91,24 @@
   // Google Tag Manager (see "Analytics & cookie consent" below). Container
   // ID from tagmanager.google.com → your container (format "GTM-XXXXXXX").
   var GTM_CONTAINER_ID = "GTM-T5LC3HBB";
+
+  // The live site. Anywhere else (the GitHub Pages staging copy, localhost)
+  // Tag Manager never loads, and every page is switched to noindex so search
+  // engines don't index the staging copy. GitHub Pages can't send an
+  // X-Robots-Tag header, and robots.txt doesn't apply at a project subpath,
+  // so this is the one place it can be done. Google renders JavaScript and
+  // honours a robots meta changed to noindex this way.
+  var PRODUCTION_HOSTS = ["iamlogic.com", "www.iamlogic.com"];
+  var IS_PRODUCTION = PRODUCTION_HOSTS.indexOf(location.hostname) !== -1;
+  if (!IS_PRODUCTION) {
+    var robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.name = "robots";
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.content = "noindex, nofollow";
+  }
 
   // Header navigation. `groups` renders a dropdown; a bare `href` is a plain link.
   var NAV = [
@@ -128,11 +161,11 @@
         {
           heading: "By compliance",
           links: [
-            { label: "DPDP Act 2023", href: "compliance/dpdp-act/" },
+            { label: "Digital Personal Data Protection Act", href: "compliance/dpdp-act/" },
             { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
             { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
             { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
-            { label: "ISO 27001", href: "compliance/iso-27001/" }
+            { label: "ISO/IEC 27001", href: "compliance/iso-27001/" }
           ]
         }
       ]
@@ -158,7 +191,7 @@
           heading: "Company",
           links: [
             { label: "About IamLogic", href: "about/", description: "Who we are and why we build in India" },
-            { label: "Security & Trust", href: "security/", description: "ISO 27001, architecture and data residency" },
+            { label: "Security & Trust", href: "security/", description: "ISO/IEC 27001, architecture and data residency" },
             { label: "IAM Services", href: "services/", description: "Consulting, connectors and managed services" },
             { label: "Partners", href: "partners/", description: "Resell, implement or integrate with IamLogic" },
             { label: "Careers", href: "careers/", description: "Build identity security from Bengaluru" },
@@ -185,11 +218,11 @@
       { label: "All solutions", href: "solutions/" }
     ]},
     { heading: "Compliance", links: [
-      { label: "DPDP Act 2023", href: "compliance/dpdp-act/" },
+      { label: "Digital Personal Data Protection Act", href: "compliance/dpdp-act/" },
       { label: "RBI Cybersecurity Framework", href: "compliance/rbi-cybersecurity-framework/" },
       { label: "SEBI CSCRF", href: "compliance/sebi-cscrf/" },
       { label: "IRDAI Guidelines", href: "compliance/irdai-guidelines/" },
-      { label: "ISO 27001", href: "compliance/iso-27001/" }
+      { label: "ISO/IEC 27001", href: "compliance/iso-27001/" }
     ]},
     { heading: "Resources", links: [
       { label: "Blog", href: "blog/" },
@@ -212,6 +245,7 @@
      They inherit colour (currentColor) and size (1em) from their context. */
   var ICONS = {
     "arrow-right": '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    "arrow-left": '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
     "fingerprint": '<path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .13-5.35 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>',
     "key-round": '<path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>',
     "refresh-ccw": '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
@@ -247,6 +281,7 @@
     // Brand marks (filled) — stored as complete <svg> so injectIcons paints them
     // with fill=currentColor instead of the line-icon stroke wrapper.
     "linkedin": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+    "whatsapp": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>',
     "youtube": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'
   };
   function injectIcons(root) {
@@ -352,14 +387,14 @@
     return '<div class="container header-inner">' + LOGO +
       '<nav class="nav-desktop" aria-label="Main">' + desktop + "</nav>" +
       '<div class="header-actions"><a class="contact-link" href="' + url("contact/") + '">Contact</a>' +
-      '<a class="btn btn--primary" href="' + url("demo/") + '">Request a demo</a></div>' +
+      '<a class="btn btn--primary" href="' + url("demo/") + '">Request a Demo</a></div>' +
       '<button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">' +
       '<svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
       '<svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>' +
       "</button></div>" +
       '<nav class="nav-mobile" aria-label="Mobile"><div class="nav-mobile__inner">' + mobile +
       '<a href="' + url("contact/") + '">Contact</a>' +
-      '<div class="mt-2"><a class="btn btn--primary btn--block" href="' + url("demo/") + '">Request a demo</a></div>' +
+      '<div class="mt-2"><a class="btn btn--primary btn--block" href="' + url("demo/") + '">Request a Demo</a></div>' +
       "</div></nav>";
   }
 
@@ -391,9 +426,9 @@
       '<a href="mailto:' + SITE.email + '">' + SITE.email + "</a><br>" +
       '<a href="tel:' + SITE.phone + '">' + SITE.phone + "</a></p>" + social + "</div>" + cols + "</div>" +
       '<div class="footer-bottom"><p class="footer-bottom__copy">&copy; <span data-year></span> IamLogic. All rights reserved.</p>' +
-      '<div class="footer-bottom__meta"><strong>ISO/IEC 27001:2022 certified</strong>' +
+      '<div class="footer-bottom__meta"><strong>ISO/IEC 27001 certified</strong>' +
       '<a href="' + url("privacy/") + '">Privacy</a><a href="' + url("terms/") + '">Terms</a>' +
-      '<a href="#" data-consent="manage">Cookie settings</a></div></div>' +
+      '<button type="button" class="link-button" data-consent="manage">Cookie settings</button></div></div>' +
       "</div></div>";
   }
 
@@ -467,6 +502,11 @@
     if (name === "name" && value.trim().length < 2) return "Please enter your full name.";
     if (name === "email") return emailBad(value.trim());
     if (name === "company" && value.trim().length < 2) return "Please enter your organisation name.";
+    if (name === "phone" && required) {
+      var digits = value.replace(/\D/g, "").length;
+      if (!digits) return "Please enter your phone number.";
+      if (digits < 6 || digits > 14) return "Please enter a valid phone number.";
+    }
     if (required && !value.trim()) return "This field is required.";
     return "";
   }
@@ -493,7 +533,9 @@
     return !msg;
   }
 
-  function wireLeadForm(form) {
+  // eagerTurnstile: render the widget at once (the quick-contact box, which is
+  // only built when a visitor opens it) instead of on first focus or tap.
+  function wireLeadForm(form, eagerTurnstile) {
     var requiredInputs = Array.prototype.filter.call(form.elements, function (el) {
       return el.name && el.hasAttribute("required");
     });
@@ -503,12 +545,29 @@
 
     var tsId = null;
     var tsEl = form.querySelector("[data-turnstile]");
-    if (tsEl) turnstileWhenReady(function () { tsId = turnstileRender(tsEl); });
+    // Render the widget (and so load Turnstile) only once the visitor starts
+    // on the form, keeping it out of the page load.
+    function startTurnstile() {
+      form.removeEventListener("focusin", startTurnstile);
+      form.removeEventListener("pointerdown", startTurnstile);
+      turnstileWhenReady(function () { tsId = turnstileRender(tsEl); form._tsId = tsId; });
+    }
+    if (tsEl && eagerTurnstile) startTurnstile();
+    else if (tsEl) {
+      form.addEventListener("focusin", startTurnstile);
+      form.addEventListener("pointerdown", startTurnstile);
+    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
+      // A separate country-code select (quick-contact form) is sent as part
+      // of the one phone value the backend expects, e.g. "+91 98765 43210".
+      if ("phoneCode" in data) {
+        if (data.phone) data.phone = data.phoneCode + " " + data.phone.trim();
+        delete data.phoneCode;
+      }
 
       var ok = true;
       requiredInputs.forEach(function (input) {
@@ -556,6 +615,9 @@
       }).then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (res) {
           if (!r.ok || !res.ok) throw new Error(res.error || "bad status");
+          // Key event for GTM: fires only once the lead is accepted, never on a
+          // bare button click. No personal data, just which form it was.
+          (window.dataLayer = window.dataLayer || []).push({ event: "generate_lead", form_intent: data.intent });
           showSuccess();
         });
       }).catch(function (err) {
@@ -577,7 +639,7 @@
      configured inside the GTM container itself, not here. */
   var gtmLoaded = false;
   function loadGTM() {
-    if (gtmLoaded) return;
+    if (gtmLoaded || !IS_PRODUCTION) return;   // never on staging/localhost
     gtmLoaded = true;
     (function (w, d, s, l, i) {
       w[l] = w[l] || [];
@@ -674,6 +736,179 @@
     });
   }
 
+  /* ----- Quick-contact bar (every page) ----------------------------------- */
+  /* Built from SITE, like the footer: an item appears only if its value is
+     set, so it never shows a channel we don't have. One element, two layouts
+     (CSS): a vertical tab on the right edge on wide screens, a bar along the
+     bottom of the screen below that. */
+  function renderQuickBar() {
+    var items = [
+      SITE.linkedin && { href: SITE.linkedin, icon: "linkedin", label: "IamLogic on LinkedIn", mod: "linkedin", ext: true },
+      SITE.youtube && { href: SITE.youtube, icon: "youtube", label: "IamLogic on YouTube", mod: "youtube", ext: true },
+      SITE.whatsapp && { href: "https://wa.me/" + SITE.whatsapp, icon: "whatsapp", label: "Chat with IamLogic on WhatsApp", mod: "whatsapp", ext: true },
+      SITE.email && { href: "mailto:" + SITE.email, icon: "mail", label: "Email " + SITE.email, mod: "mail" },
+      SITE.phone && { href: "tel:" + SITE.phone, icon: "phone", label: "Call " + SITE.phone, mod: "phone" }
+    ].filter(Boolean).map(function (it) {
+      return '<a class="quick-bar__item quick-bar__item--' + it.mod + '" href="' + it.href + '"' +
+        (it.ext ? ' target="_blank" rel="noopener noreferrer"' : "") +
+        ' aria-label="' + esc(it.label) + '" title="' + esc(it.label) + '"><i data-icon="' + it.icon + '"></i></a>';
+    }).join("");
+    var bar = document.createElement("nav");
+    bar.className = "quick-bar";
+    bar.setAttribute("aria-label", "Quick contact");
+    bar.innerHTML = '<a class="quick-bar__contact" href="' + url("contact/") + '" data-quick-contact' +
+      ' aria-haspopup="dialog" aria-expanded="false">Contact Us</a>' + items;
+    document.body.appendChild(bar);
+  }
+
+  /* ----- Quick-contact form box ([data-quick-contact]) ------------------ */
+  /* A compact dark form that pops out beside the right-edge quick-contact
+     bar (non-modal: no backdrop, the page stays usable). Fields are a short
+     version of the Contact page form — name, phone, work email, organisation
+     (all required; organisation is required by the lead backend) and an
+     optional message — with placeholders as the visible labels (real labels
+     stay for screen readers). It reuses wireLeadForm, so validation,
+     Turnstile and the POST to SITE.leadEndpoint behave exactly like the full
+     forms; intent "quick-contact" labels these leads in Zoho. The trigger
+     keeps its href to contact/, so without JS (or with a modifier-click) it
+     still goes to the full page. Turnstile's script loads on first open. */
+  var qc = { box: null, body: null, last: null };
+  // Country calling codes for the quick-contact phone field (India first =
+  // default). Shown as "IN +91": flag emoji don't render on Windows.
+  var PHONE_CODES = [
+    ["IN", "+91"], ["US", "+1"], ["GB", "+44"], ["AE", "+971"], ["SA", "+966"],
+    ["QA", "+974"], ["OM", "+968"], ["KW", "+965"], ["BH", "+973"], ["SG", "+65"],
+    ["MY", "+60"], ["ID", "+62"], ["AU", "+61"], ["NZ", "+64"], ["CA", "+1"],
+    ["DE", "+49"], ["FR", "+33"], ["NL", "+31"], ["IE", "+353"], ["CH", "+41"],
+    ["ZA", "+27"], ["KE", "+254"], ["NG", "+234"], ["LK", "+94"], ["BD", "+880"],
+    ["NP", "+977"], ["JP", "+81"], ["HK", "+852"], ["PH", "+63"]
+  ];
+
+  function qcBuild() {
+    var o = document.createElement("div");
+    o.className = "qc-pop";
+    o.setAttribute("role", "dialog");
+    o.setAttribute("aria-labelledby", "qc-title");
+    o.setAttribute("hidden", "");
+    o.innerHTML =
+      '<div class="qc-pop__head">' +
+        '<h2 id="qc-title" class="qc-pop__title">Contact Us</h2>' +
+        '<button class="qc-pop__close" type="button" aria-label="Close contact form">&times;</button>' +
+      "</div>" +
+      '<div class="qc-pop__body" data-lead-wrap></div>';
+    document.body.appendChild(o);
+    o.querySelector(".qc-pop__close").addEventListener("click", qcClose);
+    qc.box = o;
+    qc.body = o.querySelector(".qc-pop__body");
+  }
+
+  function qcField(id, label, input) {
+    return '<div class="field"><label class="sr-only" for="' + id + '">' + label + "</label>" + input + "</div>";
+  }
+
+  function qcForm() {
+    return '<form class="lead-form qc-form" data-intent="quick-contact" novalidate>' +
+      qcField("qc-name", "Full name (required)",
+        '<input class="input" id="qc-name" name="name" autocomplete="name" required placeholder="Your name *">') +
+      '<div class="field"><div class="qc-phone">' +
+        '<label class="sr-only" for="qc-phone-code">Country code</label>' +
+        '<select class="input qc-phone__code" id="qc-phone-code" name="phoneCode" autocomplete="tel-country-code">' +
+          PHONE_CODES.map(function (c) { return '<option value="' + c[1] + '">' + c[0] + " " + c[1] + "</option>"; }).join("") +
+        "</select>" +
+        '<label class="sr-only" for="qc-phone">Mobile number (required)</label>' +
+        '<input class="input" id="qc-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" required placeholder="Official mobile number *">' +
+      "</div></div>" +
+      qcField("qc-email", "Work email (required)",
+        '<input class="input" id="qc-email" name="email" type="email" autocomplete="email" required placeholder="Official email *">') +
+      qcField("qc-interest", "Product interest",
+        '<select class="input" id="qc-interest" name="interest">' +
+          ["Access Manager", "IamLogic IGA", "Both products", "IAM services & consulting"].map(function (v) {
+            return '<option value="' + esc(v) + '"' + (v === "Both products" ? " selected" : "") + ">Interested in: " + esc(v) + "</option>";
+          }).join("") +
+        "</select>") +
+      qcField("qc-company", "Organisation (required)",
+        '<input class="input" id="qc-company" name="company" autocomplete="organization" required placeholder="Organisation *">') +
+      qcField("qc-message", "Your requirements (optional)",
+        '<textarea class="input" id="qc-message" name="message" rows="2" placeholder="Please explain your requirements"></textarea>') +
+      '<input type="text" name="hp" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<div class="ts-widget" data-turnstile></div>' +
+      '<p class="form-error-banner" data-form-error hidden>Something went wrong on our side. Please retry, or write to us directly at ' +
+        '<a href="mailto:' + SITE.email + '">' + SITE.email + "</a>.</p>" +
+      '<button class="btn btn--on-dark qc-form__submit" type="submit">Submit</button>' +
+    "</form>";
+  }
+
+  function qcOpen(trigger) {
+    if (!qc.box) qcBuild();
+    if (!qc.box.hasAttribute("hidden")) { qcClose(); return; }   // tab toggles
+    qc.last = trigger || document.activeElement;
+    qc.body.innerHTML = qcForm();            // fresh form every time
+    var form = qc.body.querySelector("form");
+    wireLeadForm(form, true);
+    qc.box.removeAttribute("hidden");
+    void qc.box.offsetWidth;                 // reflow so the transition runs
+    qc.box.classList.add("is-open");
+    if (qc.last && qc.last.setAttribute) qc.last.setAttribute("aria-expanded", "true");
+    form.querySelector("input").focus();
+  }
+
+  function qcClose() {
+    if (!qc.box || qc.box.hasAttribute("hidden")) return;
+    var form = qc.body.querySelector("form");
+    if (form && form._tsId != null) turnstileRemove(form._tsId);
+    qc.box.classList.remove("is-open");
+    qc.box.setAttribute("hidden", "");
+    qc.body.innerHTML = "";                  // drop anything typed but not sent
+    if (qc.last && qc.last.setAttribute) qc.last.setAttribute("aria-expanded", "false");
+    if (qc.last && qc.last.focus) qc.last.focus();
+  }
+
+  function wireQuickContact() {
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest ? e.target.closest("[data-quick-contact]") : null;
+      if (!t || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (!SITE.leadEndpoint) return;        // no backend: let the link go to contact/
+      e.preventDefault();
+      qcOpen(t);
+    });
+    // Escape, or a click anywhere outside the box (and its trigger), closes it.
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && qc.box && !qc.box.hasAttribute("hidden")) qcClose();
+    });
+    document.addEventListener("mousedown", function (e) {
+      if (!qc.box || qc.box.hasAttribute("hidden")) return;
+      if (qc.box.contains(e.target)) return;
+      if (e.target.closest && e.target.closest("[data-quick-contact]")) return;
+      qcClose();
+    });
+  }
+
+  /* ----- Card carousel ([data-carousel]) --------------------------------- */
+  /* The track scrolls natively (swipe / trackpad / keyboard); this only wires
+     the prev/next buttons and disables them at either end. */
+  function wireCarousel(el) {
+    var track = el.querySelector(".carousel__track");
+    var prev = el.querySelector("[data-carousel-prev]");
+    var next = el.querySelector("[data-carousel-next]");
+    if (!track || !prev || !next) return;
+    function step() {
+      var card = track.firstElementChild;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+      prev.hidden = next.hidden = max <= 0; // everything fits — no arrows
+    }
+    prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "smooth" }); });
+    next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "smooth" }); });
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
   /* ----- Boot ------------------------------------------------------------ */
   function init() {
     var header = document.getElementById("site-header");
@@ -692,7 +927,12 @@
       el.textContent = new Date().getFullYear();
     });
     // Lead forms
-    Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), wireLeadForm);
+    Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), function (form) { wireLeadForm(form); });
+    // Quick-contact bar (right edge) + its Contact Us dialog
+    renderQuickBar();
+    wireQuickContact();
+    // Card carousels
+    Array.prototype.forEach.call(document.querySelectorAll("[data-carousel]"), wireCarousel);
     // Icons
     injectIcons(document);
     // Analytics consent

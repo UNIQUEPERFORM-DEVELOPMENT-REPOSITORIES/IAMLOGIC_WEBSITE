@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding</title>
+  <title>MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic</title>
   <meta name="description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic."/>
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">
@@ -17,7 +17,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="IamLogic">
   <meta property="og:locale" content="en_IN">
-  <meta property="og:title" content="MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding">
+  <meta property="og:title" content="MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic">
   <meta property="og:description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.">
   <meta property="og:url" content="https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">
   <meta property="og:image" content="https://iamlogic.com/assets/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them.png">
@@ -29,7 +29,7 @@
   <meta property="article:section" content="Access Management">
   <meta property="article:author" content="Rajesh Kumar Raj">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding">
+  <meta name="twitter:title" content="MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic">
   <meta name="twitter:description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.">
   <meta name="twitter:image" content="https://iamlogic.com/assets/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them.png">
 
@@ -71,7 +71,19 @@
     ]
   },
   "publisher": {
-    "@id": "https://iamlogic.com/#organization"
+    "@type": "Organization",
+    "@id": "https://iamlogic.com/#organization",
+    "name": "IamLogic",
+    "url": "https://iamlogic.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://iamlogic.com/#logo",
+      "url": "https://iamlogic.com/apple-touch-icon.png",
+      "contentUrl": "https://iamlogic.com/apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "caption": "IamLogic"
+    }
   }
 }
   </script>
@@ -82,7 +94,7 @@
   "@type": "WebPage",
   "@id": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/#webpage",
   "url": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/",
-  "name": "MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding",
+  "name": "MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic",
   "isPartOf": {
     "@id": "https://iamlogic.com/#website"
   },
@@ -113,12 +125,6 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "Access Management",
-      "item": "https://iamlogic.com/blog/#access-management"
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
       "name": "Extend MFA to Legacy Applications",
       "item": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/"
     }
@@ -191,7 +197,6 @@
             <ol>
               <li><a href="../../">Home</a></li>
               <li><span aria-hidden="true">/</span><a href="../">Blog</a></li>
-              <li><span aria-hidden="true">/</span><a href="../#access-management">Access Management</a></li>
               <li><span aria-hidden="true">/</span><span aria-current="page">Extend MFA to Legacy Applications</span></li>
             </ol>
           </nav>
@@ -224,56 +229,78 @@
           <div class="article-layout">
             <aside class="article-rail">
               <div class="rail-inner">
-                <details class="toc" data-toc data-rail-card open>
-                  <summary>Table of contents</summary>
-                </details>
-                <details class="rail-related" data-rail-card open>
-                  <summary>Related resources</summary>
-                  <nav class="rail-nav" aria-label="Related resources">
-                    <ul class="rail-list">
-                      <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Article</span>
-                        <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
-                      </a></li>
-                      <li><a href="../../solutions/legacy-application-sso/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Solution</span>
-                        <span class="rail-list__title">Legacy application SSO</span>
-                      </a></li>
-                      <li><a href="../../solutions/zero-trust-access/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Solution</span>
-                        <span class="rail-list__title">Zero Trust access</span>
-                      </a></li>
-                      <li><a href="../../products/access-manager/" data-blog-track="related_click">
-                        <span class="rail-list__cat">Product</span>
-                        <span class="rail-list__title">IamLogic Access Manager</span>
-                      </a></li>
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">MFA for Custom and Legacy Applications</span>
+                          </a></li>
+                          <li><a href="../../solutions/legacy-application-sso/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Legacy application SSO</span>
+                          </a></li>
+                          <li><a href="../../solutions/zero-trust-access/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Zero Trust access</span>
+                          </a></li>
+                          <li><a href="../../products/access-manager/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Product</span>
+                            <span class="rail-list__title">IamLogic Access Manager</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
+                          </a></li>
+                          <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Access Management</span>
+                            <span class="rail-list__title">Choosing the Right IAM Solution</span>
+                          </a></li>
+                          <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Compliance</span>
+                            <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Secure Every Login with Access Manager</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>MFA for legacy apps, no code changes</li>
+                      <li>Browser-plugin SSO with password rotation</li>
+                      <li>Reverse-proxy MFA gateway</li>
+                      <li>Push 2FA for Kerberos apps</li>
                     </ul>
-                  </nav>
-                </details>
-                <details class="rail-recent" data-rail-card open>
-                  <summary>Recent articles</summary>
-                  <nav class="rail-nav" aria-label="Recent articles">
-                    <ul class="rail-list">
-                      <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Identity Governance</span>
-                        <span class="rail-list__title">Identity Governance Challenges</span>
-                      </a></li>
-                      <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
-                      </a></li>
-                      <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Access Management</span>
-                        <span class="rail-list__title">Choosing the Right IAM Solution</span>
-                      </a></li>
-                      <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
-                        <span class="rail-list__cat">Compliance</span>
-                        <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
-                      </a></li>
-                    </ul>
-                    <a class="rail-more" href="../">All articles &rarr;</a>
-                  </nav>
-                </details>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </aside>
 
@@ -348,6 +375,7 @@
                     <li><b>Reverse Proxy —</b> best for web apps that can’t support SSO or MFA and need a gatekeeper in front.</li>
                     <li><b>Kerberos 2FA —</b> best for internal Windows / Active Directory apps that use Kerberos.</li>
                       </ul>
+                      <p>For the practical hurdles teams hit along the way, see <a href="../mfa-for-custom-and-legacy-applications-key-implementation-challenges/">MFA implementation challenges for custom and legacy applications</a>.</p>
                       <p>In many organizations, all three are used together to cover the full mix of old and custom applications. The result is the same everywhere: strong MFA on every app, with no rebuilds, no downtime and no disruption to users.</p>
                   </div>
 
@@ -384,15 +412,6 @@
                   </details>
                 </div>
               </section>
-              <aside class="article-cta">
-                <p class="article-cta__eyebrow">Relevant IamLogic solution</p>
-                <h2>Strong authentication for the applications you can&#x27;t rebuild</h2>
-                <p>Access Manager covers legacy web logins, apps that can&#x27;t authenticate on their own and Kerberos applications — one MFA experience across the whole estate.</p>
-                <div class="article-cta__actions">
-                  <a class="btn btn--on-dark btn--lg" href="../../products/access-manager/" data-blog-track="cta_primary">Explore IamLogic Access Manager <i data-icon="arrow-right"></i></a>
-                  <a class="btn btn--ghost-dark btn--lg" href="../../demo/" data-blog-track="cta_secondary">Request a demo</a>
-                </div>
-              </aside>
               <aside class="author-box">
                 <p class="author-box__avatar" aria-hidden="true">RR</p>
                 <div>

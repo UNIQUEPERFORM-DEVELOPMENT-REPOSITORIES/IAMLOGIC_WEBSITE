@@ -5,15 +5,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>ISO 27001 IAM & Identity Governance Compliance | IamLogic</title>
+  <title>ISO 27001 Identity and Access Management Controls | IamLogic</title>
   <meta name="description"
-    content="See how IGA and IAM support ISO 27001 with identity lifecycle management, access reviews, role-based access, provisioning, MFA and privileged access controls." />
+    content="Map ISO 27001:2022 Annex A identity controls, including privileged access (A.8.2) and secure authentication (A.8.5), to IAM and IGA capabilities." />
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/compliance/iso-27001/">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this page -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="ISO 27001 Identity and Access Management Controls | IamLogic">
+  <meta property="og:description" content="Map ISO 27001:2022 Annex A identity controls, including privileged access (A.8.2) and secure authentication (A.8.5), to IAM and IGA capabilities.">
+  <meta property="og:url" content="https://iamlogic.com/compliance/iso-27001/">
+  <meta property="og:image" content="https://iamlogic.com/assets/og/compliance-iso-27001.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — ISO 27001 Identity and Access Management: Implementing Annex A Controls">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ISO 27001 Identity and Access Management Controls | IamLogic">
+  <meta name="twitter:description" content="Map ISO 27001:2022 Annex A identity controls, including privileged access (A.8.2) and secure authentication (A.8.5), to IAM and IGA capabilities.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/og/compliance-iso-27001.png">
+  <meta name="twitter:image:alt" content="IamLogic — ISO 27001 Identity and Access Management: Implementing Annex A Controls">
+
   <link rel="stylesheet" href="../../assets/styles.css">
   <script src="../../assets/main.js" defer></script>
 
@@ -23,7 +41,7 @@
     "@type": "WebPage",
     "@id": "https://iamlogic.com/compliance/iso-27001/#webpage",
     "url": "https://iamlogic.com/compliance/iso-27001/",
-    "name": "ISO 27001 IAM & Identity Governance Compliance | IamLogic",
+    "name": "ISO 27001 Identity and Access Management Controls | IamLogic",
     "isPartOf": {
       "@id": "https://iamlogic.com/#website"
     },
@@ -34,20 +52,44 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Will IamLogic help with our certification audit itself?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Beyond the product, our services team offers ISO 27001-aligned consulting — assessing your identity controls and aligning them with both the standard and the platform's capabilities. We've been through the audit ourselves."
-        }
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Will IamLogic help with our certification audit itself?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Beyond the product, our services team offers ISO 27001-aligned consulting — assessing your identity controls and aligning them with both the standard and the platform's capabilities. We've been through the audit ourselves."
       }
-    ]
-  }
+    },
+    {
+      "@type": "Question",
+      "name": "What does ISO 27001 require for identity and access management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ISO/IEC 27001:2022 Annex A groups its identity requirements into access control policy (5.15), identity management (5.16), authentication information (5.17), access rights (5.18), privileged access rights (8.2) and secure authentication (8.5). Auditors typically ask how access rights are granted, reviewed and removed, how authentication is protected, and where the evidence is."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does ISO 27001 control A.8.2 privileged access require?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A.8.2 requires that the allocation and use of privileged access rights is restricted and managed. That usually means granting elevated access through approval, limiting it in time and scope, reviewing it regularly and protecting it with stronger authentication."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you map identity controls to ISO 27001?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start from the Annex A identity controls, then identify the product control that implements each one and the evidence it produces. The control mapping on this page shows each requirement, the IamLogic capability that supports it and the product it lives in."
+      }
+    }
+  ]
+}
   </script>
 
   <script type="application/ld+json">
@@ -99,20 +141,20 @@
           </nav>
         </div>
         <p class="eyebrow eyebrow--dark">Compliance hub</p>
-        <h1>ISO 27001 access control: implementing Annex A with IamLogic</h1>
+        <h1>ISO 27001 Identity and Access Management: Implementing Annex A Controls</h1>
         <p class="hero__lead">ISO/IEC 27001:2022's Annex A dedicates a cluster of controls to identity: access control
           policy (5.15), identity management (5.16), authentication information (5.17), access rights (5.18) and
           privileged/utility restrictions (8.2–8.5). IamLogic implements these controls operationally — and we hold the
           certificate ourselves, so we know what auditors ask.</p>
         <div class="hero__actions">
-          <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a demo <i data-icon="arrow-right"></i></a>
+          <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
           <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Discuss your obligations</a>
         </div>
         <div class="hero__trust">
           <ul class="trust-bar trust-bar--dark">
             <li>ISO/IEC 27001:2022 certified</li>
             <li>Made in India</li>
-            <li>On-premises · Cloud · Hybrid</li>
+            <li>On-premises · Cloud</li>
             <li>SAML · OIDC · OAuth2 · RADIUS</li>
             <li>24×7 support</li>
           </ul>
@@ -211,6 +253,34 @@
     <section class="section">
       <div class="container">
         <div class="section-heading">
+          <p class="eyebrow">Privileged access</p>
+          <h2 class="h2">Privileged access under ISO 27001 (A.8.2)</h2>
+          <p class="lead">Annex A control 8.2 asks that the allocation and use of privileged access rights is restricted and managed. In practice, auditors look for privileged access that is granted deliberately, limited to what the role needs, reviewed regularly and backed by stronger authentication.</p>
+        </div>
+        <div class="grid sm:cols-2 mt-10">
+          <div class="card" style="padding:1.75rem">
+            <h3 style="font-size:1.125rem;font-weight:700;color:var(--indigo-950)">Restricted allocation</h3>
+            <p class="mt-2 text-muted" style="line-height:1.7">Elevated access requested and approved through defined workflows, with time-bound grants and segregation-of-duties policies in <a class="text-link" href="../../products/identity-governance/">IamLogic IGA</a>.</p>
+          </div>
+          <div class="card" style="padding:1.75rem">
+            <h3 style="font-size:1.125rem;font-weight:700;color:var(--indigo-950)">Regular review</h3>
+            <p class="mt-2 text-muted" style="line-height:1.7">Privileged entitlements included in <a class="text-link" href="../../solutions/access-reviews-audit/">access certification campaigns</a>, with reviewer decisions and revocations recorded as audit evidence.</p>
+          </div>
+          <div class="card" style="padding:1.75rem">
+            <h3 style="font-size:1.125rem;font-weight:700;color:var(--indigo-950)">Stronger authentication</h3>
+            <p class="mt-2 text-muted" style="line-height:1.7">MFA and passwordless WebAuthn for privileged sessions, with adaptive step-up in <a class="text-link" href="../../products/access-manager/">Access Manager</a> (A.8.5).</p>
+          </div>
+          <div class="card" style="padding:1.75rem">
+            <h3 style="font-size:1.125rem;font-weight:700;color:var(--indigo-950)">Protected credentials</h3>
+            <p class="mt-2 text-muted" style="line-height:1.7">Credential vaulting with automatic rotation for legacy and shared accounts, so privileged passwords aren't known or reused (A.5.17). See how this works in our <a class="text-link" href="../../resources/case-studies/sso-mfa-privileged-access-protection/">privileged access case study</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--muted">
+      <div class="container">
+        <div class="section-heading">
           <p class="eyebrow">FAQ</p>
           <h2 class="h2">Common questions</h2>
         </div>
@@ -220,6 +290,18 @@
             <p>Beyond the product, our services team offers ISO 27001-aligned consulting — assessing your identity
               controls and aligning them with both the standard and the platform's capabilities. We've been through the
               audit ourselves.</p>
+          </details>
+          <details>
+            <summary>What does ISO 27001 require for identity and access management?</summary>
+            <p>ISO/IEC 27001:2022 Annex A groups its identity requirements into access control policy (5.15), identity management (5.16), authentication information (5.17), access rights (5.18), privileged access rights (8.2) and secure authentication (8.5). Auditors typically ask how access rights are granted, reviewed and removed, how authentication is protected, and where the evidence is.</p>
+          </details>
+          <details>
+            <summary>What does ISO 27001 control A.8.2 privileged access require?</summary>
+            <p>A.8.2 requires that the allocation and use of privileged access rights is restricted and managed. That usually means granting elevated access through approval, limiting it in time and scope, reviewing it regularly and protecting it with stronger authentication.</p>
+          </details>
+          <details>
+            <summary>How do you map identity controls to ISO 27001?</summary>
+            <p>Start from the Annex A identity controls, then identify the product control that implements each one and the evidence it produces. The control mapping on this page shows each requirement, the IamLogic capability that supports it and the product it lives in.</p>
           </details>
         </div>
       </div>
@@ -236,7 +318,7 @@
           <div class="cta-band__actions">
             <a class="btn btn--on-dark btn--lg" href="../../demo/">Book a compliance walkthrough <i
                 data-icon="arrow-right"></i></a>
-            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to sales</a>
+            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to Sales</a>
           </div>
         </div>
       </div>

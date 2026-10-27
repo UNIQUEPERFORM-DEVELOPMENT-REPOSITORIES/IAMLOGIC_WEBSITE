@@ -11,6 +11,24 @@
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this page -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Request an Enterprise IGA &amp; IAM Demo | IamLogic">
+  <meta property="og:description" content="Request an IamLogic demo to explore IGA and IAM capabilities including identity governance, access certification, lifecycle management, SSO, MFA and passwordless authentication.">
+  <meta property="og:url" content="https://iamlogic.com/demo/">
+  <meta property="og:image" content="https://iamlogic.com/assets/og/demo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — Bring your hardest identity problem">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Request an Enterprise IGA &amp; IAM Demo | IamLogic">
+  <meta name="twitter:description" content="Request an IamLogic demo to explore IGA and IAM capabilities including identity governance, access certification, lifecycle management, SSO, MFA and passwordless authentication.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/og/demo.png">
+  <meta name="twitter:image:alt" content="IamLogic — Bring your hardest identity problem">
+
   <link rel="preload" href="../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/styles.css">
   <script src="../assets/main.js" defer></script>
@@ -32,25 +50,25 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": "https://iamlogic.com/demo/#breadcrumb",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://iamlogic.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Demo",
-        "item": "https://iamlogic.com/demo/"
-      }
-    ]
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/demo/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Request a Demo",
+      "item": "https://iamlogic.com/demo/"
+    }
+  ]
+}
   </script>
 </head>
 <body>
@@ -69,11 +87,11 @@
             <nav class="breadcrumbs bc-mb" aria-label="Breadcrumb">
             <ol>
               <li><a href="../">Home</a></li>
-              <li><span aria-hidden="true">/</span><span aria-current="page">Request a demo</span></li>
+              <li><span aria-hidden="true">/</span><span aria-current="page">Request a Demo</span></li>
             </ol>
             </nav>
             <div class="section-heading">
-              <p class="eyebrow">Request a demo</p>
+              <p class="eyebrow">Request a Demo</p>
               <h1 class="h1">Bring your hardest identity problem</h1>
               <p class="lead">The best demos start with your worst application. Tell us what you're dealing with and we'll show the product against it — not around it.</p>
             </div>
@@ -84,7 +102,7 @@
               <li>Straight answers on fit, timeline and what a POC would look like</li>
             </ul>
             <p class="callout mt-8" style="font-size:0.95rem">Prefer a longer evaluation? Ask about a <strong>proof of concept</strong> — a scoped deployment against your actual systems with success criteria agreed up front.</p>
-            <p class="mt-6"><a class="btn btn--secondary" data-book href="#book-a-call">Prefer to pick a time yourself? Book a call directly</a></p>
+            <p class="mt-6"><button type="button" class="btn btn--secondary" data-book>Prefer to pick a time yourself? Book a call directly</button></p>
           </div>
           <div class="card card--pad-lg" data-lead-wrap>
             <h2 class="h3" style="font-size:1.25rem">Book your session</h2>
@@ -112,7 +130,7 @@
                 <input type="text" name="hp" class="lead-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <div class="ts-widget" data-turnstile></div>
                 <p class="form-error-banner" data-form-error hidden>Something went wrong on our side. Please retry, or write to us directly at <a href="mailto:info@iamlogic.com">info@iamlogic.com</a>.</p>
-                <button class="btn btn--primary" type="submit" style="padding:0.9rem 2rem">Request a demo</button>
+                <button class="btn btn--primary" type="submit" style="padding:0.9rem 2rem">Request a Demo</button>
                 <p class="form-note">We use these details only to respond to your request. No newsletters unless you ask.</p>
               </form>
             </div>
@@ -124,6 +142,5 @@
 
   <footer id="site-footer"></footer>
   <script src="../assets/booking-modal.js" defer></script>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=iamlogicTurnstileOnload&render=explicit" async defer></script>
 </body>
 </html>

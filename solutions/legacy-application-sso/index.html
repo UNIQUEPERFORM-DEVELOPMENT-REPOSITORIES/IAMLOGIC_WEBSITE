@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <title>Legacy Application SSO and MFA Solution | IamLogic</title>
+  <title>SSO and MFA for Legacy Applications | IamLogic</title>
   <meta name="description" content="Bring legacy applications under SSO and MFA with browser based access, automatic password rotation and audit coverage without recoding existing applications. Modernise access while keeping critical systems in place."/>
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/solutions/legacy-application-sso/">
@@ -12,6 +12,24 @@
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this page -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="SSO and MFA for Legacy Applications | IamLogic">
+  <meta property="og:description" content="Bring legacy applications under SSO and MFA with browser based access, automatic password rotation and audit coverage without recoding existing applications. Modernise access while keeping critical systems in place.">
+  <meta property="og:url" content="https://iamlogic.com/solutions/legacy-application-sso/">
+  <meta property="og:image" content="https://iamlogic.com/assets/og/solutions-legacy-application-sso.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — SSO and MFA for Legacy Applications">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SSO and MFA for Legacy Applications | IamLogic">
+  <meta name="twitter:description" content="Bring legacy applications under SSO and MFA with browser based access, automatic password rotation and audit coverage without recoding existing applications. Modernise access while keeping critical systems in place.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/og/solutions-legacy-application-sso.png">
+  <meta name="twitter:image:alt" content="IamLogic — SSO and MFA for Legacy Applications">
+
   <link rel="stylesheet" href="../../assets/styles.css">
   <script src="../../assets/main.js" defer></script>
 
@@ -21,7 +39,7 @@
     "@type": "WebPage",
     "@id": "https://iamlogic.com/solutions/legacy-application-sso/#webpage",
     "url": "https://iamlogic.com/solutions/legacy-application-sso/",
-    "name": "Legacy Application SSO and MFA Solution | IamLogic",
+    "name": "SSO and MFA for Legacy Applications | IamLogic",
     "isPartOf": {
       "@id": "https://iamlogic.com/#website"
     },
@@ -32,31 +50,56 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "@id": "https://iamlogic.com/solutions/legacy-application-sso/#breadcrumb",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://iamlogic.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Solutions",
-        "item": "https://iamlogic.com/solutions/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Legacy Application SSO",
-        "item": "https://iamlogic.com/solutions/legacy-application-sso/"
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/solutions/legacy-application-sso/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Solutions",
+      "item": "https://iamlogic.com/solutions/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Legacy application SSO",
+      "item": "https://iamlogic.com/solutions/legacy-application-sso/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://iamlogic.com/solutions/legacy-application-sso/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What happens if a user needs the raw password?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Policy decides. Credentials can be fully vaulted (user never sees them, rotation is automatic) or revealable with approval and logging for defined roles."
       }
-    ]
-  }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I secure legacy applications with MFA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Put the second factor around the application instead of inside it. For web apps with a basic login page, the user signs in to IamLogic with MFA and the browser plugin fills in the app's own login, with the password rotated after use. Apps that can't authenticate at all can sit behind a reverse proxy that enforces MFA, and Kerberos apps can get push-based 2FA at the domain controller. None of these needs changes to the application."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body>
@@ -72,13 +115,13 @@
         <div style="color:rgba(199,191,233,0.7);margin-bottom:1.5rem"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li>
             <li><span aria-hidden="true">/</span><a href="../../solutions/">Solutions</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Legacy application SSO</span></li></ol></nav></div>
         <p class="eyebrow eyebrow--dark">Use case</p>
-        <h1>SSO and MFA for the applications everyone else gave up on</h1>
+        <h1>SSO and MFA for Legacy Applications</h1>
         <p class="hero__lead">Every enterprise has them: business-critical applications that will never speak SAML or OIDC. Most identity vendors quietly scope them out. IamLogic brings them in — a browser plugin delivers SSO with secure credential auto-fill and automatic password rotation, so legacy apps get modern protection without a single line of code changed.</p>
         <div class="hero__actions">
-          <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a demo <i data-icon="arrow-right"></i></a>
+          <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
           <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to an engineer</a>
         </div>
-        <div class="hero__trust"><ul class="trust-bar trust-bar--dark"><li>ISO/IEC 27001:2022 certified</li><li>Made in India</li><li>On-premises · Cloud · Hybrid</li><li>SAML · OIDC · OAuth2 · RADIUS</li><li>24×7 support</li></ul></div>
+        <div class="hero__trust"><ul class="trust-bar trust-bar--dark"><li>ISO/IEC 27001:2022 certified</li><li>Made in India</li><li>On-premises · Cloud</li><li>SAML · OIDC · OAuth2 · RADIUS</li><li>24×7 support</li></ul></div>
       </div>
     </section>
 
@@ -120,7 +163,7 @@
           </div>
           <div>
             <div class="section-heading"><p class="eyebrow">FAQ</p><h2 class="h2">Common questions</h2></div>
-            <div class="faq mt-8"><details><summary>What happens if a user needs the raw password?</summary><p>Policy decides. Credentials can be fully vaulted (user never sees them, rotation is automatic) or revealable with approval and logging for defined roles.</p></details></div>
+            <div class="faq mt-8"><details><summary>What happens if a user needs the raw password?</summary><p>Policy decides. Credentials can be fully vaulted (user never sees them, rotation is automatic) or revealable with approval and logging for defined roles.</p></details><details><summary>How do I secure legacy applications with MFA?</summary><p>Put the second factor around the application instead of inside it. For web apps with a basic login page, the user signs in to IamLogic with MFA and the browser plugin fills in the app&#x27;s own login, with the password rotated after use. Apps that can&#x27;t authenticate at all can sit behind a reverse proxy that enforces MFA, and Kerberos apps can get push-based 2FA at the domain controller. None of these needs changes to the application. Read more on <a class="text-link" href="../../blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">MFA for legacy applications</a>.</p></details></div>
           </div>
         </div>
       </div>
@@ -134,8 +177,8 @@
             <p>Bring your application list and your regulator's last questionnaire — we'll demo against both.</p>
           </div>
           <div class="cta-band__actions">
-            <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a demo <i data-icon="arrow-right"></i></a>
-            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to sales</a>
+            <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
+            <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to Sales</a>
           </div>
         </div>
       </div>
