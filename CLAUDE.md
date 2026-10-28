@@ -124,6 +124,13 @@ data in `NAV` / `FOOTER_COLUMNS` is stored **root-relative without a leading
 slash** (e.g. `href: "contact/"`), and `main.js` prefixes it per page. Active-nav
 state compares `new URL(url(href), location.href).pathname` so it holds at any base.
 
+**Always climb to the root, then descend** — write `../../blog/other-post/`,
+never `../other-post/` or a bare `child/`. Production (DigitalOcean) serves a
+page at `/blog` without adding the trailing slash, which shifts the base one
+level up: a full climb still lands on the root (extra `../` stop there), but a
+partial one points at the wrong folder and 404s. Same-folder and sibling links
+were rewritten this way site-wide after the October 2026 audit.
+
 CSS `url(fonts/…)` is relative to the stylesheet already — leave it.
 
 ## Page anatomy (copy this when adding a page)
@@ -287,7 +294,8 @@ form still captures the lead but the presigned link will 404.
 `resources/downloads/` is the ungated counterpart, for plain marketing
 collateral (whitepaper, product brochures, a slide deck) rather than
 case-study PDFs — no modal, no lead capture. Each "Download" button is a
-plain `<a href="/api/forms/asset?id=<id>">` pointing at a third Functions
+plain GET `<form action="/api/forms/asset">` with a hidden `id` input (a
+form, not a link, so crawlers don't follow and report the redirect), pointing at a third Functions
 action, `forms/asset`: given `?id=`, it looks up the Spaces object key in
 that file's `ASSETS` map and issues an HTTP 302 redirect straight to a
 short-lived (2-minute) presigned URL — no Turnstile check, no Zoho lead.
