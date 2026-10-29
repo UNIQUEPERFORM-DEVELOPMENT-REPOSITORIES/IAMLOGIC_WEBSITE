@@ -928,6 +928,13 @@
     });
     // Lead forms
     Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), function (form) { wireLeadForm(form); });
+    // Ungated downloads (/resources/downloads/) are plain GET forms to the
+    // forms/asset function. Tell GTM which file was requested; nothing else.
+    document.addEventListener("submit", function (e) {
+      var form = e.target;
+      if (!form.action || !/\/api\/forms\/asset$/.test(form.action) || !form.elements.id) return;
+      (window.dataLayer = window.dataLayer || []).push({ event: "file_download", file_id: form.elements.id.value });
+    });
     // Quick-contact bar (right edge) + its Contact Us dialog
     renderQuickBar();
     wireQuickContact();

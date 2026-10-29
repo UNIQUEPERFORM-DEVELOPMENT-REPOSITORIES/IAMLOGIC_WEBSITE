@@ -152,7 +152,7 @@
       "name": "Does the browser plugin mean users know the application password?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. The user signs in to IamLogic once with MFA and the plugin fills the application's username and password into its own login screen. The password is then rotated immediately after use, so the user never has to know or type it."
+        "text": "No. The user signs in to IamLogic once with MFA and the plugin fills the application's username and password into its own login screen. The user never has to know or type the password, and where rotation is switched on, it is changed automatically after each use."
       }
     },
     {
@@ -296,7 +296,7 @@
                     <p class="rail-cta__title">Secure Every Login with Access Manager</p>
                     <ul class="check-list rail-cta__list">
                       <li>MFA for legacy apps, no code changes</li>
-                      <li>Browser-plugin SSO with password rotation</li>
+                      <li>Browser-plugin SSO and password rotation after every use</li>
                       <li>Reverse-proxy MFA gateway</li>
                       <li>Push 2FA for Kerberos apps</li>
                     </ul>
@@ -315,7 +315,7 @@
                 <ul class="check-list">
                 <li>Legacy applications predate SAML, OAuth2 and OIDC, which is why an MFA service can't simply be plugged into them.</li>
                 <li>Browser-plugin SSO signs the user in to IamLogic with MFA once, then autofills the legacy app's own login screen.</li>
-                <li>Rotating the app password immediately after each use means a password copied from the browser is already useless.</li>
+                <li>Changing the app password automatically after each use means a password copied from the browser soon stops working.</li>
                 <li>A reverse proxy redirects unauthenticated users to an MFA check and only then forwards the request to the app in its protected zone.</li>
                 <li>For Kerberos applications, an interceptor agent on the domain controller adds a push approval before the ticket is issued.</li>
                 <li>None of the three needs re-engineering, downtime, or a change to how users log in day to day.</li>
@@ -340,7 +340,7 @@
                   <ul class="dot-list mt-6 no-li-flex">
                     <li><b>One secure login.</b> The user signs in to IamLogic once (with MFA). The plugin then opens the legacy app for them.</li>
                     <li><b>Automatic autofill.</b> The plugin fills in the app’s username and password inside its own login screen — the user never has to know or type the password.</li>
-                    <li><b>Password rotation after every use.</b> To stop passwords being stolen or copied from the browser, IamLogic automatically changes the password immediately after it is used. A stolen password is already useless.</li>
+                    <li><b>Password rotation after every use.</b> Where rotation is switched on, IamLogic automatically changes the password a few seconds after it is used, so a copied password soon stops working.</li>
                   </ul>
                   <p>This is the fastest option: no changes to the app, and the login stays exactly as it looks today — just safer.</p></div>
                 </section>
@@ -389,7 +389,7 @@
               </div>
 
               <aside class="article-note">
-                <p>IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001:2022 certified company. It secures access to modern and legacy applications alike — with SSO, MFA and controlled access across every application, not just the new ones.</p>
+                <p>IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001 certified company. It secures access to modern and legacy applications alike — with SSO, MFA and controlled access across every application, not just the new ones.</p>
                 <p><strong>Learn more:</strong> <a href="../../">iamlogic.com</a> · <strong>Talk to us:</strong> <a href="mailto:info@iamlogic.com">info@iamlogic.com</a></p>
               </aside>
               <section class="article-faq" id="faqs" aria-labelledby="faqs-heading">
@@ -401,7 +401,7 @@
                   </details>
                   <details name="article-faq">
                     <summary>Does the browser plugin mean users know the application password?</summary>
-                    <p>No. The user signs in to IamLogic once with MFA and the plugin fills the application's username and password into its own login screen. The password is then rotated immediately after use, so the user never has to know or type it.</p>
+                    <p>No. The user signs in to IamLogic once with MFA and the plugin fills the application's username and password into its own login screen. The user never has to know or type the password, and where rotation is switched on, it is changed automatically after each use.</p>
                   </details>
                   <details name="article-faq">
                     <summary>What does the reverse proxy change for the application?</summary>

@@ -332,8 +332,10 @@ Three more deliberate exceptions to the "self-hosted only" rule.
   Add a host there if production ever moves.
   Successful lead-form submissions (and gated case-study downloads) push
   `{ event: "generate_lead", form_intent }` to the dataLayer — never on a
-  button click, and with no personal data. The matching trigger, GA4 event
-  tag and key-event setting live in the Tag Manager / GA4 UIs.
+  button click, and with no personal data. Ungated download forms
+  (`/resources/downloads/`) push `{ event: "file_download", file_id }` on
+  submit. The matching triggers, GA4 event tags and key-event setting live
+  in the Tag Manager / GA4 UIs.
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so
   it can be dropped onto only the pages that need it, the same way the

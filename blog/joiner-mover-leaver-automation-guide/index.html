@@ -142,7 +142,7 @@
       "name": "What is Joiner-Mover-Leaver automation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Driving access changes from the HR record rather than from email and memory: a new hire record triggers account creation and role-based access before day one, a transfer triggers simultaneous grant-and-revoke, and a separation triggers immediate deprovisioning across every connected system."
+        "text": "Driving access changes from the HR record rather than from email and memory: a new hire record triggers account creation and role-based access before day one, a transfer triggers simultaneous grant-and-revoke, and a separation triggers deprovisioning across every connected system as soon as the HR record changes."
       }
     },
     {
@@ -363,7 +363,7 @@
 
               <div class="article__body">
 
-                <section><h2 id="what-good-looks-like">What good looks like</h2><div class="stack"><p>In a mature JML setup, your HR system is the single source of truth. A new hire record triggers account creation, role-based access assignment and a welcome notification before day one. A transfer triggers simultaneous grant-and-revoke — the new role's access arrives as the old role's access leaves, which is the only reliable way to prevent privilege accumulation. A separation triggers immediate deprovisioning across every connected system, including the ones without APIs, where a <a href="../../products/identity-governance/">ticketing-workflow integration</a> ensures a human completes and documents the removal.</p><p>Approval workflows handle the exceptions — access outside the standard role model — so the fast path stays fast and the unusual path stays governed.</p></div></section>
+                <section><h2 id="what-good-looks-like">What good looks like</h2><div class="stack"><p>In a mature JML setup, your HR system is the single source of truth. A new hire record triggers account creation, role-based access assignment and a welcome notification before day one. A transfer triggers simultaneous grant-and-revoke — the new role's access arrives as the old role's access leaves, which is the only reliable way to prevent privilege accumulation. A separation triggers deprovisioning across every connected system as soon as the HR record changes, including the ones without APIs, where a <a href="../../products/identity-governance/">ticketing-workflow integration</a> ensures a human completes and documents the removal.</p><p>Approval workflows handle the exceptions — access outside the standard role model — so the fast path stays fast and the unusual path stays governed.</p></div></section>
                 <section><h2 id="where-to-start">Where to start</h2><div class="stack"><p>Start with leavers: it's the highest-risk transition and the easiest to automate because the trigger (HR separation) is unambiguous. Then movers, which quietly generate most <a href="../../solutions/access-reviews-audit/">SoD violations</a>. Joiners last — they're a productivity win more than a risk win.</p><p>Measure three numbers before and after: time-to-productive-access for joiners, residual-access count for movers (entitlements from previous roles), and time-to-full-deprovisioning for leavers. Those three metrics tell the whole story to any board or auditor.</p></div></section>
 
 
@@ -374,7 +374,7 @@
                 <div class="faq">
                   <details name="article-faq" open>
                     <summary>What is Joiner-Mover-Leaver automation?</summary>
-                    <p>Driving access changes from the HR record rather than from email and memory: a new hire record triggers account creation and role-based access before day one, a transfer triggers simultaneous grant-and-revoke, and a separation triggers immediate deprovisioning across every connected system.</p>
+                    <p>Driving access changes from the HR record rather than from email and memory: a new hire record triggers account creation and role-based access before day one, a transfer triggers simultaneous grant-and-revoke, and a separation triggers deprovisioning across every connected system as soon as the HR record changes.</p>
                   </details>
                   <details name="article-faq">
                     <summary>Which transition should we automate first?</summary>

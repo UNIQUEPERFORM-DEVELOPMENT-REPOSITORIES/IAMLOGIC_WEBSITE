@@ -295,6 +295,8 @@ ul { padding: 0; list-style: none; }
 
 .text-link { color: var(--indigo-700); font-weight: 600; text-decoration: none; }
 .text-link:hover { text-decoration: underline; }
+/* On dark bands (heroes): white, always underlined so it reads as a link */
+.band-dark .text-link { color: #fff; text-decoration: underline; text-decoration-color: var(--indigo-300); text-underline-offset: 3px; }
 
 /* Cards */
 .card {

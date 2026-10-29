@@ -150,7 +150,7 @@
       "name": "What stops an attacker reusing a password saved in the browser?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "IamLogic rotates the application password immediately after each use, so a password captured from the browser has already expired and can't be reused. Users never need to know or type it."
+        "text": "Users never need to know or save the password, and where rotation is switched on, IamLogic changes it automatically after each use, so a captured password soon stops working."
       }
     },
     {
@@ -306,7 +306,7 @@
                       <li>MFA for custom &amp; legacy apps</li>
                       <li>Passwords rotated after every use</li>
                       <li>Reverse-proxy MFA checkpoint</li>
-                      <li>Push, TOTP, OTP &amp; passkeys</li>
+                      <li>Push notifications, TOTP, OTP &amp; passkeys</li>
                     </ul>
                     <div class="rail-cta__actions">
                       <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
@@ -323,10 +323,10 @@
                 <ul class="check-list">
                 <li>Legacy and custom applications were built before SAML, OAuth2 and OIDC, so they offer no standard hook for an MFA service.</li>
                 <li>A browser plugin can carry the MFA step and autofill the application's own login screen, leaving that screen unchanged.</li>
-                <li>Rotating the application password immediately after each use makes a password stolen from the browser useless.</li>
+                <li>Changing the application password automatically after each use means a password stolen from the browser soon stops working.</li>
                 <li>A reverse proxy puts every request through an MFA checkpoint, so an app that can't authenticate on its own is never reached directly.</li>
                 <li>An interceptor agent on the domain controller adds push-based 2FA to Kerberos applications with no application change.</li>
-                <li>The same factors — push, TOTP, email/SMS OTP and WebAuthn passkeys — and the same audit trail cover modern and legacy apps alike.</li>
+                <li>The same factors — push notifications, TOTP, email/SMS OTP and WebAuthn passkeys — and the same audit trail cover modern and legacy apps alike.</li>
                 </ul>
               </aside>
 
@@ -346,10 +346,10 @@
                   <div class="stack">
                     <p>Even when logins are automated, the app’s password still lives somewhere - and browsers can leak or expose saved passwords. If that password is captured, the extra login step can be bypassed entirely.</p>
                     <h3 id="how-iamlogic-solves-it-2">How IamLogic solves it</h3>
-                    <p>IamLogic automatically rotates (changes) the password immediately after each use. So even if someone manages to grab the password from the browser, it has already expired and can’t be reused. Users don’t need to know or remember the password at all.</p>
+                    <p>IamLogic automatically changes the application password after each use, so a password captured from the browser soon stops working. Users don’t need to know or remember the password at all.</p>
                     <figure>
                       <a class="figure-zoom" href="../../assets/mockups/mfa-legacy-blockers.svg" target="_blank" rel="noopener" title="Open the diagram full size">
-                        <img src="../../assets/mockups/mfa-legacy-blockers.svg" width="1100" height="700" loading="lazy" decoding="async" alt="Diagram: the user signs in to IamLogic with MFA, the browser plugin autofills the legacy application’s own login page, and the application password is rotated immediately after use.">
+                        <img src="../../assets/mockups/mfa-legacy-blockers.svg" width="1100" height="700" loading="lazy" decoding="async" alt="Diagram: the user signs in to IamLogic with MFA, the browser plugin autofills the legacy application’s own login page, and the application password is changed automatically after each use.">
                       </a>
                       <figcaption>Browser-plugin sign-in, with the application password rotated after every use.</figcaption>
                     </figure>
@@ -395,7 +395,7 @@
                   <h3 class="mt-6" id="how-iamlogic-solves-it-5">How IamLogic solves it</h3>
                   <ul class="dot-list mt-4 no-li-flex">
                     <li><b>Low friction.</b> Users keep their normal login and add a single approval or code - nothing new to install for reverse-proxy and Kerberos flows.</li>
-                    <li><b>One consistent MFA experience.</b> The same choices - push, TOTP, email/SMS OTP, <a href="../../solutions/passwordless-authentication/">WebAuthn passkeys</a> - work across modern and legacy apps.</li>
+                    <li><b>One consistent MFA experience.</b> The same choices - push notifications, TOTP, email/SMS OTP, <a href="../../solutions/passwordless-authentication/">WebAuthn passkeys</a> - work across modern and legacy apps.</li>
                     <li><b>Audit-ready by design.</b> Detailed logs and audit trails help meet standards such as ISO 27001, SOX, GDPR and HIPAA.</li>
                   </ul>
 
@@ -411,7 +411,7 @@
               </div>
 
               <aside class="article-note">
-                <p>IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001:2022 certified company. It secures access to modern and legacy applications alike - with SSO, MFA and controlled access across every application, not just the new ones.</p>
+                <p>IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001 certified company. It secures access to modern and legacy applications alike - with SSO, MFA and controlled access across every application, not just the new ones.</p>
                 <p><strong>Learn more:</strong> <a href="../../">iamlogic.com</a> · <strong>Talk to us:</strong> <a href="mailto:info@iamlogic.com">info@iamlogic.com</a></p>
               </aside>
               <section class="article-faq" id="faqs" aria-labelledby="faqs-heading">
@@ -423,7 +423,7 @@
                   </details>
                   <details name="article-faq">
                     <summary>What stops an attacker reusing a password saved in the browser?</summary>
-                    <p>IamLogic rotates the application password immediately after each use, so a password captured from the browser has already expired and can't be reused. Users never need to know or type it.</p>
+                    <p>Users never need to know or save the password, and where rotation is switched on, IamLogic changes it automatically after each use, so a captured password soon stops working.</p>
                   </details>
                   <details name="article-faq">
                     <summary>How do you add MFA to a Kerberos application?</summary>
