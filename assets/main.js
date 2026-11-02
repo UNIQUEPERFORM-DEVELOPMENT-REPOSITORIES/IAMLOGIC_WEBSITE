@@ -178,7 +178,7 @@
           links: [
             { label: "Blog", href: "blog/", description: "Identity security and Indian compliance, explained" },
             { label: "Case studies", href: "resources/case-studies/", description: "Deployment stories by industry" },
-            { label: "Datasheets", href: "resources/datasheets/", description: "Product capability summaries" },
+            { label: "Downloads", href: "resources/downloads/", description: "Whitepapers and product overviews" },
             { label: "All resources", href: "resources/", description: "Everything in one place" }
           ]
         },
@@ -227,7 +227,7 @@
     { heading: "Resources", links: [
       { label: "Blog", href: "blog/" },
       { label: "Case studies", href: "resources/case-studies/" },
-      { label: "Datasheets", href: "resources/datasheets/" },
+      { label: "Downloads", href: "resources/downloads/" },
       { label: "IAM Services", href: "services/" },
       { label: "Infra Reckoner", href: "reckoner/on-prem/" }
     ]},

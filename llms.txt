@@ -70,9 +70,9 @@ Key areas include:
 
 - [Building a Cloud and On-Premises Identity Governance Strategy](https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/)
 - [5 Identity Governance Challenges That Can Create Enterprise Access Risks](https://iamlogic.com/blog/identity-governance-challenges/)
-- [DPDP Act 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance](https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/)
+- [DPDP Rules 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance](https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/)
 - [DPDP Act 2023: An IAM Readiness Checklist for Indian Enterprises](https://iamlogic.com/blog/dpdp-act-iam-readiness-checklist/)
-- [How Identity Governance Turns RBI, SEBI and IRDAI Audits into Report Downloads](https://iamlogic.com/blog/identity-governance-audit-evidence-rbi-sebi-irdai/)
+- [How Identity Governance Simplifies RBI, SEBI and IRDAI Audit Preparation](https://iamlogic.com/blog/identity-governance-audit-evidence-rbi-sebi-irdai/)
 - [Joiner-Mover-Leaver Automation: Closing Identity's Most Exploited Gaps](https://iamlogic.com/blog/joiner-mover-leaver-automation-guide/)
 - [Passwordless Authentication: A Practical Rollout Path for Indian Enterprises](https://iamlogic.com/blog/passwordless-authentication-rollout-india/)
 - [MFA for Custom and Legacy Applications: Key Implementation Challenges](https://iamlogic.com/blog/mfa-for-custom-and-legacy-applications-key-implementation-challenges/)

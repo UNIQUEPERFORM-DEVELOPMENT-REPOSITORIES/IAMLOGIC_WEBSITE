@@ -372,6 +372,12 @@ Component → Function, pointing at the `functions/` directory). It only needs
 to exist wherever the lead forms are actually used in production — it plays
 no part in serving the static pages.
 
+Server-side redirects for retired pages live in the App Platform app spec
+(`ingress.rules[].redirect`), not in this repo: `/resources/datasheets/` →
+`/resources/downloads/` (301). The page folder stays as a meta-refresh stub
+so any other host, and staging, still forwards visitors. Cloudflare rules
+don't currently reach iamlogic.com.
+
 ## Conventions & guardrails for agents
 
 - **No dependencies, no build tooling for the site itself.** Don't introduce
