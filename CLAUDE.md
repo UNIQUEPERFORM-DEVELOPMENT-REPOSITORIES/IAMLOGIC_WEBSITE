@@ -124,6 +124,13 @@ data in `NAV` / `FOOTER_COLUMNS` is stored **root-relative without a leading
 slash** (e.g. `href: "contact/"`), and `main.js` prefixes it per page. Active-nav
 state compares `new URL(url(href), location.href).pathname` so it holds at any base.
 
+**Always climb to the root, then descend** — write `../../blog/other-post/`,
+never `../other-post/` or a bare `child/`. Production (DigitalOcean) serves a
+page at `/blog` without adding the trailing slash, which shifts the base one
+level up: a full climb still lands on the root (extra `../` stop there), but a
+partial one points at the wrong folder and 404s. Same-folder and sibling links
+were rewritten this way site-wide after the October 2026 audit.
+
 CSS `url(fonts/…)` is relative to the stylesheet already — leave it.
 
 ## Page anatomy (copy this when adding a page)
@@ -287,7 +294,8 @@ form still captures the lead but the presigned link will 404.
 `resources/downloads/` is the ungated counterpart, for plain marketing
 collateral (whitepaper, product brochures, a slide deck) rather than
 case-study PDFs — no modal, no lead capture. Each "Download" button is a
-plain `<a href="/api/forms/asset?id=<id>">` pointing at a third Functions
+plain GET `<form action="/api/forms/asset">` with a hidden `id` input (a
+form, not a link, so crawlers don't follow and report the redirect), pointing at a third Functions
 action, `forms/asset`: given `?id=`, it looks up the Spaces object key in
 that file's `ASSETS` map and issues an HTTP 302 redirect straight to a
 short-lived (2-minute) presigned URL — no Turnstile check, no Zoho lead.
@@ -324,8 +332,10 @@ Three more deliberate exceptions to the "self-hosted only" rule.
   Add a host there if production ever moves.
   Successful lead-form submissions (and gated case-study downloads) push
   `{ event: "generate_lead", form_intent }` to the dataLayer — never on a
-  button click, and with no personal data. The matching trigger, GA4 event
-  tag and key-event setting live in the Tag Manager / GA4 UIs.
+  button click, and with no personal data. Ungated download forms
+  (`/resources/downloads/`) push `{ event: "file_download", file_id }` on
+  submit. The matching triggers, GA4 event tags and key-event setting live
+  in the Tag Manager / GA4 UIs.
 - **Microsoft Bookings iframe** — `assets/booking-modal.js` is a separate,
   self-contained file (unlike everything else, which lives in `main.js`) so
   it can be dropped onto only the pages that need it, the same way the
@@ -361,6 +371,12 @@ DigitalOcean App Platform app, routed at `/api` (Create/Edit App → Add
 Component → Function, pointing at the `functions/` directory). It only needs
 to exist wherever the lead forms are actually used in production — it plays
 no part in serving the static pages.
+
+Server-side redirects for retired pages live in the App Platform app spec
+(`ingress.rules[].redirect`), not in this repo: `/resources/datasheets/` →
+`/resources/downloads/` (301). The page folder stays as a meta-refresh stub
+so any other host, and staging, still forwards visitors. Cloudflare rules
+don't currently reach iamlogic.com.
 
 ## Conventions & guardrails for agents
 

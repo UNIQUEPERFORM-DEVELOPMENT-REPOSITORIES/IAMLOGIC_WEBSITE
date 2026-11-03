@@ -6,6 +6,7 @@
 
   <title>MFA Implementation Challenges for Custom and Legacy Apps | IamLogic</title>
   <meta name="description" content="The five challenges teams hit when implementing MFA for custom-built and legacy applications, and how IamLogic solves each one without rebuilding the app."/>
+  <meta name="author" content="Dinesh Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/blog/mfa-for-custom-and-legacy-applications-key-implementation-challenges/">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
@@ -141,7 +142,7 @@
       "name": "Do we have to modify a legacy application to add MFA?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Each of the three approaches adds the second factor around the application — a browser plugin at the login screen, a reverse proxy in front of the app, or an interceptor agent on the domain controller. The application's own code and login screen stay exactly as they are."
+        "text": "No. Each of the three approaches adds the second factor around the application — a browser extension at the login screen, a reverse proxy in front of the app, or an interceptor agent on the domain controller. The application's own code and login screen stay exactly as they are."
       }
     },
     {
@@ -149,7 +150,7 @@
       "name": "What stops an attacker reusing a password saved in the browser?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "IamLogic rotates the application password immediately after each use, so a password captured from the browser has already expired and can't be reused. Users never need to know or type it."
+        "text": "Users never need to know or save the password, and where rotation is switched on, IamLogic changes it automatically after each use, so a captured password soon stops working."
       }
     },
     {
@@ -165,7 +166,7 @@
       "name": "Which approach fits which kind of application?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A browser plugin suits legacy web apps with a plain username-and-password login. A reverse proxy suits web apps that can't handle SSO or MFA at all and shouldn't be exposed directly. Kerberos 2FA suits internal Windows and Active Directory applications. Many organisations use all three to cover the full mix."
+        "text": "A browser extension suits legacy web apps with a plain username-and-password login. A reverse proxy suits web apps that can't handle SSO or MFA at all and shouldn't be exposed directly. Kerberos 2FA suits internal Windows and Active Directory applications. Many organisations use all three to cover the full mix."
       }
     },
     {
@@ -202,7 +203,7 @@
           <nav class="breadcrumbs breadcrumbs--blog" aria-label="Breadcrumb">
             <ol>
               <li><a href="../../">Home</a></li>
-              <li><span aria-hidden="true">/</span><a href="../">Blog</a></li>
+              <li><span aria-hidden="true">/</span><a href="../../blog/">Blog</a></li>
               <li><span aria-hidden="true">/</span><span aria-current="page">MFA for Custom and Legacy Applications</span></li>
             </ol>
           </nav>
@@ -230,7 +231,7 @@
 
           <div class="article-intro">
             <div class="stack">
-                        <p>Adding multi-factor authentication (MFA) to a modern cloud app is usually a quick job. Adding it to a custom-built or legacy application is a very different story. These apps often can’t use modern login standards, so the second factor has to be added around them. This post walks through the main challenges teams run into - and how IamLogic solves each one. For the three approaches in detail, see our guide to <a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">MFA for legacy applications</a>.</p>
+                        <p>Adding multi-factor authentication (MFA) to a modern cloud app is usually a quick job. Adding it to a custom-built or legacy application is a very different story. These apps often can’t use modern login standards, so the second factor has to be added around them. This post walks through the main challenges teams run into - and how IamLogic solves each one. For the three approaches in detail, see our guide to <a href="../../blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">MFA for legacy applications</a>.</p>
                       </div>
           </div>
 
@@ -249,7 +250,7 @@
                       <summary>Related resources</summary>
                       <nav class="rail-nav" aria-label="Related resources">
                         <ul class="rail-list">
-                          <li><a href="../how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="related_click">
+                          <li><a href="../../blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/" data-blog-track="related_click">
                             <span class="rail-list__cat">Article</span>
                             <span class="rail-list__title">Extend MFA to Legacy Applications</span>
                           </a></li>
@@ -265,6 +266,10 @@
                             <span class="rail-list__cat">Case study</span>
                             <span class="rail-list__title">SSO, MFA and privileged access protection</span>
                           </a></li>
+                          <li><a href="../../solutions/healthcare-pharma/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Industry</span>
+                            <span class="rail-list__title">Healthcare and pharma</span>
+                          </a></li>
                         </ul>
                       </nav>
                     </details>
@@ -272,24 +277,24 @@
                       <summary>Related articles</summary>
                       <nav class="rail-nav" aria-label="Related articles">
                         <ul class="rail-list">
-                          <li><a href="../identity-governance-challenges/" data-blog-track="recent_click">
+                          <li><a href="../../blog/identity-governance-challenges/" data-blog-track="recent_click">
                             <span class="rail-list__cat">Identity Governance</span>
                             <span class="rail-list__title">Identity Governance Challenges</span>
                           </a></li>
-                          <li><a href="../what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
+                          <li><a href="../../blog/what-to-look-for-when-evaluating-enterprise-iam-software/" data-blog-track="recent_click">
                             <span class="rail-list__cat">Access Management</span>
                             <span class="rail-list__title">Evaluating Enterprise IAM Software</span>
                           </a></li>
-                          <li><a href="../how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="recent_click">
+                          <li><a href="../../blog/how-to-choose-the-right-iam-solution-for-your-organization/" data-blog-track="recent_click">
                             <span class="rail-list__cat">Access Management</span>
                             <span class="rail-list__title">Choosing the Right IAM Solution</span>
                           </a></li>
-                          <li><a href="../dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
+                          <li><a href="../../blog/dpdp-act-2025-implementation-checklist/" data-blog-track="recent_click">
                             <span class="rail-list__cat">Compliance</span>
-                            <span class="rail-list__title">DPDP Act 2025 Implementation Checklist</span>
+                            <span class="rail-list__title">DPDP Rules 2025 Implementation Checklist</span>
                           </a></li>
                         </ul>
-                        <a class="rail-more" href="../">All articles &rarr;</a>
+                        <a class="rail-more" href="../../blog/">All articles &rarr;</a>
                       </nav>
                     </details>
                   </div>
@@ -301,7 +306,7 @@
                       <li>MFA for custom &amp; legacy apps</li>
                       <li>Passwords rotated after every use</li>
                       <li>Reverse-proxy MFA checkpoint</li>
-                      <li>Push, TOTP, OTP &amp; passkeys</li>
+                      <li>Push notifications, TOTP, OTP &amp; passkeys</li>
                     </ul>
                     <div class="rail-cta__actions">
                       <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
@@ -317,11 +322,11 @@
                 <h2>Key takeaways</h2>
                 <ul class="check-list">
                 <li>Legacy and custom applications were built before SAML, OAuth2 and OIDC, so they offer no standard hook for an MFA service.</li>
-                <li>A browser plugin can carry the MFA step and autofill the application's own login screen, leaving that screen unchanged.</li>
-                <li>Rotating the application password immediately after each use makes a password stolen from the browser useless.</li>
+                <li>A browser extension can carry the MFA step and autofill the application's own login screen, leaving that screen unchanged.</li>
+                <li>Changing the application password automatically after each use means a password stolen from the browser soon stops working.</li>
                 <li>A reverse proxy puts every request through an MFA checkpoint, so an app that can't authenticate on its own is never reached directly.</li>
                 <li>An interceptor agent on the domain controller adds push-based 2FA to Kerberos applications with no application change.</li>
-                <li>The same factors — push, TOTP, email/SMS OTP and WebAuthn passkeys — and the same audit trail cover modern and legacy apps alike.</li>
+                <li>The same factors — push notifications, TOTP, email/SMS OTP and WebAuthn passkeys — and the same audit trail cover modern and legacy apps alike.</li>
                 </ul>
               </aside>
 
@@ -332,7 +337,7 @@
                   <div class="stack">
                     <p>Modern MFA relies on standards like SAML, OAuth2 and OpenID Connect (OIDC). Many older and custom apps were built before these existed, so there is simply no place to “connect” an MFA service. The traditional answer - re-writing the application - is expensive, slow and risky.</p>
                     <h3 id="how-iamlogic-solves-it">How IamLogic solves it</h3>
-                    <p>IamLogic adds MFA outside the application instead of inside it. For a legacy web app with a basic login page, the IamLogic <a href="../../solutions/legacy-application-sso/">browser plugin</a> handles the sign-in: the user authenticates to IamLogic once with MFA, and the plugin then autofills the app’s username and password for them. No standard support is needed inside the app, and its login screen stays exactly as it is.</p>
+                    <p>IamLogic adds MFA outside the application instead of inside it. For a legacy web app with a basic login page, the IamLogic <a href="../../solutions/legacy-application-sso/">browser extension</a> handles the sign-in: the user authenticates to IamLogic once with MFA, and the extension then autofills the app’s username and password for them. No standard support is needed inside the app, and its login screen stays exactly as it is.</p>
                   </div>
                 </section>
                 <!-- Step 1 -->
@@ -341,12 +346,12 @@
                   <div class="stack">
                     <p>Even when logins are automated, the app’s password still lives somewhere - and browsers can leak or expose saved passwords. If that password is captured, the extra login step can be bypassed entirely.</p>
                     <h3 id="how-iamlogic-solves-it-2">How IamLogic solves it</h3>
-                    <p>IamLogic automatically rotates (changes) the password immediately after each use. So even if someone manages to grab the password from the browser, it has already expired and can’t be reused. Users don’t need to know or remember the password at all.</p>
+                    <p>IamLogic automatically changes the application password after each use, so a password captured from the browser soon stops working. Users don’t need to know or remember the password at all.</p>
                     <figure>
                       <a class="figure-zoom" href="../../assets/mockups/mfa-legacy-blockers.svg" target="_blank" rel="noopener" title="Open the diagram full size">
-                        <img src="../../assets/mockups/mfa-legacy-blockers.svg" width="1100" height="700" loading="lazy" decoding="async" alt="Diagram: the user signs in to IamLogic with MFA, the browser plugin autofills the legacy application’s own login page, and the application password is rotated immediately after use.">
+                        <img src="../../assets/mockups/mfa-legacy-blockers.svg" width="1100" height="700" loading="lazy" decoding="async" alt="Diagram: the user signs in to IamLogic with MFA, the browser extension autofills the legacy application’s own login page, and the application password is changed automatically after each use.">
                       </a>
-                      <figcaption>Browser-plugin sign-in, with the application password rotated after every use.</figcaption>
+                      <figcaption>Browser-extension sign-in, with the application password rotated after every use.</figcaption>
                     </figure>
                   </div>
                 </section>
@@ -390,7 +395,7 @@
                   <h3 class="mt-6" id="how-iamlogic-solves-it-5">How IamLogic solves it</h3>
                   <ul class="dot-list mt-4 no-li-flex">
                     <li><b>Low friction.</b> Users keep their normal login and add a single approval or code - nothing new to install for reverse-proxy and Kerberos flows.</li>
-                    <li><b>One consistent MFA experience.</b> The same choices - push, TOTP, email/SMS OTP, <a href="../../solutions/passwordless-authentication/">WebAuthn passkeys</a> - work across modern and legacy apps.</li>
+                    <li><b>One consistent MFA experience.</b> The same choices - push notifications, TOTP, email/SMS OTP, <a href="../../solutions/passwordless-authentication/">WebAuthn passkeys</a> - work across modern and legacy apps.</li>
                     <li><b>Audit-ready by design.</b> Detailed logs and audit trails help meet standards such as ISO 27001, SOX, GDPR and HIPAA.</li>
                   </ul>
 
@@ -399,14 +404,14 @@
                 <!-- Step 5 -->
                 <section>
                   <h2 id="the-takeaway">The takeaway</h2>
-                  <p>The hard part of MFA for custom and legacy apps isn’t MFA itself - it’s the fact that these apps can’t adopt it on their own. <a href="../../">IamLogic</a> removes that barrier by adding the second factor around the application: a browser plugin for legacy web logins, a reverse proxy for apps that can’t authenticate on their own, and push-based 2FA for Kerberos. Every app gets strong MFA - with no rebuilds and no disruption.</p>
+                  <p>The hard part of MFA for custom and legacy apps isn’t MFA itself - it’s the fact that these apps can’t adopt it on their own. <a href="../../">IamLogic</a> removes that barrier by adding the second factor around the application: a browser extension for legacy web logins, a reverse proxy for apps that can’t authenticate on their own, and push-based 2FA for Kerberos. Every app gets strong MFA - with no rebuilds and no disruption.</p>
 
                 </section>
 
               </div>
 
               <aside class="article-note">
-                <p>IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001:2022 certified company. It secures access to modern and legacy applications alike - with SSO, MFA and controlled access across every application, not just the new ones.</p>
+                <p>IamLogic Access Manager is a product of UPSSO Pvt Ltd, an ISO/IEC 27001 certified company. It secures access to modern and legacy applications alike - with SSO, MFA and controlled access across every application, not just the new ones.</p>
                 <p><strong>Learn more:</strong> <a href="../../">iamlogic.com</a> · <strong>Talk to us:</strong> <a href="mailto:info@iamlogic.com">info@iamlogic.com</a></p>
               </aside>
               <section class="article-faq" id="faqs" aria-labelledby="faqs-heading">
@@ -414,11 +419,11 @@
                 <div class="faq">
                   <details name="article-faq" open>
                     <summary>Do we have to modify a legacy application to add MFA?</summary>
-                    <p>No. Each of the three approaches adds the second factor around the application — a browser plugin at the login screen, a reverse proxy in front of the app, or an interceptor agent on the domain controller. The application's own code and login screen stay exactly as they are.</p>
+                    <p>No. Each of the three approaches adds the second factor around the application — a browser extension at the login screen, a reverse proxy in front of the app, or an interceptor agent on the domain controller. The application's own code and login screen stay exactly as they are.</p>
                   </details>
                   <details name="article-faq">
                     <summary>What stops an attacker reusing a password saved in the browser?</summary>
-                    <p>IamLogic rotates the application password immediately after each use, so a password captured from the browser has already expired and can't be reused. Users never need to know or type it.</p>
+                    <p>Users never need to know or save the password, and where rotation is switched on, IamLogic changes it automatically after each use, so a captured password soon stops working.</p>
                   </details>
                   <details name="article-faq">
                     <summary>How do you add MFA to a Kerberos application?</summary>
@@ -426,7 +431,7 @@
                   </details>
                   <details name="article-faq">
                     <summary>Which approach fits which kind of application?</summary>
-                    <p>A browser plugin suits legacy web apps with a plain username-and-password login. A reverse proxy suits web apps that can't handle SSO or MFA at all and shouldn't be exposed directly. Kerberos 2FA suits internal Windows and Active Directory applications. Many organisations use all three to cover the full mix.</p>
+                    <p>A browser extension suits legacy web apps with a plain username-and-password login. A reverse proxy suits web apps that can't handle SSO or MFA at all and shouldn't be exposed directly. Kerberos 2FA suits internal Windows and Active Directory applications. Many organisations use all three to cover the full mix.</p>
                   </details>
                   <details name="article-faq">
                     <summary>Does adding MFA this way create extra work for users?</summary>

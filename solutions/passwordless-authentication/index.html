@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <title>Passwordless Authentication Solution for Enterprises | IamLogic</title>
-  <meta name="description" content="Go passwordless with WebAuthn, biometrics, security keys and push approval through IamLogic Access Manager, with controlled fallback options for enterprise users and applications."/>
+  <meta name="description" content="Go passwordless with WebAuthn, biometrics, security keys and push notifications through IamLogic Access Manager, with controlled fallback options for enterprise users and applications."/>
+  <meta name="author" content="IamLogic">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/solutions/passwordless-authentication/">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
@@ -18,7 +19,7 @@
   <meta property="og:site_name" content="IamLogic">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="Passwordless Authentication Solution for Enterprises | IamLogic">
-  <meta property="og:description" content="Go passwordless with WebAuthn, biometrics, security keys and push approval through IamLogic Access Manager, with controlled fallback options for enterprise users and applications.">
+  <meta property="og:description" content="Go passwordless with WebAuthn, biometrics, security keys and push notifications through IamLogic Access Manager, with controlled fallback options for enterprise users and applications.">
   <meta property="og:url" content="https://iamlogic.com/solutions/passwordless-authentication/">
   <meta property="og:image" content="https://iamlogic.com/assets/og/solutions-passwordless-authentication.png">
   <meta property="og:image:width" content="1200">
@@ -26,7 +27,7 @@
   <meta property="og:image:alt" content="IamLogic — Passwordless authentication your workforce will thank you for">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Passwordless Authentication Solution for Enterprises | IamLogic">
-  <meta name="twitter:description" content="Go passwordless with WebAuthn, biometrics, security keys and push approval through IamLogic Access Manager, with controlled fallback options for enterprise users and applications.">
+  <meta name="twitter:description" content="Go passwordless with WebAuthn, biometrics, security keys and push notifications through IamLogic Access Manager, with controlled fallback options for enterprise users and applications.">
   <meta name="twitter:image" content="https://iamlogic.com/assets/og/solutions-passwordless-authentication.png">
   <meta name="twitter:image:alt" content="IamLogic — Passwordless authentication your workforce will thank you for">
 
@@ -76,6 +77,39 @@
   ]
 }
   </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://iamlogic.com/solutions/passwordless-authentication/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do we need to buy hardware keys for everyone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Most users enrol platform biometrics (Windows Hello, Touch ID, Android biometrics). Hardware keys are typically reserved for privileged users and shared-workstation scenarios."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a user loses their device?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They sign in with a fallback method your policy allows, such as TOTP or an SMS/Email OTP, and enrol a new device. Self-service password reset covers users who still have a password during the migration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does passwordless work for legacy applications?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applications that use Access Manager single sign-on get the same passwordless login. For legacy web applications, users sign in to IamLogic without a password and the browser extension fills in the application's own login form for them."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -96,7 +130,7 @@
           <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
           <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to an engineer</a>
         </div>
-        <div class="hero__trust"><ul class="trust-bar trust-bar--dark"><li>ISO/IEC 27001:2022 certified</li><li>Made in India</li><li>On-premises · Cloud</li><li>SAML · OIDC · OAuth2 · RADIUS</li><li>24×7 support</li></ul></div>
+        <div class="hero__trust"><ul class="trust-bar trust-bar--dark"><li>ISO/IEC 27001 certified</li><li>Made in India</li><li>On-premises · Cloud</li><li>SAML · OIDC · OAuth2 · RADIUS</li><li>24×7 support</li></ul></div>
       </div>
     </section>
 
@@ -117,7 +151,7 @@
         <div class="grid md:cols-2 mt-10">
           <div class="card" style="padding:1.75rem">
             <p class="eyebrow">Access Manager</p>
-            <div class="mt-4"><ul class="check-list"><li>WebAuthn passwordless: fingerprint, face or FIDO2 security keys</li><li>Push-approval login for devices without biometrics</li><li>Staged rollout: passwordless primary with controlled fallback factors per policy</li><li>SSPR to absorb the shrinking tail of password use during migration</li></ul></div>
+            <div class="mt-4"><ul class="check-list"><li>WebAuthn passwordless: fingerprint, face or FIDO2 security keys</li><li>Push notification login for devices without biometrics</li><li><a class="text-link" href="../../blog/passwordless-authentication-rollout-india/">Staged rollout</a>: passwordless primary with controlled fallback factors per policy</li><li>SSPR to absorb the shrinking tail of password use during migration</li></ul></div>
             <div class="mt-6"><a class="btn btn--secondary" href="../../products/access-manager/">Explore Access Manager</a></div>
           </div>
           <div class="card" style="padding:1.75rem">
@@ -133,12 +167,28 @@
       <div class="container">
         <div class="two-col">
           <div>
+            <div class="section-heading"><p class="eyebrow">Rollout</p><h2 class="h2">How a rollout works</h2></div>
+            <ul class="check-list mt-8"><li><span><strong>1. Start alongside passwords.</strong> Users enrol WebAuthn — fingerprint, face or a FIDO2 security key — as an extra sign-in method. Nothing changes for anyone who hasn't enrolled yet.</span></li><li><span><strong>2. Pilot with one group.</strong> Make passwordless the default for a pilot group, usually IT first and then one business department. Passwords stay available as a fallback, controlled by policy.</span></li><li><span><strong>3. Expand in phases.</strong> Roll out to further groups and tighten the fallback policy as confidence grows. Shared workstations can use hardware security keys or push notifications instead of device biometrics.</span></li></ul>
+          </div>
+          <div>
+            <div class="section-heading"><p class="eyebrow">Methods</p><h2 class="h2">Supported methods</h2></div>
+            <p class="mt-6" style="color:var(--slate-600);line-height:1.7">Access Manager supports WebAuthn, push notifications, TOTP and SMS/Email OTP. WebAuthn — device biometrics or FIDO2 security keys — is the passwordless method; the others can act as fallback or additional factors, set by policy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="container">
+        <div class="two-col">
+          <div>
             <div class="section-heading"><p class="eyebrow">Outcomes</p><h2 class="h2">What changes</h2></div>
             <div class="mt-8"><ul class="check-list"><li>Phishing-resistant login on your most sensitive applications</li><li>Password-reset tickets cut dramatically</li><li>Faster login every day for every employee</li></ul></div>
           </div>
           <div>
             <div class="section-heading"><p class="eyebrow">FAQ</p><h2 class="h2">Common questions</h2></div>
-            <div class="faq mt-8"><details><summary>Do we need to buy hardware keys for everyone?</summary><p>No. Most users enrol platform biometrics (Windows Hello, Touch ID, Android biometrics). Hardware keys are typically reserved for privileged users and shared-workstation scenarios.</p></details></div>
+            <div class="faq mt-8"><details><summary>Do we need to buy hardware keys for everyone?</summary><p>No. Most users enrol platform biometrics (Windows Hello, Touch ID, Android biometrics). Hardware keys are typically reserved for privileged users and shared-workstation scenarios.</p></details><details><summary>What happens if a user loses their device?</summary><p>They sign in with a fallback method your policy allows, such as TOTP or an SMS/Email OTP, and enrol a new device. Self-service password reset covers users who still have a password during the migration.</p></details><details><summary>Does passwordless work for legacy applications?</summary><p>Applications that use Access Manager single sign-on get the same passwordless login. For legacy web applications, users sign in to IamLogic without a password and the browser extension fills in the application's own login form for them.</p></details></div>
           </div>
         </div>
       </div>

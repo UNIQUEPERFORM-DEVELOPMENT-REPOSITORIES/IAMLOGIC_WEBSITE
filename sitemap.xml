@@ -3,7 +3,7 @@
 	xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://iamlogic.com/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/about/</loc>
@@ -19,7 +19,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/</loc>
-		<lastmod>2026-10-17</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/blog/dpdp-act-iam-readiness-checklist/</loc>
@@ -35,7 +35,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/blog/identity-governance-audit-evidence-rbi-sebi-irdai/</loc>
-		<lastmod>2026-10-17</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/blog/identity-governance-challenges/</loc>
@@ -67,7 +67,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/compliance/</loc>
-		<lastmod>2026-09-10</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/compliance/dpdp-act/</loc>
@@ -83,11 +83,11 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/compliance/rbi-cybersecurity-framework/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/compliance/sebi-cscrf/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/contact/</loc>
@@ -99,7 +99,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/integrations/</loc>
-		<lastmod>2026-09-10</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/partners/</loc>
@@ -119,11 +119,11 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/products/access-manager/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/products/identity-governance/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/reckoner/cloud/</loc>
@@ -135,11 +135,11 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/resources/</loc>
-		<lastmod>2026-09-10</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/resources/case-studies/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/resources/case-studies/access-certification-automation-at-scale/</loc>
@@ -154,20 +154,16 @@
 		<lastmod>2026-10-17</lastmod>
 	</url>
 	<url>
-		<loc>https://iamlogic.com/resources/datasheets/</loc>
-		<lastmod>2026-10-26</lastmod>
-	</url>
-	<url>
 		<loc>https://iamlogic.com/resources/downloads/</loc>
-		<lastmod>2026-10-17</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/security/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/services/</loc>
-		<lastmod>2026-10-21</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/</loc>
@@ -191,7 +187,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/hybrid-workforce/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/insurance/</loc>
@@ -211,7 +207,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/manufacturing/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/nbfc-fintech/</loc>
@@ -219,7 +215,7 @@
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/passwordless-authentication/</loc>
-		<lastmod>2026-10-26</lastmod>
+		<lastmod>2026-10-30</lastmod>
 	</url>
 	<url>
 		<loc>https://iamlogic.com/solutions/zero-trust-access/</loc>

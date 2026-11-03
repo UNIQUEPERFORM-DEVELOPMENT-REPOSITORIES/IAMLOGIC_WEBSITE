@@ -6,6 +6,7 @@
   
   <title>Security and Trust | IamLogic</title>
   <meta name="description" content="Learn about IamLogic security measures, including ISO 27001 certification, encryption, high availability, disaster recovery and secure deployment options for enterprise environments."/>
+  <meta name="author" content="IamLogic">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/security/">
   <link rel="icon" href="../favicon.ico" sizes="32x32">
@@ -71,6 +72,39 @@
   ]
 }
   </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://iamlogic.com/security/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is IamLogic ISO/IEC 27001 certified?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our information security management system is certified to ISO/IEC 27001, and the scope covers the complete product lifecycle: design, development, delivery and support."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is our identity data stored?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With an on-premises deployment, in your own data centre: identity data, credentials and logs never leave your infrastructure. With a cloud deployment, in the region you choose, including India."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can our security team review IamLogic before we buy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We support security questionnaires, architecture reviews and audit meetings as part of every enterprise evaluation, and our engineers can walk your team through deployment, encryption, credential handling and logging."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -104,28 +138,31 @@
         <div class="grid sm:cols-2 lg:cols-3">
           <div class="card" style="padding:1.75rem">
             <span class="icon-badge"><i data-icon="shield-check"></i></span>
-            <h2 class="h3 mt-4" style="font-size:1.125rem">ISO/IEC 27001:2022 certified</h2>
-            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Our information security management system is certified to ISO/IEC 27001:2022, with a scope covering the complete product lifecycle — design, development, delivery and support.</p>
+            <h2 class="h3 mt-4" style="font-size:1.125rem">ISO/IEC 27001 certified</h2>
+            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Our information security management system is certified to ISO/IEC 27001, with a scope covering the complete product lifecycle — design, development, delivery and support.</p>
           </div>
           <div class="card" style="padding:1.75rem">
             <span class="icon-badge"><i data-icon="server"></i></span>
             <h2 class="h3 mt-4" style="font-size:1.125rem">Deployment &amp; data residency</h2>
-            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">On-premises, private cloud or public cloud. In on-premises deployments, identity data, credentials and logs never leave your infrastructure. Cloud deployments keep data in India.</p>
+            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">On-premises, private cloud or public cloud. On-premises deployments run entirely in your own data centre: identity data, credentials and logs stay within your infrastructure and under your own security controls. Cloud deployments run in the region you choose, including India.</p>
           </div>
           <div class="card" style="padding:1.75rem">
             <span class="icon-badge"><i data-icon="lock"></i></span>
             <h2 class="h3 mt-4" style="font-size:1.125rem">Credential protection</h2>
-            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Credentials for legacy application SSO are stored encrypted, injected without user visibility and rotated automatically. Administrative access to the platform itself is MFA-protected and audited.</p>
+            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Credentials for legacy application SSO are stored encrypted, filled in by the browser extension at sign-in and, where rotation is switched on, changed automatically after every use. Administrative access to the platform itself is MFA-protected and audited.</p>
+            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Password rotation is optional and switched on for each application. Where it is on, Access Manager's rotation service changes the password a few seconds after each use and keeps the last few passwords as a backup, so the next sign-in always uses the current one.</p>
           </div>
           <div class="card" style="padding:1.75rem">
             <span class="icon-badge"><i data-icon="activity"></i></span>
             <h2 class="h3 mt-4" style="font-size:1.125rem">Availability &amp; resilience</h2>
             <p class="mt-2" style="color:var(--slate-600);line-height:1.7">High-availability topologies and disaster-recovery deployments are supported for both products — including primary + DR site architectures standard in Indian BFSI.</p>
+            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Our services team designs and implements these topologies, and the Infra Reckoner estimates the hardware for an <a class="text-link" href="../reckoner/on-prem/">on-premises</a> or <a class="text-link" href="../reckoner/cloud/">cloud</a> deployment before you start.</p>
           </div>
           <div class="card" style="padding:1.75rem">
             <span class="icon-badge"><i data-icon="file-search"></i></span>
             <h2 class="h3 mt-4" style="font-size:1.125rem">Auditability</h2>
             <p class="mt-2" style="color:var(--slate-600);line-height:1.7">Every authentication decision, provisioning action, review sign-off and administrative change is logged for traceability. Log retention aligns with CERT-In and DPDP expectations.</p>
+            <p class="mt-2" style="color:var(--slate-600);line-height:1.7">The logs show who did what and when, so your team can trace any access question back to the sign-in, request or review decision behind it. Access review reports can be downloaded for your auditors.</p>
           </div>
           <div class="card" style="padding:1.75rem">
             <span class="icon-badge"><i data-icon="alert-triangle"></i></span>
@@ -138,6 +175,12 @@
           audit meetings as part of every enterprise engagement —
           <a class="text-link" href="../contact/">request our security documentation</a>.
         </p>
+      </div>
+    </section>
+    <section class="section section--muted">
+      <div class="container">
+        <div class="section-heading"><p class="eyebrow">FAQ</p><h2 class="h2">Common questions</h2></div>
+        <div class="faq mt-8 maxw-3xl"><details><summary>Is IamLogic ISO/IEC 27001 certified?</summary><p>Yes. Our information security management system is certified to ISO/IEC 27001, and the scope covers the complete product lifecycle: design, development, delivery and support.</p></details><details><summary>Where is our identity data stored?</summary><p>With an on-premises deployment, in your own data centre: identity data, credentials and logs never leave your infrastructure. With a cloud deployment, in the region you choose, including India.</p></details><details><summary>Can our security team review IamLogic before we buy?</summary><p>Yes. We support security questionnaires, architecture reviews and audit meetings as part of every enterprise evaluation, and our engineers can walk your team through deployment, encryption, credential handling and logging.</p></details></div>
       </div>
     </section>
 

@@ -178,7 +178,7 @@
           links: [
             { label: "Blog", href: "blog/", description: "Identity security and Indian compliance, explained" },
             { label: "Case studies", href: "resources/case-studies/", description: "Deployment stories by industry" },
-            { label: "Datasheets", href: "resources/datasheets/", description: "Product capability summaries" },
+            { label: "Downloads", href: "resources/downloads/", description: "Whitepapers and product overviews" },
             { label: "All resources", href: "resources/", description: "Everything in one place" }
           ]
         },
@@ -227,7 +227,7 @@
     { heading: "Resources", links: [
       { label: "Blog", href: "blog/" },
       { label: "Case studies", href: "resources/case-studies/" },
-      { label: "Datasheets", href: "resources/datasheets/" },
+      { label: "Downloads", href: "resources/downloads/" },
       { label: "IAM Services", href: "services/" },
       { label: "Infra Reckoner", href: "reckoner/on-prem/" }
     ]},
@@ -928,6 +928,13 @@
     });
     // Lead forms
     Array.prototype.forEach.call(document.querySelectorAll("[data-lead-form]"), function (form) { wireLeadForm(form); });
+    // Ungated downloads (/resources/downloads/) are plain GET forms to the
+    // forms/asset function. Tell GTM which file was requested; nothing else.
+    document.addEventListener("submit", function (e) {
+      var form = e.target;
+      if (!form.action || !/\/api\/forms\/asset$/.test(form.action) || !form.elements.id) return;
+      (window.dataLayer = window.dataLayer || []).push({ event: "file_download", file_id: form.elements.id.value });
+    });
     // Quick-contact bar (right edge) + its Contact Us dialog
     renderQuickBar();
     wireQuickContact();
