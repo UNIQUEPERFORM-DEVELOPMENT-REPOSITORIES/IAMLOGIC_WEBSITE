@@ -88,7 +88,7 @@
       "name": "What happens if a user needs the raw password?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Credentials are stored encrypted in IamLogic and filled in by the browser plugin at sign-in, so users don't need to know them. Where rotation is switched on, the password changes automatically after every use."
+        "text": "Credentials are stored encrypted in IamLogic and filled in by the browser extension at sign-in, so users don't need to know them. Where rotation is switched on, the password changes automatically after every use."
       }
     },
     {
@@ -96,7 +96,7 @@
       "name": "How do I secure legacy applications with MFA?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Put the second factor around the application instead of inside it. For web apps with a basic login page, the user signs in to IamLogic with MFA and the browser plugin fills in the app's own login for them; where rotation is switched on, the password is changed automatically after each use. Apps that can't authenticate at all can sit behind a reverse proxy that enforces MFA, and Kerberos apps can get push-based 2FA at the domain controller. None of these needs changes to the application."
+        "text": "Put the second factor around the application instead of inside it. For web apps with a basic login page, the user signs in to IamLogic with MFA and the browser extension fills in the app's own login for them; where rotation is switched on, the password is changed automatically after each use. Apps that can't authenticate at all can sit behind a reverse proxy that enforces MFA, and Kerberos apps can get push-based 2FA at the domain controller. None of these needs changes to the application."
       }
     }
   ]
@@ -117,7 +117,7 @@
             <li><span aria-hidden="true">/</span><a href="../../solutions/">Solutions</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Legacy application SSO</span></li></ol></nav></div>
         <p class="eyebrow eyebrow--dark">Use case</p>
         <h1>SSO and MFA for Legacy Applications</h1>
-        <p class="hero__lead">Every enterprise has them: business-critical applications that will never speak SAML or OIDC. Most identity vendors quietly scope them out. IamLogic brings them in — a browser plugin delivers SSO with secure credential auto-fill, and Access Manager can change the password automatically after every use, so legacy apps get modern protection without a single line of code changed.</p>
+        <p class="hero__lead">Every enterprise has them: business-critical applications that will never speak SAML or OIDC. Most identity vendors quietly scope them out. IamLogic brings them in — a browser extension delivers SSO with secure credential auto-fill, and Access Manager can change the password automatically after every use, so legacy apps get modern protection without a single line of code changed.</p>
         <div class="hero__actions">
           <a class="btn btn--on-dark btn--lg" href="../../demo/">Request a Demo <i data-icon="arrow-right"></i></a>
           <a class="btn btn--ghost-dark btn--lg" href="../../contact/">Talk to an engineer</a>
@@ -143,7 +143,7 @@
         <div class="grid md:cols-2 mt-10">
           <div class="card" style="padding:1.75rem">
             <p class="eyebrow">Access Manager</p>
-            <div class="mt-4"><ul class="check-list"><li>Browser plugin SSO: users click, IamLogic signs them in with vaulted credentials</li><li>Optional password rotation after every use — users never need to know the actual password</li><li>MFA and context policies enforced before the legacy app login is released</li><li>Every legacy-app access captured in the same audit trail as modern apps</li></ul></div>
+            <div class="mt-4"><ul class="check-list"><li>Browser extension SSO: users click, IamLogic signs them in with vaulted credentials</li><li>Optional password rotation after every use — users never need to know the actual password</li><li>MFA and context policies enforced before the legacy app login is released</li><li>Every legacy-app access captured in the same audit trail as modern apps</li></ul></div>
             <div class="mt-6"><a class="btn btn--secondary" href="../../products/access-manager/">Explore Access Manager</a></div>
           </div>
           <div class="card" style="padding:1.75rem">
@@ -165,7 +165,7 @@
           </div>
           <div>
             <div class="section-heading"><p class="eyebrow">FAQ</p><h2 class="h2">Common questions</h2></div>
-            <div class="faq mt-8"><details><summary>What happens if a user needs the raw password?</summary><p>Credentials are stored encrypted in IamLogic and filled in by the browser plugin at sign-in, so users don't need to know them. Where rotation is switched on, the password changes automatically after every use.</p></details><details><summary>How do I secure legacy applications with MFA?</summary><p>Put the second factor around the application instead of inside it. For web apps with a basic login page, the user signs in to IamLogic with MFA and the browser plugin fills in the app&#x27;s own login for them; where rotation is switched on, the password is changed automatically after each use. Apps that can&#x27;t authenticate at all can sit behind a reverse proxy that enforces MFA, and Kerberos apps can get push-based 2FA at the domain controller. None of these needs changes to the application. Read more on <a class="text-link" href="../../blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">MFA for legacy applications</a>.</p></details></div>
+            <div class="faq mt-8"><details><summary>What happens if a user needs the raw password?</summary><p>Credentials are stored encrypted in IamLogic and filled in by the browser extension at sign-in, so users don't need to know them. Where rotation is switched on, the password changes automatically after every use.</p></details><details><summary>How do I secure legacy applications with MFA?</summary><p>Put the second factor around the application instead of inside it. For web apps with a basic login page, the user signs in to IamLogic with MFA and the browser extension fills in the app&#x27;s own login for them; where rotation is switched on, the password is changed automatically after each use. Apps that can&#x27;t authenticate at all can sit behind a reverse proxy that enforces MFA, and Kerberos apps can get push-based 2FA at the domain controller. None of these needs changes to the application. Read more on <a class="text-link" href="../../blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">MFA for legacy applications</a>.</p></details></div>
           </div>
         </div>
       </div>

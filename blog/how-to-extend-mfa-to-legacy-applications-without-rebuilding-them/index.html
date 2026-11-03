@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic</title>
-  <meta name="description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic."/>
+  <meta name="description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser extension SSO, reverse proxy MFA and Kerberos 2FA with IamLogic."/>
   <meta name="author" content="Rajesh Kumar Raj">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">
@@ -19,7 +19,7 @@
   <meta property="og:site_name" content="IamLogic">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic">
-  <meta property="og:description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.">
+  <meta property="og:description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser extension SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.">
   <meta property="og:url" content="https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/">
   <meta property="og:image" content="https://iamlogic.com/assets/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them.png">
   <meta property="og:image:width" content="1200">
@@ -31,7 +31,7 @@
   <meta property="article:author" content="Rajesh Kumar Raj">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MFA for Legacy Applications: 3 Ways to Add MFA Without Rebuilding | IamLogic">
-  <meta name="twitter:description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.">
+  <meta name="twitter:description" content="Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser extension SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.">
   <meta name="twitter:image" content="https://iamlogic.com/assets/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them.png">
 
   <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,7 +49,7 @@
   },
   "url": "https://iamlogic.com/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them/",
   "headline": "How to Extend MFA to Legacy Applications Without Rebuilding Them?",
-  "description": "Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser plugin SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.",
+  "description": "Learn 3 ways to add MFA to legacy applications without rebuilding them, using browser extension SSO, reverse proxy MFA and Kerberos 2FA with IamLogic.",
   "image": "https://iamlogic.com/assets/blog/how-to-extend-mfa-to-legacy-applications-without-rebuilding-them.png",
   "articleSection": "Access Management",
   "inLanguage": "en-IN",
@@ -149,10 +149,10 @@
     },
     {
       "@type": "Question",
-      "name": "Does the browser plugin mean users know the application password?",
+      "name": "Does the browser extension mean users know the application password?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. The user signs in to IamLogic once with MFA and the plugin fills the application's username and password into its own login screen. The user never has to know or type the password, and where rotation is switched on, it is changed automatically after each use."
+        "text": "No. The user signs in to IamLogic once with MFA and the extension fills the application's username and password into its own login screen. The user never has to know or type the password, and where rotation is switched on, it is changed automatically after each use."
       }
     },
     {
@@ -296,7 +296,7 @@
                     <p class="rail-cta__title">Secure Every Login with Access Manager</p>
                     <ul class="check-list rail-cta__list">
                       <li>MFA for legacy apps, no code changes</li>
-                      <li>Browser-plugin SSO and password rotation after every use</li>
+                      <li>Browser-extension SSO and password rotation after every use</li>
                       <li>Reverse-proxy MFA gateway</li>
                       <li>Push 2FA for Kerberos apps</li>
                     </ul>
@@ -314,7 +314,7 @@
                 <h2>Key takeaways</h2>
                 <ul class="check-list">
                 <li>Legacy applications predate SAML, OAuth2 and OIDC, which is why an MFA service can't simply be plugged into them.</li>
-                <li>Browser-plugin SSO signs the user in to IamLogic with MFA once, then autofills the legacy app's own login screen.</li>
+                <li>Browser-extension SSO signs the user in to IamLogic with MFA once, then autofills the legacy app's own login screen.</li>
                 <li>Changing the app password automatically after each use means a password copied from the browser soon stops working.</li>
                 <li>A reverse proxy redirects unauthenticated users to an MFA check and only then forwards the request to the app in its protected zone.</li>
                 <li>For Kerberos applications, an interceptor agent on the domain controller adds a push approval before the ticket is issued.</li>
@@ -331,15 +331,15 @@
                   </div>
                 </section>
 
-                <section><h2 id="1-browser-plugin-sso-for-old-web-apps">1. Browser Plugin SSO — for old web apps</h2>
-                  <div class="stack"><p>Some legacy web applications only offer a plain username-and-password login page and can’t support modern single sign-on (SSO). For these, <a href="../../products/access-manager/">IamLogic Access Manager</a> provides a browser plugin.</p>
+                <section><h2 id="1-browser-extension-sso-for-old-web-apps">1. Browser Extension SSO — for old web apps</h2>
+                  <div class="stack"><p>Some legacy web applications only offer a plain username-and-password login page and can’t support modern single sign-on (SSO). For these, <a href="../../products/access-manager/">IamLogic Access Manager</a> provides a browser extension.</p>
                   <figure>
-                    <img src="../../assets/mockups/browser_plugin_sso_sharper-scaled-1472.webp" srcset="../../assets/mockups/browser_plugin_sso_sharper-scaled-1472.webp 1472w, ../../assets/mockups/browser_plugin_sso_sharper-scaled.webp 2560w" sizes="(min-width: 1120px) 736px, 100vw" width="1472" height="810" loading="lazy" decoding="async" alt="Diagram: Browser Plugin SSO — the user authenticates once to IamLogic with MFA, the plugin fills the legacy web application’s username and password, and the password is rotated after each use.">
-                    <figcaption>Browser Plugin SSO for legacy web applications.</figcaption>
+                    <img src="../../assets/mockups/browser_plugin_sso_sharper-scaled-1472.webp" srcset="../../assets/mockups/browser_plugin_sso_sharper-scaled-1472.webp 1472w, ../../assets/mockups/browser_plugin_sso_sharper-scaled.webp 2560w" sizes="(min-width: 1120px) 736px, 100vw" width="1472" height="810" loading="lazy" decoding="async" alt="Diagram: Browser Extension SSO — the user authenticates once to IamLogic with MFA, the extension fills the legacy web application’s username and password, and the password is rotated after each use.">
+                    <figcaption>Browser Extension SSO for legacy web applications.</figcaption>
                   </figure>
                   <ul class="dot-list mt-6 no-li-flex">
-                    <li><b>One secure login.</b> The user signs in to IamLogic once (with MFA). The plugin then opens the legacy app for them.</li>
-                    <li><b>Automatic autofill.</b> The plugin fills in the app’s username and password inside its own login screen — the user never has to know or type the password.</li>
+                    <li><b>One secure login.</b> The user signs in to IamLogic once (with MFA). The extension then opens the legacy app for them.</li>
+                    <li><b>Automatic autofill.</b> The extension fills in the app’s username and password inside its own login screen — the user never has to know or type the password.</li>
                     <li><b>Password rotation after every use.</b> Where rotation is switched on, IamLogic automatically changes the password a few seconds after it is used, so a copied password soon stops working.</li>
                   </ul>
                   <p>This is the fastest option: no changes to the app, and the login stays exactly as it looks today — just safer.</p></div>
@@ -376,7 +376,7 @@
                 <section><h2 id="which-approach-is-right-for-you">Which approach is right for you?</h2>
                   <div class="stack">
                     <ul class="dot-list mt-6 no-li-flex">
-                    <li><b>Browser Plugin SSO —</b> best for legacy web apps with a simple login page.</li>
+                    <li><b>Browser Extension SSO —</b> best for legacy web apps with a simple login page.</li>
                     <li><b>Reverse Proxy —</b> best for web apps that can’t support SSO or MFA and need a gatekeeper in front.</li>
                     <li><b>Kerberos 2FA —</b> best for internal Windows / Active Directory apps that use Kerberos.</li>
                       </ul>
@@ -400,8 +400,8 @@
                     <p>Legacy and custom-built applications were made before modern login standards such as SAML, OAuth2 and OpenID Connect became common. Because they don't speak those standards, there's no place to connect an MFA service — and re-engineering the application is slow, costly and risky.</p>
                   </details>
                   <details name="article-faq">
-                    <summary>Does the browser plugin mean users know the application password?</summary>
-                    <p>No. The user signs in to IamLogic once with MFA and the plugin fills the application's username and password into its own login screen. The user never has to know or type the password, and where rotation is switched on, it is changed automatically after each use.</p>
+                    <summary>Does the browser extension mean users know the application password?</summary>
+                    <p>No. The user signs in to IamLogic once with MFA and the extension fills the application's username and password into its own login screen. The user never has to know or type the password, and where rotation is switched on, it is changed automatically after each use.</p>
                   </details>
                   <details name="article-faq">
                     <summary>What does the reverse proxy change for the application?</summary>
