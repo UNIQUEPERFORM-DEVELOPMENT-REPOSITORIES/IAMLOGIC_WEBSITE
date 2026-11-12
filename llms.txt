@@ -68,6 +68,7 @@ Key areas include:
 
 ## Featured Resources
 
+- [Access Certification Campaigns: Why Reviews Get Rubber-Stamped and How to Fix Them](https://iamlogic.com/blog/access-certification-rubber-stamping/)
 - [Building a Cloud and On-Premises Identity Governance Strategy](https://iamlogic.com/blog/build-cloud-identity-governance-for-enterprise/)
 - [5 Identity Governance Challenges That Can Create Enterprise Access Risks](https://iamlogic.com/blog/identity-governance-challenges/)
 - [DPDP Rules 2025: Implementation Checklist, Timelines & the Critical Role of Identity Governance](https://iamlogic.com/blog/dpdp-act-2025-implementation-checklist/)
