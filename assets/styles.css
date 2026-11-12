@@ -986,6 +986,8 @@ textarea.input { resize: vertical; min-height: 5rem; }
 }
 .hero__lead { margin-top: 1.25rem; font-size: 1.125rem; line-height: 1.7; color: rgba(224, 220, 245, 0.85); max-width: 36rem; }
 @media (min-width: 640px) { .hero__lead { font-size: 1.25rem; } }
+.hero__reviewed { margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem; font-weight: 600; color: var(--indigo-300); }
+.hero__reviewed svg { width: 18px; height: 18px; flex: none; }
 .hero__actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .hero__trust { margin-top: 2.5rem; }
 .hero__media--framed { background: rgba(255, 255, 255, 0.95); padding: 1.5rem; border-radius: var(--radius-lg); }
