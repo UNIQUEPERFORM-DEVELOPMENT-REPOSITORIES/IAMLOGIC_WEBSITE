@@ -78,6 +78,11 @@ Run it after **any** edit under `reckoner/`, before committing. `origin/main`
 at `b3b829f` shipped with 5–6 stale revisions per deployment, `index.html`
 among them, so those changes never reached returning visitors.
 
+The hashes are taken over each file as git stores it (LF line endings), which
+is also what production serves. A Windows clone with `core.autocrlf=true`
+checks text files out as CRLF; the tool normalises those before hashing, so it
+reports only real changes instead of flagging every entry as stale.
+
 ---
 
 ## 3. What the tool quotes
