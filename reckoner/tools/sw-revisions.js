@@ -25,7 +25,16 @@ const DIRS = ['', 'cloud', 'on-prem'];
 const APPLY = process.argv.includes('--apply');
 const ENTRY = /\{url:"([^"]+)",revision:(null|"[0-9a-f]{32}")\}/g;
 
-const md5 = p => crypto.createHash('md5').update(fs.readFileSync(p)).digest('hex');
+// Hash text files with LF line endings, whatever the checkout has. Git stores
+// these files with LF and that is what production serves; a Windows clone with
+// core.autocrlf=true checks them out as CRLF, which otherwise makes every
+// revision look stale and re-stamps all of them with hashes nothing served.
+const TEXT = /\.(html|js|css|svg|json|webmanifest|txt|xml)$/i;
+const md5 = p => {
+  let buf = fs.readFileSync(p);
+  if (TEXT.test(p)) buf = Buffer.from(buf.toString('utf8').replace(/\r\n/g, '\n'), 'utf8');
+  return crypto.createHash('md5').update(buf).digest('hex');
+};
 
 let problems = 0;
 let stale = 0;

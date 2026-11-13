@@ -309,6 +309,13 @@ exports.INDEX = [
   ['on-screen note describes the linear model',
     '" users is above the tested range. The estimate scales the ",It,"-user configuration ' + MUL + '",Math.ceil(e.peakConcurrent/It)," ' + DASH + ' linear extrapolation, not a measurement. A blocker warning is included in the output."',
     '" users is above the tested range. The configuration is sized from the measured ",It,"-user point ' + DASH + ' per concurrent user, with a 25% allowance for platform overhead, HA and burst ' + DASH + ' then fitted to the smallest node count that can carry it. Linear extrapolation, not a measurement. A blocker warning is included in the output."'],
+
+  // --- page-specific H1 (SEO, Nov 2026): the three URLs share one bundle, so
+  // the heading follows the delivery mode the URL locks (`n` in the page
+  // component). The root chooser, with nothing locked, gets the generic one.
+  ['hero H1 follows the delivery mode locked by the URL',
+    'o.jsx("h1",{className:"h1 on-dark maxw-3xl text-balance",children:"Size your IamLogic deployment on measured capacity, not guesswork."})',
+    'o.jsx("h1",{className:"h1 on-dark maxw-3xl text-balance",children:n==="cloud"?"Size and Price Your IamLogic Cloud Deployment":n==="on-prem"?"Size Your On-Premises IamLogic Deployment":"Size Your IamLogic Deployment"})'],
 ];
 
 exports.MODEL = [
