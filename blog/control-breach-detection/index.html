@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic</title>
+  <meta name="description" content="What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it."/>
+  <meta name="author" content="Surya K">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://iamlogic.com/blog/control-breach-detection/">
+  <link rel="icon" href="../../favicon.ico" sizes="32x32">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#3a2a85">
+
+  <!-- Open Graph / X — share cards for this article -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="IamLogic">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic">
+  <meta property="og:description" content="What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it.">
+  <meta property="og:url" content="https://iamlogic.com/blog/control-breach-detection/">
+  <meta property="og:image" content="https://iamlogic.com/assets/blog/control-breach-detection.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="IamLogic — Control breach detection: how to catch access changes made outside your governance process">
+  <meta property="article:published_time" content="2026-11-23">
+  <meta property="article:modified_time" content="2026-11-23">
+  <meta property="article:section" content="Identity Governance">
+  <meta property="article:author" content="Surya K">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic">
+  <meta name="twitter:description" content="What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it.">
+  <meta name="twitter:image" content="https://iamlogic.com/assets/blog/control-breach-detection.png">
+
+  <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <script src="../../assets/main.js" defer></script>
+  <script src="../../assets/blog.js" defer></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://iamlogic.com/blog/control-breach-detection/#article",
+  "mainEntityOfPage": {
+    "@id": "https://iamlogic.com/blog/control-breach-detection/#webpage"
+  },
+  "url": "https://iamlogic.com/blog/control-breach-detection/",
+  "headline": "Control Breach Detection: How to Catch Access Changes Made Outside Your Governance Process",
+  "description": "What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it.",
+  "image": "https://iamlogic.com/assets/blog/control-breach-detection.png",
+  "articleSection": "Identity Governance",
+  "inLanguage": "en-IN",
+  "wordCount": 2095,
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/blog/#blog"
+  },
+  "author": {
+    "@type": "Person",
+    "@id": "https://iamlogic.com/#person-surya-k",
+    "name": "Surya K",
+    "jobTitle": "Full-Stack Developer — IamLogic",
+    "worksFor": {
+      "@id": "https://iamlogic.com/#organization"
+    },
+    "description": "Surya K is a Full-Stack Developer at IamLogic, building IamLogic IGA with React and Django. Surya works across the product's front end and back end, from the screens administrators use every day to the services behind them, helping enterprises manage identities, govern access and meet regulatory compliance requirements.",
+    "sameAs": [
+      "https://www.linkedin.com/in/surya-k-6919283b7"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://iamlogic.com/#organization",
+    "name": "IamLogic",
+    "url": "https://iamlogic.com/",
+    "logo": {
+      "@type": "ImageObject",
+      "@id": "https://iamlogic.com/#logo",
+      "url": "https://iamlogic.com/apple-touch-icon.png",
+      "contentUrl": "https://iamlogic.com/apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "caption": "IamLogic"
+    }
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://iamlogic.com/blog/control-breach-detection/#webpage",
+  "url": "https://iamlogic.com/blog/control-breach-detection/",
+  "name": "Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic",
+  "isPartOf": {
+    "@id": "https://iamlogic.com/#website"
+  },
+  "breadcrumb": {
+    "@id": "https://iamlogic.com/blog/control-breach-detection/#breadcrumb"
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://iamlogic.com/blog/control-breach-detection/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://iamlogic.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://iamlogic.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Control Breach Detection",
+      "item": "https://iamlogic.com/blog/control-breach-detection/"
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://iamlogic.com/blog/control-breach-detection/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a control breach in identity governance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A control breach is access that exists in an application but was never granted through the governance process. For example, an administrator adds a user to a group directly in the application, so there is no request, approval or role behind it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is control breach detection different from an access review?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An access review asks a person to confirm access at a point in time, usually every quarter or six months. Control breach detection compares each aggregation of access data with the previous one, so a change made outside the process is picked up within days instead of waiting for the next review."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is every control breach a security incident?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Many are well-intended changes, such as an urgent fix or emergency access that was never recorded. Each one still needs a decision: remove the access, or approve it through the normal request process so it has an owner and a record."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often should access be checked for control breaches?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As often as access data is aggregated from each application, because each aggregation is compared with the one before it. Many organisations aggregate critical and privileged systems daily and other systems weekly. The shorter the interval, the shorter the time an unapproved change can stay in place."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does control breach detection help with RBI, SEBI, IRDAI and ISO 27001 audits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Auditors check whether access is granted, changed and removed only through an approved process. Control breach detection shows that changes made outside that process are found, investigated and resolved, and it leaves a record of each decision that supports audit reviews."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5LC3HBB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <article class="article article--post">
+      <div class="container">
+        <div class="article-shell">
+          <nav class="breadcrumbs breadcrumbs--blog" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="../../">Home</a></li>
+              <li><span aria-hidden="true">/</span><a href="../../blog/">Blog</a></li>
+              <li><span aria-hidden="true">/</span><span aria-current="page">Control Breach Detection</span></li>
+            </ol>
+          </nav>
+
+          <header class="article-head">
+            <p class="article-eyebrow">Identity Governance</p>
+            <h1>Control Breach Detection: How to Catch Access Changes Made Outside Your Governance Process</h1>
+            <ul class="article-meta">
+              <li><strong>Surya K</strong></li>
+              <li>Last updated <time datetime="2026-11-23">23 November 2026</time></li>
+              <li>9 min read</li>
+              <li class="share-inline" data-share-inline>
+                <button type="button" class="share-inline__toggle" aria-expanded="false" aria-label="Share this article">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 13.5 6.8 4"></path><path d="m15.4 6.5-6.8 4"></path></svg>
+                  Share
+                </button>
+              </li>
+            </ul>
+          </header>
+
+          <figure class="article-featured-image">
+            <img src="../../assets/blog/control-breach-detection.webp" width="1672" height="941"
+                 alt="Control breach detection — approved access passes through a governance shield into an SAP Finance access panel, while a red path from an admin console adds access with no approval, flagged as a control breach">
+          </figure>
+
+          <div class="article-intro">
+            <div class="stack"><p>Most identity governance work focuses on the front door: access requests, approvals, roles and provisioning. If someone needs access, they ask for it, the right people approve it, and it is granted. That process is well understood, and most organisations have one.</p><p>But access does not only change through the front door. An administrator adds a colleague to a group directly in Active Directory. A database administrator grants a role to fix an urgent issue. A vendor creates a local account during a support call. None of these changes go through a request or an approval, so the governance system has no record of them. This article explains how <strong>control breach detection</strong> finds these changes, and what to do when it does.</p></div>
+          </div>
+
+          <div class="article-layout">
+            <aside class="article-rail">
+              <div class="rail-inner">
+                <!-- Pinned in stages on desktop: contents (folds 1-2), related (3-4), CTA (rest) -->
+                <div class="rail-seg rail-seg--toc">
+                  <details class="toc" data-toc data-rail-card open>
+                    <summary>Table of contents</summary>
+                  </details>
+                </div>
+                <div class="rail-seg rail-seg--related">
+                  <div class="rail-stack">
+                    <details class="rail-related" data-rail-card open>
+                      <summary>Related resources</summary>
+                      <nav class="rail-nav" aria-label="Related resources">
+                        <ul class="rail-list">
+                          <li><a href="../../products/identity-governance/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Product</span>
+                            <span class="rail-list__title">IamLogic IGA</span>
+                          </a></li>
+                          <li><a href="../../solutions/access-reviews-audit/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Solution</span>
+                            <span class="rail-list__title">Access reviews &amp; audit</span>
+                          </a></li>
+                          <li><a href="../../compliance/iso-27001/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Compliance</span>
+                            <span class="rail-list__title">ISO 27001</span>
+                          </a></li>
+                          <li><a href="../../blog/identity-governance-audit-evidence-rbi-sebi-irdai/" data-blog-track="related_click">
+                            <span class="rail-list__cat">Article</span>
+                            <span class="rail-list__title">Identity Governance for RBI, SEBI and IRDAI Audits</span>
+                          </a></li>
+                        </ul>
+                      </nav>
+                    </details>
+                    <details class="rail-recent" data-rail-card data-related-posts open>
+                      <summary>Related articles</summary>
+                      <nav class="rail-nav" aria-label="Related articles">
+                        <ul class="rail-list">
+                          <li><a href="../../blog/access-certification-rubber-stamping/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Access Certification Campaigns</span>
+                          </a></li>
+                          <li><a href="../../blog/identity-governance-challenges/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Identity Governance Challenges</span>
+                          </a></li>
+                          <li><a href="../../blog/joiner-mover-leaver-automation-guide/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Identity Governance</span>
+                            <span class="rail-list__title">Joiner-Mover-Leaver Automation</span>
+                          </a></li>
+                          <li><a href="../../blog/dpdp-act-iam-readiness-checklist/" data-blog-track="recent_click">
+                            <span class="rail-list__cat">Compliance</span>
+                            <span class="rail-list__title">DPDP Act IAM Readiness Checklist</span>
+                          </a></li>
+                        </ul>
+                        <a class="rail-more" href="../../blog/">All articles &rarr;</a>
+                      </nav>
+                    </details>
+                  </div>
+                </div>
+                <div class="rail-seg rail-seg--cta">
+                  <div class="rail-cta">
+                    <p class="rail-cta__title">Automate Governance with IamLogic IGA</p>
+                    <ul class="check-list rail-cta__list">
+                      <li>Detective SoD scans on existing access</li>
+                      <li>Orphan account analytics</li>
+                      <li>Revocations via connectors or tickets</li>
+                      <li>Full request-to-grant audit trail</li>
+                    </ul>
+                    <div class="rail-cta__actions">
+                      <a class="btn btn--on-dark btn--block" href="../../demo/" data-blog-track="cta_demo">Request a Demo <i data-icon="arrow-right"></i></a>
+                      <a class="btn btn--ghost-dark btn--block" href="../../contact/" data-blog-track="cta_contact">Contact Us</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <div class="article-main">
+              <aside class="key-takeaways">
+                <h2>Key takeaways</h2>
+                <ul class="check-list">
+                <li>Governance processes control how access is requested and approved, but access can still be changed directly inside applications.</li>
+                <li>A control breach is access that exists in an application without a matching request, role or lifecycle grant.</li>
+                <li>Access reviews alone catch these changes late, often months after they were made.</li>
+                <li>Detection works by aggregating access from each application, comparing it with the previous run and recording every change, so each one can be reviewed.</li>
+                <li>Every breach needs a decision: remove the access, or approve it through the normal request process.</li>
+                <li>A record of each breach and the decision taken on it supports audit reviews.</li>
+                </ul>
+              </aside>
+
+              <div class="article__body">
+
+                <section><h2 id="what-is-a-control-breach">What Is a Control Breach?</h2><div class="stack"><p>In identity governance, a <strong>control breach</strong> is any access that exists in an application but was not granted through the governance process. There is a gap between "who should have access", which is what the governance system approved, and "who actually has it", which is what the application holds today.</p><p>Common examples include:</p>
+                  <ul class="dot-list no-li-flex">
+                    <li><strong>Direct group changes</strong>: a user is added to an Active Directory group or an application role by an administrator, without a request.</li>
+                    <li><strong>Local accounts</strong>: an account is created inside an application, outside the identity lifecycle, so it is not linked to any person.</li>
+                    <li><strong>Elevated permissions</strong>: a user's access inside an application is raised, for example from viewer to administrator, directly in the application's admin console.</li>
+                    <li><strong>Re-enabled accounts</strong>: an account that was disabled when someone left is turned back on without going through the joiner or rehire process.</li>
+                  </ul>
+                  <p>Not every control breach is malicious. Many are well-intended shortcuts. But each one is access with no approval, no owner on record and no audit trail, which is exactly what auditors and attackers look for.</p></div></section>
+
+                <section><h2 id="why-access-changes-happen-outside-the-process">Why Access Changes Happen Outside the Governance Process</h2><div class="stack"><p>Out-of-process changes are rarely a sign that people are ignoring the rules. They usually happen because the direct route is faster or is the only route available. These are the five most common causes.</p></div></section>
+
+                <section><h3 id="urgent-fixes-and-emergency-access">1. Urgent Fixes and Emergency Access</h3><div class="stack"><p>A production issue at 2 a.m. does not wait for a three-level approval. An administrator grants the access needed to fix it, the issue is resolved, and the access is never removed or recorded. Emergency access is a legitimate need, but without a follow-up it becomes permanent, unapproved access.</p></div></section>
+
+                <section><h3 id="admin-consoles-are-still-open">2. Application Admin Consoles Are Still Open</h3><div class="stack"><p>Bringing an application under governance does not remove its own admin console. Application administrators can still add users, change roles and create accounts directly. Unless that access is restricted, and changes made there are checked, the governance process can be bypassed with a few clicks.</p></div></section>
+
+                <section><h3 id="applications-not-fully-onboarded">3. Applications That Are Not Fully Onboarded</h3><div class="stack"><p>Many organisations govern their main applications well but still manage older or home-grown systems by email and spreadsheet. Access to these systems is granted by whoever runs them. If the governance system does not know what access these applications hold, it cannot tell approved access from unapproved access.</p></div></section>
+
+                <section><h3 id="vendors-and-support-teams">4. Vendors and Support Teams</h3><div class="stack"><p>External vendors and support partners often have administrative rights to the systems they maintain. During an upgrade or a support call, they may create accounts or change permissions to get the job done. These changes are made in good faith, but they sit entirely outside the organisation's own request and approval process.</p></div></section>
+
+                <section><h3 id="migrations-and-restructuring">5. Migrations and Restructuring</h3><div class="stack"><p>When applications are migrated, merged or restructured, access is often copied in bulk by scripts. Groups are recreated, permissions are mapped across, and extra access is added "just in case". The result can be hundreds of entitlements that nobody requested and nobody approved.</p></div></section>
+
+                <section><h2 id="why-access-reviews-alone-miss-control-breaches">Why Access Reviews Alone Miss Control Breaches</h2><div class="stack"><p>Access certification is an essential control, but it is periodic. If reviews run every quarter, access added directly in an application the day after a review can stay in place for almost three months before anyone is asked about it. If reviews run every six months, the gap is twice as long.</p><p>Reviews can also miss these changes altogether. A reviewer looking at a long list may not notice that one entitlement was never requested, and accounts that are not linked to any person do not appear in identity-based reviews at all. We cover these problems in more detail in our article on <a href="../../blog/access-certification-rubber-stamping/">why access reviews get rubber-stamped</a>.</p><p>Control breach detection fills this gap. Instead of waiting for a reviewer to notice, it picks up every change to access each time access data is collected, so each change can be checked while it is still recent.</p></div></section>
+
+                <section><h2 id="how-control-breach-detection-works">How Control Breach Detection Works</h2><div class="stack"><p>Detection follows the same four steps regardless of the application: the system finds what changed, and people decide whether the change should have happened.</p>
+                  <figure>
+                    <img src="../../assets/blog/control-breach-detection-how-it-works.webp" width="1536" height="864" loading="lazy" decoding="async" alt="How control breach detection works — four steps: aggregate access from each application, compare each run with the one before, record every change as a control breach, then review each change against requests, roles and joiner, mover and leaver events; with an SAP Finance example where a finance administrator entitlement added since the last run is recorded as a control breach, then either revoked or approved through a request">
+                  </figure></div></section>
+
+                <section><h3 id="aggregate-actual-access">1. Aggregate Actual Access From Every Application</h3><div class="stack"><p>The first step is to collect the current accounts and entitlements from each application: who has an account, which groups and roles they hold, and which permissions come with them. This is called aggregation. It should run automatically and on a schedule, through connectors to each application or through imports for systems that cannot be connected directly. Detection is only as complete as the aggregated data, so applications that are not aggregated cannot be checked.</p></div></section>
+
+                <section><h3 id="compare-with-the-previous-run">2. Compare Each Run With the One Before</h3><div class="stack"><p>After each aggregation, every account is compared with what was recorded for it on the previous run. Whatever changed in between is picked up: an account created or deleted, or an entitlement or permission assigned or removed. The first aggregation of an application only records the starting point, so changes are found from the second run onwards.</p></div></section>
+
+                <section><h3 id="record-every-change">3. Record Every Change as a Control Breach</h3><div class="stack"><p>Each change is recorded as a control breach, with what changed, on which account, in which application and when it was found. Additions and removals both count: access added directly in an application is the classic breach, and access removed directly in an application leaves the governance records out of date until someone brings them back in line. Recording every change, not only the suspicious ones, means nothing depends on someone happening to notice.</p></div></section>
+
+                <section><h3 id="review-each-change">4. Review Each Change Against the Governance Process</h3><div class="stack"><p>Detection shows what changed. People decide whether it should have. For each breach, the application owner or the security or compliance team checks whether the change came through an access request, a role or a joiner, mover or leaver event. Changes that did are expected. Changes that did not are the ones to act on. A breach that is recorded but never reviewed is no better than one that was never detected.</p></div></section>
+
+                <section><h2 id="what-to-do-when-a-control-breach-is-found">What to Do When a Control Breach Is Found</h2><div class="stack"><p>Finding a breach is the start, not the end. A clear, repeatable response turns detection into a control that auditors can rely on.</p>
+                  <ul class="dot-list mt-6 no-li-flex">
+                    <li><strong>Check who made the change and why</strong>: confirm the account, the access and the person who granted it. Many breaches have a simple explanation, such as an urgent fix.</li>
+                    <li><strong>Decide: remove or approve</strong>: if the access is not needed, revoke it. If it is needed, raise an access request so it goes through the normal approval and has an owner and a record.</li>
+                    <li><strong>Remove access in the application, not just on paper</strong>: revocation should go through a connector or, for applications without APIs, a ticket that is tracked until it is complete.</li>
+                    <li><strong>Check for policy conflicts</strong>: access added outside the process skips the usual segregation of duties (SoD) checks, so run them against the new access too.</li>
+                    <li><strong>Fix the root cause</strong>: if the same application or administrator causes repeated breaches, restrict admin console access or bring the application fully under governance.</li>
+                    <li><strong>Keep the record</strong>: log what was found, who decided, what was done and when. A record of each decision supports audit reviews.</li>
+                  </ul></div></section>
+
+                <section><h2 id="without-vs-with-control-breach-detection">Without vs With Control Breach Detection</h2>
+                  <div class="stack">
+                  <div class="table-wrap">
+                    <table class="control-table">
+                      <thead>
+                        <tr><th scope="col">Area</th><th scope="col">Without detection</th><th scope="col">With detection</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Visibility</td><td>Only access granted through requests is known</td><td>All access in connected applications is known</td></tr>
+                        <tr><td>Time to find</td><td>At the next access review, or during an audit</td><td>At the next aggregation, often within a day</td></tr>
+                        <tr><td>Direct admin changes</td><td>Go unnoticed</td><td>Flagged as control breaches</td></tr>
+                        <tr><td>SoD conflicts</td><td>Can be introduced without any check</td><td>Checked when the breach is investigated</td></tr>
+                        <tr><td>Response</td><td>Ad hoc, if anyone notices</td><td>Revoke or approve, with each decision recorded</td></tr>
+                        <tr><td>Audit reviews</td><td>Access with no approval found by the auditor</td><td>Breaches found, resolved and documented by you</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  </div>
+                </section>
+
+                <section><h2 id="control-breach-detection-and-audits">Control Breach Detection and RBI, SEBI, IRDAI and ISO 27001 Audits</h2><div class="stack"><p>Auditors rarely ask whether you have an access request process. They ask whether it is the <em>only</em> way access gets granted. A common audit test is to sample accounts from an application and ask for the approval behind each one. Any access without an approval becomes a finding.</p><p>RBI, SEBI's Cybersecurity and Cyber Resilience Framework (CSCRF) and IRDAI all expect regulated entities to control how user access is granted, changed and removed, and to review it regularly. <a href="../../compliance/iso-27001/">ISO/IEC 27001</a> (Annex A control 5.18) expects access rights to be provisioned, reviewed, modified and removed in line with the organisation's access control policy. Control breach detection supports all of these by showing that changes made outside the approved process are found and dealt with, rather than discovered by the auditor. We cover the regulator view in more detail in our article on <a href="../../blog/identity-governance-audit-evidence-rbi-sebi-irdai/">RBI, SEBI and IRDAI audit preparation</a>.</p></div></section>
+
+                <section><h2 id="what-to-look-for-in-a-control-breach-detection-tool">What to Look for in a Control Breach Detection Tool</h2>
+                  <div class="stack">
+                  <p>If you rely on manual exports and spreadsheets to compare access, an Identity Governance and Administration (IGA) platform can automate the work. When evaluating one, check whether it can:</p>
+                  <ul class="dot-list mt-6 no-li-flex">
+                    <li>Aggregate accounts and entitlements automatically from connected applications, including very large ones</li>
+                    <li>Connect to custom and home-grown applications, not just common SaaS platforms</li>
+                    <li>Keep a full request-to-grant audit trail, so each change can be checked against requests, roles and lifecycle events</li>
+                    <li>Compare each aggregation with the previous one and record every change</li>
+                    <li>List every change in one place, with the account, application and time, so it can be reviewed</li>
+                    <li>Run SoD checks against existing access, not only at request time</li>
+                    <li>Revoke access through connectors, with a ticketing fallback for applications without APIs</li>
+                    <li>Report on orphan accounts that are not linked to any person, and dormant accounts that are no longer used</li>
+                    <li>Keep a record of every breach and the decision taken on it</li>
+                  </ul>
+                  </div>
+                </section>
+
+                <section><h2 id="final-considerations">Final Considerations</h2><div class="stack"><p>A governance process only controls the access that goes through it. Control breach detection closes the gap between "who should have access" and "who actually has it" by picking up every change to the second at the next aggregation, and making sure each one gets a decision. Combined with regular access reviews, it means unapproved access is found in days rather than at the next audit.</p><p><a href="../../products/identity-governance/">IamLogic IGA</a> checks for control breaches each time it aggregates accounts from an application. It compares every account with what IGA recorded on the previous run and lists each change it finds, such as an account created or deleted, or an entitlement or permission assigned or removed, on its Control Breach screen. Breaches can be filtered by identity, application, resource type and breach type, and each one is marked Synced or Unsynced, so administrators can see which still need review.</p><p>IGA connects to custom applications through its Python connector framework, and keeps a full request-to-grant audit trail of the access it approves and provisions. Detective SoD scans check existing access for conflicts. Orphan account reports show accounts that are not linked to anyone. When access needs to be removed, revocations are carried out through connectors or, for applications without APIs, through ticketing workflows such as Zoho Desk, with IGA tracking each ticket through to completion. Audit trail, identity history and access reports support reviews for DPDP, RBI, SEBI, IRDAI and ISO/IEC 27001 requirements.</p></div></section>
+
+              </div>
+
+              <section class="article-faq" id="faqs" aria-labelledby="faqs-heading">
+                <h2 id="faqs-heading">FAQs on Control Breach Detection</h2>
+                <div class="faq">
+                  <details name="article-faq" open>
+                    <summary>What is a control breach in identity governance?</summary>
+                    <p>A control breach is access that exists in an application but was never granted through the governance process. For example, an administrator adds a user to a group directly in the application, so there is no request, approval or role behind it.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>How is control breach detection different from an access review?</summary>
+                    <p>An access review asks a person to confirm access at a point in time, usually every quarter or six months. Control breach detection compares each aggregation of access data with the previous one, so a change made outside the process is picked up within days instead of waiting for the next review.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>Is every control breach a security incident?</summary>
+                    <p>No. Many are well-intended changes, such as an urgent fix or emergency access that was never recorded. Each one still needs a decision: remove the access, or approve it through the normal request process so it has an owner and a record.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>How often should access be checked for control breaches?</summary>
+                    <p>As often as access data is aggregated from each application, because each aggregation is compared with the one before it. Many organisations aggregate critical and privileged systems daily and other systems weekly. The shorter the interval, the shorter the time an unapproved change can stay in place.</p>
+                  </details>
+                  <details name="article-faq">
+                    <summary>How does control breach detection help with RBI, SEBI, IRDAI and ISO 27001 audits?</summary>
+                    <p>Auditors check whether access is granted, changed and removed only through an approved process. Control breach detection shows that changes made outside that process are found, investigated and resolved, and it leaves a record of each decision that supports audit reviews.</p>
+                  </details>
+                </div>
+              </section>
+              <aside class="author-box">
+                <p class="author-box__avatar" aria-hidden="true">SK</p>
+                <div>
+                  <p class="author-box__eyebrow">About the author</p>
+                  <p class="author-box__name">Surya K</p>
+                  <p class="author-box__title">Full-Stack Developer — IamLogic</p>
+                  <p class="author-box__bio">Surya K is a Full-Stack Developer at IamLogic, building IamLogic IGA with React and Django. Surya works across the product's front end and back end, from the screens administrators use every day to the services behind them, helping enterprises manage identities, govern access and meet regulatory compliance requirements.</p>
+                  <p class="author-box__links"><a class="text-link" href="https://www.linkedin.com/in/surya-k-6919283b7" target="_blank" rel="noopener noreferrer">LinkedIn profile</a><a class="text-link" href="../../about/">About IamLogic</a><a class="text-link" href="../../contact/">Talk to the team</a></p>
+                </div>
+              </aside>
+
+              <div class="share" data-share></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer id="site-footer"></footer>
+</body>
+</html>
