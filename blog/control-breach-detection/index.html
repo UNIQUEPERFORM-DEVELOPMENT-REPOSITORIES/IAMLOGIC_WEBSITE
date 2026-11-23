@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic</title>
-  <meta name="description" content="What control breach detection is, why access gets changed outside the governance process, and how aggregation, a baseline, comparison and alerts catch it."/>
+  <meta name="description" content="What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it."/>
   <meta name="author" content="Surya K">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://iamlogic.com/blog/control-breach-detection/">
@@ -19,7 +19,7 @@
   <meta property="og:site_name" content="IamLogic">
   <meta property="og:locale" content="en_IN">
   <meta property="og:title" content="Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic">
-  <meta property="og:description" content="What control breach detection is, why access gets changed outside the governance process, and how aggregation, a baseline, comparison and alerts catch it.">
+  <meta property="og:description" content="What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it.">
   <meta property="og:url" content="https://iamlogic.com/blog/control-breach-detection/">
   <meta property="og:image" content="https://iamlogic.com/assets/blog/control-breach-detection.png">
   <meta property="og:image:width" content="1200">
@@ -31,7 +31,7 @@
   <meta property="article:author" content="Surya K">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Control Breach Detection: Catch Out-of-Process Access Changes | IamLogic">
-  <meta name="twitter:description" content="What control breach detection is, why access gets changed outside the governance process, and how aggregation, a baseline, comparison and alerts catch it.">
+  <meta name="twitter:description" content="What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it.">
   <meta name="twitter:image" content="https://iamlogic.com/assets/blog/control-breach-detection.png">
 
   <link rel="preload" href="../../assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,11 +49,11 @@
   },
   "url": "https://iamlogic.com/blog/control-breach-detection/",
   "headline": "Control Breach Detection: How to Catch Access Changes Made Outside Your Governance Process",
-  "description": "What control breach detection is, why access gets changed outside the governance process, and how aggregation, a baseline, comparison and alerts catch it.",
+  "description": "What control breach detection is, why access gets changed outside the governance process, and how comparing each aggregation with the previous one catches it.",
   "image": "https://iamlogic.com/assets/blog/control-breach-detection.png",
   "articleSection": "Identity Governance",
   "inLanguage": "en-IN",
-  "wordCount": 2020,
+  "wordCount": 2095,
   "datePublished": "2026-11-23",
   "dateModified": "2026-11-23",
   "isPartOf": {
@@ -153,7 +153,7 @@
       "name": "How is control breach detection different from an access review?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "An access review asks a person to confirm access at a point in time, usually every quarter or six months. Control breach detection compares actual access with approved access every time data is aggregated, so a change made outside the process is found within days instead of waiting for the next review."
+        "text": "An access review asks a person to confirm access at a point in time, usually every quarter or six months. Control breach detection compares each aggregation of access data with the previous one, so a change made outside the process is picked up within days instead of waiting for the next review."
       }
     },
     {
@@ -166,10 +166,10 @@
     },
     {
       "@type": "Question",
-      "name": "How often should access be compared against the approved baseline?",
+      "name": "How often should access be checked for control breaches?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "As often as access data is aggregated from each application. Many organisations aggregate critical and privileged systems daily and other systems weekly. The shorter the interval, the shorter the time an unapproved change can stay in place."
+        "text": "As often as access data is aggregated from each application, because each aggregation is compared with the one before it. Many organisations aggregate critical and privileged systems daily and other systems weekly. The shorter the interval, the shorter the time an unapproved change can stay in place."
       }
     },
     {
@@ -177,7 +177,7 @@
       "name": "How does control breach detection help with RBI, SEBI, IRDAI and ISO 27001 audits?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Auditors check whether access is granted, changed and removed only through an approved process. Control breach detection shows that changes made outside that process are found, investigated and resolved, and it leaves a record of each decision that can be shared as audit evidence."
+        "text": "Auditors check whether access is granted, changed and removed only through an approved process. Control breach detection shows that changes made outside that process are found, investigated and resolved, and it leaves a record of each decision that supports audit reviews."
       }
     }
   ]
@@ -313,9 +313,9 @@
                 <li>Governance processes control how access is requested and approved, but access can still be changed directly inside applications.</li>
                 <li>A control breach is access that exists in an application without a matching request, role or lifecycle grant.</li>
                 <li>Access reviews alone catch these changes late, often months after they were made.</li>
-                <li>Detection works in four steps: aggregate actual access, know the approved baseline, compare the two, and alert on the difference.</li>
+                <li>Detection works by aggregating access from each application, comparing it with the previous run and recording every change, so each one can be reviewed.</li>
                 <li>Every breach needs a decision: remove the access, or approve it through the normal request process.</li>
-                <li>Detected and resolved breaches give auditors evidence that access only changes through an approved process.</li>
+                <li>A record of each breach and the decision taken on it supports audit reviews.</li>
                 </ul>
               </aside>
 
@@ -342,29 +342,29 @@
 
                 <section><h3 id="migrations-and-restructuring">5. Migrations and Restructuring</h3><div class="stack"><p>When applications are migrated, merged or restructured, access is often copied in bulk by scripts. Groups are recreated, permissions are mapped across, and extra access is added "just in case". The result can be hundreds of entitlements that nobody requested and nobody approved.</p></div></section>
 
-                <section><h2 id="why-access-reviews-alone-miss-control-breaches">Why Access Reviews Alone Miss Control Breaches</h2><div class="stack"><p>Access certification is an essential control, but it is periodic. If reviews run every quarter, access added directly in an application the day after a review can stay in place for almost three months before anyone is asked about it. If reviews run every six months, the gap is twice as long.</p><p>Reviews can also miss these changes altogether. A reviewer looking at a long list may not notice that one entitlement was never requested, and accounts that are not linked to any person do not appear in identity-based reviews at all. We cover these problems in more detail in our article on <a href="../../blog/access-certification-rubber-stamping/">why access reviews get rubber-stamped</a>.</p><p>Control breach detection fills this gap. Instead of waiting for a reviewer to notice, it checks actual access against approved access every time access data is collected.</p></div></section>
+                <section><h2 id="why-access-reviews-alone-miss-control-breaches">Why Access Reviews Alone Miss Control Breaches</h2><div class="stack"><p>Access certification is an essential control, but it is periodic. If reviews run every quarter, access added directly in an application the day after a review can stay in place for almost three months before anyone is asked about it. If reviews run every six months, the gap is twice as long.</p><p>Reviews can also miss these changes altogether. A reviewer looking at a long list may not notice that one entitlement was never requested, and accounts that are not linked to any person do not appear in identity-based reviews at all. We cover these problems in more detail in our article on <a href="../../blog/access-certification-rubber-stamping/">why access reviews get rubber-stamped</a>.</p><p>Control breach detection fills this gap. Instead of waiting for a reviewer to notice, it picks up every change to access each time access data is collected, so each change can be checked while it is still recent.</p></div></section>
 
-                <section><h2 id="how-control-breach-detection-works">How Control Breach Detection Works</h2><div class="stack"><p>Detection follows the same four steps regardless of the application. Each step depends on the one before it.</p>
+                <section><h2 id="how-control-breach-detection-works">How Control Breach Detection Works</h2><div class="stack"><p>Detection follows the same four steps regardless of the application: the system finds what changed, and people decide whether the change should have happened.</p>
                   <figure>
                     <img src="../../assets/blog/control-breach-detection-how-it-works.webp" width="1536" height="864" loading="lazy" decoding="async" alt="How control breach detection works — four steps: aggregate access from every application, know the approved baseline of requests, roles and lifecycle grants, compare found access with approved access, then flag the difference and alert the owner; with an SAP Finance example where a finance administrator entitlement with no approval found is flagged as a control breach, then either revoked or approved through a request">
                   </figure></div></section>
 
                 <section><h3 id="aggregate-actual-access">1. Aggregate Actual Access From Every Application</h3><div class="stack"><p>The first step is to collect the current accounts and entitlements from each application: who has an account, which groups and roles they hold, and which permissions come with them. This is called aggregation. It should run automatically and on a schedule, through connectors to each application or through imports for systems that cannot be connected directly. Detection is only as complete as the aggregated data, so applications that are not aggregated cannot be checked.</p></div></section>
 
-                <section><h3 id="know-the-approved-baseline">2. Know the Approved Baseline</h3><div class="stack"><p>The baseline is the access that the governance process approved. It includes access granted through access requests and approvals, access that comes with a role, access assigned automatically when someone joins or moves, and exceptions that were formally accepted. Every item in the baseline has a reason and a record behind it.</p></div></section>
+                <section><h3 id="compare-with-the-previous-run">2. Compare Each Run With the One Before</h3><div class="stack"><p>After each aggregation, every account is compared with what was recorded for it on the previous run. Whatever changed in between is picked up: an account created or deleted, or an entitlement or permission assigned or removed. The first aggregation of an application only records the starting point, so changes are found from the second run onwards.</p></div></section>
 
-                <section><h3 id="compare-actual-access-with-the-baseline">3. Compare Actual Access With the Baseline</h3><div class="stack"><p>Each aggregation is compared with the baseline. Access that appears in both is expected. Access that appears in the application but not in the baseline is a control breach: it was added outside the process. The comparison also finds the opposite case, where approved access is missing from the application, which usually means a provisioning step failed.</p></div></section>
+                <section><h3 id="record-every-change">3. Record Every Change as a Control Breach</h3><div class="stack"><p>Each change is recorded as a control breach, with what changed, on which account, in which application and when it was found. Additions and removals both count: access added directly in an application is the classic breach, and access removed directly in an application leaves the governance records out of date until someone brings them back in line. Recording every change, not only the suspicious ones, means nothing depends on someone happening to notice.</p></div></section>
 
-                <section><h3 id="flag-and-alert">4. Flag the Breach and Alert the Right People</h3><div class="stack"><p>Each difference is flagged as a control breach and sent to the people who can act on it, usually the application owner and the security or compliance team. The alert should say what changed, on which account, in which application, and when it was found. A breach that is flagged but never seen is no better than one that was never detected.</p></div></section>
+                <section><h3 id="review-each-change">4. Review Each Change Against the Governance Process</h3><div class="stack"><p>Detection shows what changed. People decide whether it should have. For each breach, the application owner or the security or compliance team checks whether the change came through an access request, a role or a joiner, mover or leaver event. Changes that did are expected. Changes that did not are the ones to act on. A breach that is recorded but never reviewed is no better than one that was never detected.</p></div></section>
 
                 <section><h2 id="what-to-do-when-a-control-breach-is-found">What to Do When a Control Breach Is Found</h2><div class="stack"><p>Finding a breach is the start, not the end. A clear, repeatable response turns detection into a control that auditors can rely on.</p>
                   <ul class="dot-list mt-6 no-li-flex">
                     <li><strong>Check who made the change and why</strong>: confirm the account, the access and the person who granted it. Many breaches have a simple explanation, such as an urgent fix.</li>
-                    <li><strong>Decide: remove or approve</strong>: if the access is not needed, revoke it. If it is needed, raise an access request so it goes through the normal approval and becomes part of the baseline.</li>
+                    <li><strong>Decide: remove or approve</strong>: if the access is not needed, revoke it. If it is needed, raise an access request so it goes through the normal approval and has an owner and a record.</li>
                     <li><strong>Remove access in the application, not just on paper</strong>: revocation should go through a connector or, for applications without APIs, a ticket that is tracked until it is complete.</li>
                     <li><strong>Check for policy conflicts</strong>: access added outside the process skips the usual segregation of duties (SoD) checks, so run them against the new access too.</li>
                     <li><strong>Fix the root cause</strong>: if the same application or administrator causes repeated breaches, restrict admin console access or bring the application fully under governance.</li>
-                    <li><strong>Keep the record</strong>: log what was found, who decided, what was done and when. That record is your audit evidence.</li>
+                    <li><strong>Keep the record</strong>: log what was found, who decided, what was done and when. A record of each decision supports audit reviews.</li>
                   </ul></div></section>
 
                 <section><h2 id="without-vs-with-control-breach-detection">Without vs With Control Breach Detection</h2>
@@ -380,7 +380,7 @@
                         <tr><td>Direct admin changes</td><td>Go unnoticed</td><td>Flagged as control breaches</td></tr>
                         <tr><td>SoD conflicts</td><td>Can be introduced without any check</td><td>Checked when the breach is investigated</td></tr>
                         <tr><td>Response</td><td>Ad hoc, if anyone notices</td><td>Revoke or approve, with each decision recorded</td></tr>
-                        <tr><td>Audit evidence</td><td>Access with no approval found by the auditor</td><td>Breaches found, resolved and documented by you</td></tr>
+                        <tr><td>Audit reviews</td><td>Access with no approval found by the auditor</td><td>Breaches found, resolved and documented by you</td></tr>
                       </tbody>
                     </table>
                   </div>
@@ -395,18 +395,18 @@
                   <ul class="dot-list mt-6 no-li-flex">
                     <li>Aggregate accounts and entitlements automatically from connected applications, including very large ones</li>
                     <li>Connect to custom and home-grown applications, not just common SaaS platforms</li>
-                    <li>Keep a complete record of approved access from requests, roles and lifecycle events</li>
-                    <li>Compare actual access with approved access after each aggregation</li>
-                    <li>Flag differences and alert the application owner and security team</li>
+                    <li>Keep a full request-to-grant audit trail, so each change can be checked against requests, roles and lifecycle events</li>
+                    <li>Compare each aggregation with the previous one and record every change</li>
+                    <li>List every change in one place, with the account, application and time, so it can be reviewed</li>
                     <li>Run SoD checks against existing access, not only at request time</li>
                     <li>Revoke access through connectors, with a ticketing fallback for applications without APIs</li>
                     <li>Report on orphan accounts that are not linked to any person, and dormant accounts that are no longer used</li>
-                    <li>Export an audit trail of every breach and the decision taken on it</li>
+                    <li>Keep a record of every breach and the decision taken on it</li>
                   </ul>
                   </div>
                 </section>
 
-                <section><h2 id="final-considerations">Final Considerations</h2><div class="stack"><p>A governance process only controls the access that goes through it. Control breach detection closes the gap between "who should have access" and "who actually has it" by checking the second against the first, continuously, and making sure every difference gets a decision. Combined with regular access reviews, it means unapproved access is found in days rather than at the next audit.</p><p><a href="../../products/identity-governance/">IamLogic IGA</a> checks for control breaches each time it aggregates accounts from an application. It compares every account with what IGA recorded on the previous run and lists each change it finds, such as an account created or deleted, or an entitlement or permission assigned or removed, on its Control Breach screen. Breaches can be filtered by identity, application, resource type and breach type, and each one is marked Synced or Unsynced, so administrators can see which still need review.</p><p>IGA connects to custom applications through its Python connector framework, and keeps a full request-to-grant audit trail of the access it approves and provisions. Detective SoD scans check existing access for conflicts. Orphan account reports show accounts that are not linked to anyone. When access needs to be removed, revocations are carried out through connectors or, for applications without APIs, through ticketing workflows such as Zoho Desk, with IGA tracking each ticket through to completion. Audit trail, identity history and access reports support reviews for DPDP, RBI, SEBI, IRDAI and ISO/IEC 27001 requirements.</p></div></section>
+                <section><h2 id="final-considerations">Final Considerations</h2><div class="stack"><p>A governance process only controls the access that goes through it. Control breach detection closes the gap between "who should have access" and "who actually has it" by picking up every change to the second at the next aggregation, and making sure each one gets a decision. Combined with regular access reviews, it means unapproved access is found in days rather than at the next audit.</p><p><a href="../../products/identity-governance/">IamLogic IGA</a> checks for control breaches each time it aggregates accounts from an application. It compares every account with what IGA recorded on the previous run and lists each change it finds, such as an account created or deleted, or an entitlement or permission assigned or removed, on its Control Breach screen. Breaches can be filtered by identity, application, resource type and breach type, and each one is marked Synced or Unsynced, so administrators can see which still need review.</p><p>IGA connects to custom applications through its Python connector framework, and keeps a full request-to-grant audit trail of the access it approves and provisions. Detective SoD scans check existing access for conflicts. Orphan account reports show accounts that are not linked to anyone. When access needs to be removed, revocations are carried out through connectors or, for applications without APIs, through ticketing workflows such as Zoho Desk, with IGA tracking each ticket through to completion. Audit trail, identity history and access reports support reviews for DPDP, RBI, SEBI, IRDAI and ISO/IEC 27001 requirements.</p></div></section>
 
               </div>
 
@@ -419,19 +419,19 @@
                   </details>
                   <details name="article-faq">
                     <summary>How is control breach detection different from an access review?</summary>
-                    <p>An access review asks a person to confirm access at a point in time, usually every quarter or six months. Control breach detection compares actual access with approved access every time data is aggregated, so a change made outside the process is found within days instead of waiting for the next review.</p>
+                    <p>An access review asks a person to confirm access at a point in time, usually every quarter or six months. Control breach detection compares each aggregation of access data with the previous one, so a change made outside the process is picked up within days instead of waiting for the next review.</p>
                   </details>
                   <details name="article-faq">
                     <summary>Is every control breach a security incident?</summary>
                     <p>No. Many are well-intended changes, such as an urgent fix or emergency access that was never recorded. Each one still needs a decision: remove the access, or approve it through the normal request process so it has an owner and a record.</p>
                   </details>
                   <details name="article-faq">
-                    <summary>How often should access be compared against the approved baseline?</summary>
-                    <p>As often as access data is aggregated from each application. Many organisations aggregate critical and privileged systems daily and other systems weekly. The shorter the interval, the shorter the time an unapproved change can stay in place.</p>
+                    <summary>How often should access be checked for control breaches?</summary>
+                    <p>As often as access data is aggregated from each application, because each aggregation is compared with the one before it. Many organisations aggregate critical and privileged systems daily and other systems weekly. The shorter the interval, the shorter the time an unapproved change can stay in place.</p>
                   </details>
                   <details name="article-faq">
                     <summary>How does control breach detection help with RBI, SEBI, IRDAI and ISO 27001 audits?</summary>
-                    <p>Auditors check whether access is granted, changed and removed only through an approved process. Control breach detection shows that changes made outside that process are found, investigated and resolved, and it leaves a record of each decision that can be shared as audit evidence.</p>
+                    <p>Auditors check whether access is granted, changed and removed only through an approved process. Control breach detection shows that changes made outside that process are found, investigated and resolved, and it leaves a record of each decision that supports audit reviews.</p>
                   </details>
                 </div>
               </section>
